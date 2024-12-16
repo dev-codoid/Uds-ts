@@ -1,0 +1,189 @@
+.SidebarDesign {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 12px;
+    z-index: 89;
+    bottom: 0;
+}
+
+.SidebarDesignClose {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 89;
+    padding: 12px;
+    bottom: 0;
+
+
+    .InnerBar {
+        width: 60px;
+
+        .MenuMains {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+
+            p {
+                display: none;
+            }
+
+        }
+        .InnerBarLogo{
+            padding: 16px !important;
+        }
+    }
+}
+
+.InnerBar {
+    height: 100%;
+    background-color: var(--mainColor);
+    border-radius: 12px; //0 25px 25px 0
+    width: 260px;
+    transition: width .3s ease-in-out;
+    overflow-x: hidden;
+
+    .InnerBarLogo {
+        width: 260px;
+        padding: 20px 33px;
+        justify-content: space-between;
+        display: flex;
+
+        img {
+            cursor: pointer;
+            width: 32px;
+
+        }
+
+    }
+
+    .BarMainList {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        // height: 86%;
+
+        .Menus {
+
+            display: flex;
+            width: 260px;
+            gap: 50px;
+            padding: 10px 20px;
+
+        }
+
+        .MenuMains {
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            // display: flex;
+            gap: 17px;
+            padding: 10px 20px;
+
+            a {
+                text-decoration: none !important;
+                // width: 260px;
+                padding-left: 4px;
+
+                &.activenav {
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    color: #ffff !important;
+                    border-radius: 12px;
+                    background-image: url("../../assets/Dashboard/Rectangle 143.svg");
+                }
+
+            }
+
+            .MenusNavlink {
+
+
+                .sideNavItem {
+                    display: flex;
+                    // width: 260px;
+                    // gap: 29px;
+                    gap: 14px;
+                    padding: 7px;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    img {
+                        width: 30px;
+                        height: 30px;
+                    }
+
+                    p {
+                        color: #fff;
+                        padding-right: 39px;
+                    }
+
+                }
+
+            }
+
+
+
+            // a.active {
+            //     .sideNavItem {
+            //         img {
+            //             width: 25px;
+            //         }
+            //     }
+            // }
+
+
+        }
+
+    }
+
+    .LogoOut {
+        cursor: pointer;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: orange;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 28px;
+        left: 23px;
+
+        img {
+            width: 14px;
+            margin-right: 2px;
+        }
+
+    }
+
+    .dropdown-menuLogout {
+        bottom: 71px;
+        position: absolute;
+        /* top: 0; */
+        right: 0;
+        left: 24px;
+        background: #ffff;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        width: 150px;
+        z-index: 1000;
+        padding: 10px 0;
+        color: var(--mainColor);
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+
+            &:hover {
+                background: #f0f0f0; // Hover background color
+                color: #005eb0; // Hover text color
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+:root{
+  --themeColor: #215988;
+  
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 2px; /* Set the height for horizontal scrollbars */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #215988;
+  border-radius: 10px;
+}
+p{
+  margin-bottom: 0 !important;
+}
