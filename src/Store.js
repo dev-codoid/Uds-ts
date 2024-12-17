@@ -23,6 +23,8 @@ const useStore = create(
       OrganizationID: "",
       ToggleBars: false,
       TicketIDS:"",
+      thanksContent:false,
+      settheThankpopup:(newData)=>set({thanksContent:newData}),
       settheTicketIDs:(newData)=>set({TicketIDS:newData}),
       setToggleBars: (newData) => set({ ToggleBars: newData }),
       setOrganizationIDS: (newData) => set({ OrganizationID: newData }),

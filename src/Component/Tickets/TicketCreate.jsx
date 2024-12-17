@@ -18,13 +18,18 @@ import Select from "react-select";
 import _, { values } from "lodash";
 import backimg from "../../assets/Dashboard/Union (3).svg";
 import { useNavigate } from 'react-router-dom';
+import notifyimg from "../../assets/Dashboard/Group 427320010.svg"
+import thumbsup from "../../assets/Dashboard/plastic-hand-with-thumb-up 1.svg"
+
 
 const TicketCreate = () => {
     const {
         ToggleBars,
         setToggleBars,
         setIsLoading,
-        ownerDetails
+        ownerDetails,
+        settheThankpopup,
+        thanksContent
 
     } = useStore();
     //---creating ticket 
@@ -52,6 +57,7 @@ const TicketCreate = () => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
 
     const [isDragging, setIsDragging] = useState(false);
+    const [thankcontent, setthankcontent] = useState(thanksContent)
 
     const handleDragEnter = () => setIsDragging(true);
     const handleDragLeave = () => setIsDragging(false);
@@ -155,7 +161,7 @@ const TicketCreate = () => {
 
         const generateRandomNumber = () => {
             return Math.floor(Math.random() * 100000);
-        };  
+        };
         const createPresentData = (file) => {
             const randomNumber = generateRandomNumber();
             const formattedFilename = `ticket/${file.name}`; // Adjust the filename as needed
@@ -270,8 +276,8 @@ const TicketCreate = () => {
             reader.onload = () => {
                 const base64Url = reader.result;
 
-                console.log(base64Url ,"odapisbase64Url");
-                
+                console.log(base64Url, "odapisbase64Url");
+
                 // setUploadedFiles((prevFiles) => [
                 //     ...prevFiles,
                 //     // { file, base64Url },
@@ -280,7 +286,7 @@ const TicketCreate = () => {
                 // ]);
                 setUploadedFiles((prevFiles) => [...prevFiles, base64Url]);
 
-                
+
             };
 
             reader.readAsDataURL(file);
@@ -499,7 +505,7 @@ const TicketCreate = () => {
             const listofsubOptions = []
 
             SubCategorydetailsdata.forEach(element => {
-                listofsubOptions.push({ value: element.id, label: element.name })
+                listofsubOptions.push({ value: element.id, label: element.name, priority: element.Priority == 1 ? "Medimum" : element.Priority == 2 ? "High" : "Low" })
 
             });
 
@@ -520,7 +526,9 @@ const TicketCreate = () => {
         },
         onSuccess: (response) => {
             toast.success(response.data.message);
-            Navigate("/tickets")
+            // Navigate("/tickets")
+            setthankcontent(true);
+            settheThankpopup(true);
             setIsLoading(false);
             setticketdata(normaldata);
             setsubcategoryvalues([]);
@@ -556,24 +564,24 @@ const TicketCreate = () => {
         }
 
     }
-    console.log(ownerDetails, "Ticketdata sdfsdf");
 
     return (
         <>
-            <div className='PopupCreations'>
+            {thanksContent === false && (
+                <div className='PopupCreations'>
 
-                <div className='InnerPopup' >
-                    <div className='PopupContent'>
-                        <div className='row PopupRows'>
-                            <div className='col-5'>
-                                <div className='Popupcreatetickets'>
-                                    <h3>Create Ticket</h3>
+                    <div className='InnerPopup' >
+                        <div className='PopupContent'>
+                            <div className='row PopupRows'>
+                                <div className='col-5'>
+                                    <div className='Popupcreatetickets'>
+                                        <h3>Create Ticket</h3>
 
-                                    <div className='InnerImages'>
-                                        <img src={creationimg} alt="" />
+                                        <div className='InnerImages'>
+                                            <img src={creationimg} alt="" />
+                                        </div>
                                     </div>
-                                </div>
-                                {/* <div className='CreatedBy'>
+                                    {/* <div className='CreatedBy'>
                                     <div className='CreateBodyofcontent'>
                                         <div className='createrimgs'><img src={creationimg} alt="" />
                                         </div>
@@ -581,184 +589,260 @@ const TicketCreate = () => {
 
                                     </div>
                                 </div> */}
-                            </div>
-                            <div className='col-7 rightsideticketcreations'>
-                                <div className='col-12 ClosePopupDesigns'>
-                                    <div onClick={() => {
-                                        Navigate("/tickets")
-                                        setTicketCreate(false);
-                                        setticketdata(normaldata);
-                                        setsubcategoryvalues([]);
-                                        setCategoryvalues([]);
-                                        setPriorityValues([])
-                                    }}>
-                                        <img src={closepopup} alt="" />
-                                    </div>
-
                                 </div>
-
-                                <div className='row InnerFormsDetails'>
-
-                                    <div className='col-6'>
-                                        <label className="form-label" >
-                                            Problem Category
-                                        </label>
-                                        <Select
-                                            className="Selects"
-                                            labelledBy="Select"
-                                            options={Categoryoptions}
-                                            onChange={(e) => {
-                                                setCategoryvalues(e);
-                                                setticketdata({
-                                                    ...Ticketdata,
-                                                    issue_category_id: e.value,
-                                                    sub_category_id: ""
-
-
-                                                })
-                                                setsubcategoryvalues([])
-                                            }}
-                                            value={CategoryValues}
-                                            onInputChange={(e) => {
-                                                setcategorysearch(e)
-                                            }}
-                                        />
+                                <div className='col-7 rightsideticketcreations'>
+                                    <div className='col-12 ClosePopupDesigns'>
+                                        <div onClick={() => {
+                                            Navigate("/tickets")
+                                            setTicketCreate(false);
+                                            setticketdata(normaldata);
+                                            setsubcategoryvalues([]);
+                                            setCategoryvalues([]);
+                                            setPriorityValues([])
+                                        }}>
+                                            <img src={closepopup} alt="" />
+                                        </div>
 
                                     </div>
 
-                                    <div className='col-6'>
-                                        <label className="form-label" >
-                                            Sub Category
-                                        </label>
-                                        <Select
-                                            className="Selects"
-                                            labelledBy="Select"
-                                            options={Subcategoryoptions}
-                                            onChange={(e) => {
-                                                setsubcategoryvalues(e);
-                                                setticketdata({
-                                                    ...Ticketdata,
-                                                    sub_category_id: e.value
+                                    <div className='row InnerFormsDetails'>
 
-                                                })
-                                            }}
-                                            value={subcategoryvalues}
-                                            onInputChange={(e) => {
-                                                setSubcategorysearch(e)
-                                            }}
-
-                                        />
-                                    </div>
+                                        <div className='col-6'>
+                                            <label className="form-label" >
+                                                Problem Category
+                                            </label>
+                                            <Select
+                                                className="Selects"
+                                                labelledBy="Select"
+                                                options={Categoryoptions}
+                                                onChange={(e) => {
+                                                    setCategoryvalues(e);
+                                                    setticketdata({
+                                                        ...Ticketdata,
+                                                        issue_category_id: e.value,
+                                                        sub_category_id: ""
 
 
-                                    <div className='col-6 mt-3 TextareaLabel'>
-                                        <label className="form-label" >
-                                            Description
-                                        </label>
-                                        <textarea className='form-control'
-                                            onChange={(e) => {
+                                                    })
+                                                    setPriorityValues([])
+                                                    setsubcategoryvalues([])
+                                                }}
+                                                value={CategoryValues}
+                                                onInputChange={(e) => {
+                                                    setcategorysearch(e)
+                                                }}
+                                            />
 
-                                                setticketdata({
-                                                    ...Ticketdata,
-                                                    remarks: e.target.value
-                                                })
-                                            }}
-                                        />
-                                    </div>
+                                        </div>
 
-                                    <div className="col-12 mt-3 DocumentsUpload">
-                                        <label className="form-label LabelRemove" >
-                                            Documents Upload
-                                        </label>
-                                        <div
-                                            className="form-control InnerControls"
+                                        <div className='col-6'>
+                                            <label className="form-label" >
+                                                Sub Category
+                                            </label>
+                                            <Select
+                                                className="Selects"
+                                                labelledBy="Select"
+                                                options={Subcategoryoptions}
+                                                onChange={(e) => {
+                                                    setsubcategoryvalues(e);
+                                                    setPriorityValues({ value: e.value, label: e.priority })
+                                                    setticketdata({
+                                                        ...Ticketdata,
+                                                        sub_category_id: e.value
+                                                    })
 
-                                            onDrop={handleDrop}
-                                            onDragOver={handleDragOver}
-                                            onDragEnter={handleDragEnter}
-                                            onDragLeave={handleDragLeave}
+                                                }}
+                                                value={subcategoryvalues}
+                                                onInputChange={(e) => {
+                                                    setSubcategorysearch(e)
+                                                }}
 
-                                            style={{
-                                                borderRadius: "10px",
-                                                textAlign: "center",
-                                                backgroundColor: isDragging ? "hsla(203, 49%, 81%, 0.25)" : "transparent", // Change background color
-                                                transition: "background-color 0.3s ease", // Smooth transition
+                                            />
+                                        </div>
 
-                                            }}
-                                        >
-                                            <div className="d-flex flex-wrap align-items-center gap-3">
-                                                {uploadedFiles.map((file, index) => (
-                                                    <div key={index} style={{ position: "relative" }}>
-                                                        <img
-                                                            src={file}
-                                                            alt={`Uploaded File ${index + 1}`}
-                                                            style={{
-                                                                width: "100px",
-                                                                height: "100px",
-                                                                objectFit: "cover",
-                                                                borderRadius: "8px",
-                                                                border: "1px solid #ddd",
-                                                            }}
-                                                        />
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger btn-sm DeleteImages"
-                                                            // style={{
-                                                            //     position: "absolute",
-                                                            //     top: "5px",
-                                                            //     right: "5px",
-                                                            //     borderRadius: "50%",
-                                                            // }}
-                                                            onClick={() => removeFile(index)}
-                                                        >
-                                                            &times;
-                                                        </button>
-                                                    </div>
-                                                ))}
 
-                                                {uploadedFiles.length == 0 && (
-                                                    <div className='InnerImages d-flex flex-wrap align-items-center  justify-content-center' >
-                                                        <img src={backimg} />
-                                                    </div>
-                                                )}
+                                        <div className='col-6 mt-3'>
+                                            <label className="form-label LabelRemove" >
+                                                Priority
+                                            </label>
+                                            <Select
+                                                className="Selects"
+                                                labelledBy="Select"
+                                                value={Priorityvalues}
+                                                isDisabled
+                                            />
+                                        </div>
+
+
+
+                                        <div className='col-6 mt-3 TextareaLabel'>
+                                            <label className="form-label" >
+                                                Description
+                                            </label>
+                                            <textarea className='form-control'
+                                                onChange={(e) => {
+
+                                                    setticketdata({
+                                                        ...Ticketdata,
+                                                        remarks: e.target.value
+                                                    })
+                                                }}
+                                            />
+                                        </div>
+
+                                        <div className="col-12 mt-3 DocumentsUpload">
+                                            <label className="form-label LabelRemove" >
+                                                Documents Upload
+                                            </label>
+                                            <div
+                                                className="form-control InnerControls"
+
+                                                onDrop={handleDrop}
+                                                onDragOver={handleDragOver}
+                                                onDragEnter={handleDragEnter}
+                                                onDragLeave={handleDragLeave}
+
+                                                style={{
+                                                    borderRadius: "10px",
+                                                    textAlign: "center",
+                                                    backgroundColor: isDragging ? "hsla(203, 49%, 81%, 0.25)" : "transparent", // Change background color
+                                                    transition: "background-color 0.3s ease", // Smooth transition
+
+                                                }}
+                                            >
+                                                <div className="d-flex flex-wrap align-items-center gap-3">
+                                                    {uploadedFiles.map((file, index) => (
+                                                        <div key={index} style={{ position: "relative" }}>
+                                                            <img
+                                                                src={file}
+                                                                alt={`Uploaded File ${index + 1}`}
+                                                                style={{
+                                                                    width: "100px",
+                                                                    height: "100px",
+                                                                    objectFit: "cover",
+                                                                    borderRadius: "8px",
+                                                                    border: "1px solid #ddd",
+                                                                }}
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger btn-sm DeleteImages"
+                                                                // style={{
+                                                                //     position: "absolute",
+                                                                //     top: "5px",
+                                                                //     right: "5px",
+                                                                //     borderRadius: "50%",
+                                                                // }}
+                                                                onClick={() => removeFile(index)}
+                                                            >
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                    ))}
+
+                                                    {uploadedFiles.length == 0 && (
+                                                        <div className='InnerImages d-flex flex-wrap align-items-center  justify-content-center' >
+                                                            <img src={backimg} />
+                                                        </div>
+                                                    )}
+                                                </div>
+
+
+
+                                                <p className="mt-3 " >
+                                                    Drag your files here to upload or{" "}
+                                                    <label className='Droplabel'
+                                                        htmlFor="fileUploadInput"
+                                                    >
+                                                        Browse file
+                                                    </label>
+                                                    <input
+                                                        id="fileUploadInput"
+                                                        type="file"
+                                                        style={{ display: "none" }} // Hidden input
+                                                        onChange={handleFileChange} // Handles file selection
+                                                        multiple // Allows multiple file selection
+                                                    />
+                                                </p>
+
                                             </div>
+                                        </div>
 
 
-
-                                            <p className="mt-3 " >
-                                                Drag your files here to upload or{" "}
-                                                <label className='Droplabel'
-                                                    htmlFor="fileUploadInput"
-                                                >
-                                                    Browse file
-                                                </label>
-                                                <input
-                                                    id="fileUploadInput"
-                                                    type="file"
-                                                    style={{ display: "none" }} // Hidden input
-                                                    onChange={handleFileChange} // Handles file selection
-                                                    multiple // Allows multiple file selection
-                                                />
-                                            </p>
-
+                                        <div className='col-6 Createtickets'>
+                                            <button onClick={() => CreateTicket()}>Create Ticket</button>
                                         </div>
                                     </div>
 
 
-                                    <div className='col-6 Createtickets'>
-                                        <button onClick={() => CreateTicket()}>Create Ticket</button>
-                                    </div>
+
                                 </div>
-
-
-
                             </div>
+
                         </div>
 
                     </div>
-
                 </div>
-            </div>
+            )}
+
+
+            {thanksContent && (
+                <>
+                    <div className='CommentPopup'>
+                        <div className='innercommentpopup'>
+
+
+                            <div className='FormPartsthanks FormPartsticketslist'>
+                                <div className='innerformscomentpart'>
+                                    <div className='Notifyimgsthumbs'>
+                                        <img src={thumbsup} />
+                                    </div>
+                                    <div className='closecontent CloseIcons'>
+                                        <img src={closepopup} alt="" onClick={() => {
+                                            Navigate("/tickets");
+                                            setthankcontent(false);
+                                            settheThankpopup(false)
+                                        }} />
+                                    </div>
+
+                                    <h5 className='pt-4'>Ticket Successfully Created!</h5>
+
+
+                                    <div className='FeedbackField'>
+                                        <label className='form-label'>
+                                            {/* We appreciate you taking the time to share your
+                                            <br />
+                                            <br /> thoughts. Your feedback helps us improve and
+                                            <br />
+                                            <br /> ensure better service. */}
+                                            <p>
+                                                Thank you for bringing this to our attention. We’re committed to resolving your issue as quickly as possible and appreciate
+                                                your patience.
+
+                                            </p>
+                                            <p>You can track the progress of your ticket or contact us directly if you need further assistance.</p>
+                                            .</label>
+
+
+                                    </div>
+                                    <div className='feedbacksubmition'>
+                                        <button onClick={() => {
+                                            
+                                            setthankcontent(false);
+                                            settheThankpopup(false)
+                                            Navigate("/tickets")
+                                        }}>Close</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </>
+            )}
+
 
 
         </>)

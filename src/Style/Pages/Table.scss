@@ -1296,3 +1296,140 @@ input[type=number] {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.accordion{
+    padding: 0 !important;
+    .HeaderCardsticketdetails{
+        background-color: hsla(212, 56%, 47%, 1) !important;
+        border-radius: 12px !important;
+        h5{
+            color: #fff !important;
+        }
+        button{
+            width: 100%;
+            color: #fff !important;
+        }
+    }
+    button:focus{
+        box-shadow: none !important;
+        text-decoration: none !important;
+   
+    }
+    .btn:focus{
+        box-shadow: none !important;
+        text-decoration: none !important;
+    }
+}
+.FileAttachments{
+     display: flex;
+     justify-content: space-between;
+     width: 74%;
+     .Attachmentslist{
+        display: flex;
+        gap: 4px;
+        justify-content: center;
+        align-items: center;
+    
+     }
+}
+.RemarksCards{
+    margin-top: 22px !important;
+}
+#collapseOne{
+    border-radius: 12px;
+    background: rgb(248, 251, 252);
+}
+.Downloadimgoptions{display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+     img{
+        width: 13px;
+        height: 13px;
+     }
+}
+
+$active-color: #ff9800; // Highlight color for active feedback
+$default-color: #ddd;   // Default color for inactive options
+$text-color: #aaa;      // Text color for inactive
+
+.feedback {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0;
+
+  .feedback-option {
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+img{
+    width: 61px;
+    height: 61px;
+
+}
+    &::before {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 5px;
+      color: $default-color;
+      transition: color 0.3s ease;
+    }
+
+    &.bad::before {
+      content: "\1F61E"; // 😞 Bad (Unicode)
+    }
+
+    &.acceptable::before {
+      content: "\1F610"; // 😐 Neutral (Unicode)
+    }
+
+    &.good::before {
+      content: "\1F642"; // 🙂 Smiling face (Unicode)
+    }
+
+    &.excellent::before {
+      content: "\1F929"; // 🤩 Starry-eyed (Unicode)
+    }
+
+    span {
+      display: block;
+      font-size: 0.9rem;
+      color: $text-color;
+    }
+
+    &.active {
+      opacity: 1;
+
+      &::before {
+        color: $active-color;
+      }
+
+      span {
+        color: $active-color;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.FeedbackFieldstatifications{
+    display: flex;
+    flex-direction: column;
+    textarea{
+        height: 112px;
+        border-radius: 10px;
+        border: 1px solid hsla(0, 0%, 85%, 1);
+        padding: 12px;
+        box-shadow: none !important;
+    }
+    textarea:focus{
+        box-shadow: none !important;
+        outline: none !important;
+    }
+}

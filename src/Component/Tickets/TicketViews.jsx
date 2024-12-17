@@ -13,7 +13,15 @@ import notifyimg from "../../assets/Dashboard/Group 427320010.svg"
 import thumbsup from "../../assets/Dashboard/plastic-hand-with-thumb-up 1.svg"
 import { toast } from "react-toastify";
 
+import images from "../../assets/Dashboard/Union (4).svg";
+import downloadimg from "../../assets/Dashboard/Union (5).svg";
 
+
+
+import badimg from "../../assets/Dashboard/Union (8).svg";
+import Acceptanceimg from "../../assets/Dashboard/Union (7).svg";
+import goodimg from "../../assets/Dashboard/Vector (16).svg";
+import excellentimg from "../../assets/Dashboard/Union (6).svg";
 
 
 
@@ -40,6 +48,23 @@ const TicketViews = () => {
         ticket_id: TicketIDS
     })
 
+
+    const [activeFeedback, setActiveFeedback] = useState("excellent"); // Default active state
+
+    // Feedback options data
+    const feedbackOptions = [
+        { id: "bad", label: "Bad", imgSrc: badimg },
+        { id: "acceptable", label: "Acceptable", imgSrc: Acceptanceimg },
+        { id: "good", label: "Good", imgSrc: goodimg },
+        { id: "excellent", label: "Excellent", imgSrc: excellentimg },
+    ];
+
+    // Function to handle click
+    const handleFeedbackClick = (id) => {
+        setActiveFeedback(id);
+    };
+
+    console.log(activeFeedback, "activeFeedback");
 
 
     const { data: ticketretrieveRefeshing, refetch: ticketreteievRefetchcalls } = useQuery({
@@ -161,7 +186,8 @@ const TicketViews = () => {
 
 
     const HandleFeedbackpopup = (parm) => {
-        setcommetpoup(true);
+        // setcommetpoup(true);
+        setthankcontent(true)
         if (parm == "open") {
             setcommentpart({
                 ...CommentPart,
@@ -265,58 +291,78 @@ const TicketViews = () => {
                                         </div>
                                     </div>
 
-                                    {/* Issue Details Section */}
-                                    <div className="card shadow-sm p-3 mb-3">
-                                        {/* <p className="mb-1 cardpara heaerspara">
-                                            <span className='ticketheader ticketheadercards'>Issue Category</span>  {ticketretrieve?.sub_category_id?.issue_category_id?.name  ? {capitalizeEachWord(ticketretrieve?.sub_category_id?.issue_category_id?.name.toLowerCase()}:"--")}
-                                        </p>
-                                        <p className="mb-1 cardpara heaerspara">
-                                            <span className='ticketheader ticketheadercards '>Sub Category</span>  {ticketretrieve?.sub_category_id?.issue_category_id?.name ? {capitalizeEachWord(ticketretrieve?.sub_category_id?.issue_category_id?.name)}:{"---"}}.
-                                        </p>
-                                        <p className="mb-1 cardpara">
-                                            <span className='ticketheader ticketheadercards '>Description</span>
-                                            <span className='ticketsinners'>{ticketretrieve?.remarks}</span>
-                                        </p> */}
-
-                                        <p className="mb-1 cardpara heaerspara">
-                                            <span className="ticketheader ticketheadercards">Issue Category</span>
-                                            {ticketretrieve?.sub_category_id?.issue_category_id?.name
-                                                ? capitalizeEachWord(ticketretrieve?.sub_category_id?.issue_category_id?.name.toLowerCase())
-                                                : "--"}
-                                        </p>
-                                        <p className="mb-1 cardpara heaerspara">
-                                            <span className="ticketheader ticketheadercards">Sub Category</span>
-                                            {ticketretrieve?.sub_category_id?.name
-                                                ? capitalizeEachWord(ticketretrieve?.sub_category_id?.name.toLowerCase())
-                                                : "---"}
-                                        </p>
-                                        <p className="mb-1 cardpara">
-                                            <span className="ticketheader ticketheadercards">Description</span>
-                                            <span className="ticketsinners">{ticketretrieve?.remarks || "No description available"}</span>
-                                        </p>
-
-
-                                        <p className="mb-1 cardpara">
-                                            <span className='ticketheader ticketheadercards '>Documents</span>
-
-                                            <div className='viewTicketDocuments'>
-                                                {ticketretrieve?.documents != undefined && ticketretrieve?.documents.length > 0 && ticketretrieve?.documents.map((item) => {
-                                                    return (
-                                                        <>
-                                                            <img src={item} onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                window.open(item)
-                                                            }} />
-                                                        </>
-                                                    )
-                                                })}
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="card  ">
+                                            <div class="card-header HeaderCardsticketdetails" id="headingOne"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne"
+                                                aria-expanded="true"
+                                                aria-controls="collapseOne"
+                                            >
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link d-flex justify-content-between align-items-center"
+                                                        type="button">
+                                                        Ticket Details
+                                                        <span class="icon">
+                                                            ^
+                                                        </span>
+                                                    </button>
+                                                </h5>
                                             </div>
-                                        </p>
 
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                <div class="card-body">
+
+                                                    <div className="card shadow-sm p-3 mb-3">
+
+
+                                                        <p className="mb-1 cardpara heaerspara">
+                                                            <span className="ticketheader ticketheadercards">Issue Category</span>
+                                                            {ticketretrieve?.sub_category_id?.issue_category_id?.name
+                                                                ? capitalizeEachWord(ticketretrieve?.sub_category_id?.issue_category_id?.name.toLowerCase())
+                                                                : "--"}
+                                                        </p>
+                                                        <p className="mb-1 cardpara heaerspara">
+                                                            <span className="ticketheader ticketheadercards">Sub Category</span>
+                                                            {ticketretrieve?.sub_category_id?.name
+                                                                ? capitalizeEachWord(ticketretrieve?.sub_category_id?.name.toLowerCase())
+                                                                : "---"}
+                                                        </p>
+                                                        <p className="mb-1 cardpara">
+                                                            <span className="ticketheader ticketheadercards">Description</span>
+                                                            <span className="ticketsinners">{ticketretrieve?.remarks || "No description available"}</span>
+                                                        </p>
+
+
+                                                        <p className="mb-1 cardpara">
+                                                            <span className='ticketheader ticketheadercards '>Attachment</span>
+                                                            <p className='FileAttachments'>
+                                                                <span className="Attachmentslist">     <img src={images} /> {ticketretrieve?.documents?.length} File Attached</span>
+                                                                <span className='Downloadimgoptions'>Download <img src={downloadimg} /></span>
+                                                            </p>
+
+
+                                                        </p>
+
+                                                        <p className="mb-1 cardpara">
+                                                            <span className='ticketheader ticketheadercards '>Assigner</span>
+                                                            <p className='FileAttachments'>
+                                                                {ticketretrieve?.client_user_id?.l1_user.map((item) => {
+
+                                                                    <span className="Attachmentslist">{item.first_name}</span>
+                                                                })}
+                                                            </p>
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
+
                                     {/* Issue Assigner Section */}
-                                    <div className='issueAssigner'>
+                                    {/* <div className='issueAssigner'>
                                         <div className='Issues'>
                                             <p>Issue assigner</p>
                                         </div>
@@ -338,7 +384,7 @@ const TicketViews = () => {
                                                         <h6>
                                                             <span className='ticketheader '> {item.first_name}</span>
                                                         </h6>
-                                                        {/* <small className="text-muted mb-0 heaerspara">{ticketretrieve?.uds_user_id?.user_role?.role}</small> */}
+                                                        <small className="text-muted mb-0 heaerspara">{ticketretrieve?.uds_user_id?.user_role?.role}</small>
                                                     </div>
                                                     <div className="ms-auto">
                                                         <button className="btn btn-light  ">
@@ -352,7 +398,9 @@ const TicketViews = () => {
                                             })}
 
                                         </div>
-                                    </div>
+                                    </div> */}
+
+
                                     {/* timeline process */}
                                     {/* <div className='issueAssigner'>
                                         <div className='Issues'>
@@ -436,7 +484,7 @@ const TicketViews = () => {
 
 
                                     {/* Remarks Section */}
-                                    <div className="card shadow-sm p-3 mb-3">
+                                    <div className="card RemarksCards shadow-sm p-3 mb-3">
                                         <h6>
                                             <span className='ticketheader RemarksHeaders' >Remarks:</span>
                                         </h6>
@@ -465,7 +513,87 @@ const TicketViews = () => {
                                             </>
                                             : <>--</>}
                                     </div>
+
                                     <div className="card shadow-sm p-3 mb-3">
+                                        <p className="mb-1 cardpara heaerspara">
+                                            <span className='ticketheader ticketheadercards'>Satisfaction</span>
+                                        </p>
+
+                                        <p className="mb-1 cardpara heaerspara">
+                                            Your feedback brings us great satisfaction and inspires us to improve further!
+                                        </p>
+
+                                        <div className="feedback">
+                                            {feedbackOptions.map((option) => (
+                                                <div
+                                                    key={option.id}
+                                                    className={`feedback-option ${activeFeedback === option.id ? "active" : ""}`}
+                                                    onClick={() => handleFeedbackClick(option.id)}
+                                                >
+                                                    <img src={option.imgSrc} alt={option.label} />
+                                                    <span>{option.label}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+
+
+                                        <div className='FeedbackField FeedbackFieldstatifications'>
+                                            <label className='form-label'>{`Please submit your feedback on it.`}</label>
+
+                                            <textarea value={CommentPart.name} onChange={(e) => {
+                                                setcommentpart({
+                                                    ...CommentPart,
+                                                    name: e.target.value
+                                                })
+                                            }}>
+
+                                            </textarea>
+                                        </div>
+
+                                        <div className='col-6  Createtickets'>
+                                            <button
+                                                className='OpenButtons'
+                                                onClick={() => {
+                                                    HandleFeedbackpopup("close");
+                                                    HandletheComments();
+                                                }}
+                                            >Submit</button>
+
+                                        </div>
+
+
+                                        <div className="Documentslist">
+                                            {remarksdatastate.length > 0 ?
+                                                <>
+                                                    {remarksdatastate.map((item) => {
+                                                        return (
+                                                            <>
+
+                                                                {item?.documents != undefined && item?.documents.length > 0 && item?.documents.map((doc) => {
+                                                                    return (
+                                                                        <div className='InnerImagesdoc ' >
+                                                                            <img src={doc} onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                window.open(doc)
+                                                                            }} />
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                            </>
+                                                        )
+                                                    })}
+
+
+
+                                                </>
+                                                : <></>}
+                                        </div>
+
+
+
+                                    </div>
+
+                                    {/* <div className="card shadow-sm p-3 mb-3">
                                         <p className="mb-1 cardpara heaerspara">
                                             <span className='ticketheader ticketheadercards'>Documents</span>
                                         </p>
@@ -500,7 +628,7 @@ const TicketViews = () => {
 
 
 
-                                    </div>
+                                    </div> */}
 
                                     {/* Satisfactory Resolution Section */}
                                     {/* <div className="text-center">
@@ -617,16 +745,20 @@ const TicketViews = () => {
                                             <br />
 
                                             Please wait, Our Concern will be respond soon. */}
-                                            We appreciate you taking the time to share your
+                                            {/* We appreciate you taking the time to share your
                                             <br />
                                             <br /> thoughts. Your feedback helps us improve and
                                             <br />
-                                            <br /> ensure better service.
+                                            <br /> ensure better service. */}
+                                            We appreciate you taking the time to share your
+                                            <br/> thoughts. Your feedback helps us improve and 
+                                            <br/>
+                                            ensure better service.
                                             .</label>
 
 
                                     </div>
-                                    <div className='feedbacksubmition'>
+                                    <div className='feedbacksubmition' style={{bottom:"12px"}}>
                                         <button onClick={() => {
                                             setthankcontent(false);
                                             Navigate("/tickets")

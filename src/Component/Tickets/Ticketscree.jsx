@@ -60,7 +60,7 @@ const Ticketscreen = () => {
         page_size: page_size,
         page: page,
         status: status,
-        clientuser: ownerDetails.id
+        // clientuser: ownerDetails.id
     };
     console.log(Ticketspayloads, "Ticketspayloads");
 
@@ -116,7 +116,7 @@ const Ticketscreen = () => {
 
 
             {
-                Header: "Ticket Number",
+                Header: "TNo",
                 accessor: "",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
@@ -130,8 +130,8 @@ const Ticketscreen = () => {
 
 
             {
-                Header: "Date",
-                accessor: "",
+                Header: "Created date",
+                accessor: "created_at",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
                     return (
@@ -140,6 +140,15 @@ const Ticketscreen = () => {
                         </div>
                     );
                 },
+                sortType: (a, b) => {
+                    const dateA = new Date(a);
+                    const dateB = new Date(b);
+                    if (isNaN(dateA.getTime())) return 1;
+                    if (isNaN(dateB.getTime())) return -1;
+                    return dateA.getTime() - dateB.getTime();
+                }
+
+
             },
 
 
@@ -188,7 +197,7 @@ const Ticketscreen = () => {
 
             {
                 Header: "Status",
-                accessor: "",
+                accessor: "status",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
                     return (
@@ -209,10 +218,13 @@ const Ticketscreen = () => {
                         </div>
                     );
                 },
+
+
+
             },
             {
                 Header: "Priority",
-                accessor: "",
+                accessor: "sub_category_id.Priority",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
 
@@ -231,6 +243,8 @@ const Ticketscreen = () => {
                         </span>
                     );
                 },
+
+
             },
         ],
         []
@@ -239,7 +253,7 @@ const Ticketscreen = () => {
         setstatus(value);
     };
     const turfOverViewFunc = (data) => {
-         
+
         settheTicketIDs(data.id)
         Navigate("/tickets/ticketview");
     };
@@ -310,12 +324,12 @@ const Ticketscreen = () => {
                                         </div> */}
                                         <div className="col-12 TableParts">
 
-                                            <ReactTable data={data} columns={columns} 
-                                            MakeCreate={true}
-                                            ViewParts={(e) => {
-                                                turfOverViewFunc(e)
-                                            }}
-                                            
+                                            <ReactTable data={data} columns={columns}
+                                                MakeCreate={true}
+                                                ViewParts={(e) => {
+                                                    turfOverViewFunc(e)
+                                                }}
+
                                             />
 
                                         </div>
