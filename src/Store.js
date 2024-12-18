@@ -24,6 +24,8 @@ const useStore = create(
       ToggleBars: false,
       TicketIDS:"",
       thanksContent:false,
+      ActiveBars:"All",
+      SetActiveBars:(newData)=>set({ActiveBars:newData}),
       settheThankpopup:(newData)=>set({thanksContent:newData}),
       settheTicketIDs:(newData)=>set({TicketIDS:newData}),
       setToggleBars: (newData) => set({ ToggleBars: newData }),

@@ -41,6 +41,7 @@ const TicketCreate = () => {
         client_id: ownerDetails.id,
         remarks: "",
         issue_category_id: "",
+        client_priority:""
         // Priority: ""
 
     }
@@ -50,7 +51,9 @@ const TicketCreate = () => {
     const [Subcategoryoptions, setSubCategoryoptions] = useState([]);
     const [subcategoryvalues, setsubcategoryvalues] = useState([]);
     const [CategoryValues, setCategoryvalues] = useState([]);
-    const [Priorityvalues, setPriorityValues] = useState([])
+    const [Priorityvalues, setPriorityValues] = useState([]);
+    const [Priorityclientvalues, setPriorityclientValues] = useState([])
+
     const handleChange = (file) => {
         setFile(file);
     };
@@ -130,7 +133,8 @@ const TicketCreate = () => {
 
 
     // };
-
+ console.log(Ticketdata ,"Ticketdata", Subcategoryoptions);
+ 
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
@@ -505,7 +509,7 @@ const TicketCreate = () => {
             const listofsubOptions = []
 
             SubCategorydetailsdata.forEach(element => {
-                listofsubOptions.push({ value: element.id, label: element.name, priority: element.Priority == 1 ? "Medimum" : element.Priority == 2 ? "High" : "Low" })
+                listofsubOptions.push({ value: element.id, label: element.name,priorityvalu:element.Priority , priority: element.Priority == 1 ? "Medium" : element.Priority == 2 ? "High" : "Low" })
 
             });
 
@@ -626,6 +630,7 @@ const TicketCreate = () => {
                                                     })
                                                     setPriorityValues([])
                                                     setsubcategoryvalues([])
+                                                    setPriorityclientValues([])
                                                 }}
                                                 value={CategoryValues}
                                                 onInputChange={(e) => {
@@ -648,8 +653,12 @@ const TicketCreate = () => {
                                                     setPriorityValues({ value: e.value, label: e.priority })
                                                     setticketdata({
                                                         ...Ticketdata,
-                                                        sub_category_id: e.value
+                                                        sub_category_id: e.value,
+                                                        client_priority:e.priorityvalu
                                                     })
+                                                    setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
+
+
 
                                                 }}
                                                 value={subcategoryvalues}
@@ -670,6 +679,27 @@ const TicketCreate = () => {
                                                 labelledBy="Select"
                                                 value={Priorityvalues}
                                                 isDisabled
+                                            />
+                                        </div>
+
+                                        <div className='col-6 mt-3'>
+                                            <label className="form-label LabelRemove" >
+                                                Priority
+                                            </label>
+                                            <Select
+                                                className="Selects"
+                                                labelledBy="Select"
+                                                value={Priorityclientvalues}
+                                                options={Priorityoptions}
+                                                onChange={(e)=>{
+                                                    setPriorityclientValues(e);
+
+                                                    setticketdata({
+                                                        ...Ticketdata,
+                                                        client_priority: e.value
+                                                    })
+
+                                                   }}
                                             />
                                         </div>
 

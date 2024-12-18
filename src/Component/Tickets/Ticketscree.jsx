@@ -169,7 +169,7 @@ const Ticketscreen = () => {
                 },
             },
             {
-                Header: "Sub Category",
+                Header: "Subcategory",
                 accessor: "",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
@@ -183,7 +183,7 @@ const Ticketscreen = () => {
             },
 
             {
-                Header: "Descriptions",
+                Header: "Description",
                 accessor: "",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
@@ -206,14 +206,25 @@ const Ticketscreen = () => {
                             <>
                                 <button className='Button'
                                     style={{
-                                        background: data.status == 0 ?
-                                            "#FDEDE9" : data.status == 2 ? "#E7F8ED" : "#FFF8E5",
-                                        color: data.status == 0 ?
-                                            "#ED4C28" : data.status == 2 ? "#12B749" : "#FFB800",
+                                        background: data.status == 0 ? "#FDEDE9" : // Open - light background
+                                            data.status == 1 ? "#FFF8E5" : // In Progress - yellow background
+                                                data.status == 2 ? "#E7F8ED" : // Completed - light green background
+                                                    data.status == 3 ? "#DFFFE3" : // Close - light green background for Close
+                                                        "#FFDDDD", // Default for Reopen - light red background
+                                        color: data.status == 0 ? "#ED4C28" : // Open - red text
+                                            data.status == 1 ? "#FFB800" : // In Progress - yellow text
+                                                data.status == 2 ? "#12B749" : // Completed - green text
+                                                    data.status == 3 ? "#8BC34A" : // Close - light green text for Close
+                                                        "#ED4C28", // Default for Reopen - red text
                                     }}
-                                >{data.status == 0 ? "Open" : data.status == 1 ? "Inprogress" : data.status == 2 ? "Closed" : "Reopen"}</button>
-
+                                >
+                                    {data.status == 0 ? "Open" :
+                                        data.status == 1 ? "Inprogress" :
+                                            data.status == 2 ? "Completed" :
+                                                data.status == 3 ? "Close" : "Reopen"}
+                                </button>
                             </>
+
 
                         </div>
                     );

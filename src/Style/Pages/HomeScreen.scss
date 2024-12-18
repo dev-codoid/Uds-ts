@@ -23,7 +23,8 @@
 
     .MainCards {
         .card {
-            box-shadow: 0px 4px 6px #0000001A;
+            // box-shadow: 0px 4px 6px #0000001A;
+            box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.1);
             border: none;
             border-radius: 10px;
         }
@@ -232,7 +233,7 @@
             .Phoneimg {
                 width: 28px;
                 height: 28px;
-
+                cursor: pointer;
                 border-radius: 50%;
                 background: #3473BA33;
                 display: flex;
@@ -408,6 +409,25 @@
                     }
                 }
 
+                .active-card {
+                    background-color: #f0f8ff;
+                    /* Light blue background */
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    /* Add subtle shadow */
+                    border: 2px solid hsla(212, 56%, 47%, 1);
+                    /* Optional: Highlight with a border */
+                    border-radius: 8px;
+                    /* Optional: Make it visually consistent */
+                    transition: all 0.3s ease-in-out;
+                }
+
+                .active-card:hover {
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                    /* Enhance shadow on hover */
+                    transform: scale(1.02);
+                    /* Slight zoom effect */
+                }
+
                 .col-md-4 {
                     display: flex;
                     background-repeat: no-repeat;
@@ -418,8 +438,10 @@
                     width: 275px;
                     padding: 0px 12px;
                     border-radius: 13px;
-                    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+                    // box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
                     background-position: center;
+                    cursor: pointer;
+
 
                     .card {
                         background: transparent;
@@ -427,6 +449,7 @@
                         height: 100%;
                         display: flex;
                         justify-content: space-between;
+                    //   box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.1);
 
                         h5 {
                             text-align: left;
@@ -448,7 +471,7 @@
 
             .Innerticket-dashboard {
                 .col-md-4:hover {
-                    background-color: hsla(203, 49%, 81%, 0.25);
+                    // background-color: hsla(203, 49%, 81%, 0.25);
                 }
             }
 
@@ -825,6 +848,8 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    cursor: pointer;
+
                 }
 
 
@@ -1196,4 +1221,8 @@
         }
 
     }
+}
+
+.Nofiyimages {
+    cursor: pointer;
 }

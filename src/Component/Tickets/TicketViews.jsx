@@ -15,13 +15,16 @@ import { toast } from "react-toastify";
 
 import images from "../../assets/Dashboard/Union (4).svg";
 import downloadimg from "../../assets/Dashboard/Union (5).svg";
-
-
+import downarrow from "../../assets/Dashboard/Vector (17).svg";
 
 import badimg from "../../assets/Dashboard/Union (8).svg";
 import Acceptanceimg from "../../assets/Dashboard/Union (7).svg";
 import goodimg from "../../assets/Dashboard/Vector (16).svg";
 import excellentimg from "../../assets/Dashboard/Union (6).svg";
+
+
+
+
 
 
 
@@ -42,11 +45,31 @@ const TicketViews = () => {
     const timelineBackground = "#e0e8f0"; // Background color
     const progressColor = "#20588f"; // Progress color
     const [CommentPart, setcommentpart] = useState({
-        status: "",
+        status: "2",
         name: "",
         client_user_id: "",
         ticket_id: TicketIDS
     })
+
+    const events = [
+        { date: "2021-01-01", title: "Event 1", description: "Description for event 1" },
+        { date: "2021-06-01", title: "Event 2", description: "Description for event 2" },
+        { date: "2022-01-01", title: "Event 3", description: "Description for event 3" },
+        { date: "2022-06-01", title: "Event 4", description: "Description for event 4" },
+        { date: "2023-01-01", title: "Event 5", description: "Description for event 5" },
+
+
+        { date: "2022-06-01", title: "Event 4", description: "Description for event 4" },
+        { date: "2023-01-01", title: "Event 5", description: "Description for event 5" },
+   
+    ];
+
+    const [selectedEvent, setSelectedEvent] = useState(0);
+
+    const handleClick = (index) => {
+        setSelectedEvent(index);
+    };
+
 
 
     const [activeFeedback, setActiveFeedback] = useState("excellent"); // Default active state
@@ -59,12 +82,24 @@ const TicketViews = () => {
         { id: "excellent", label: "Excellent", imgSrc: excellentimg },
     ];
 
-    // Function to handle click
+
+
+
+
+
     const handleFeedbackClick = (id) => {
         setActiveFeedback(id);
+        HandleFeedbackpopup(id == "excellent" ? "close" : "open");
+
     };
 
-    console.log(activeFeedback, "activeFeedback");
+    const timelineValues = [
+        { label: 'January', value: 1 },
+        { label: 'February', value: 2 },
+        // add more values
+    ];
+
+
 
 
     const { data: ticketretrieveRefeshing, refetch: ticketreteievRefetchcalls } = useQuery({
@@ -167,6 +202,9 @@ const TicketViews = () => {
 
         }
     }, [ticketretrieveRefeshing])
+
+
+
     const HandletheComments = () => {
 
         if (CommentPart.name != "") {
@@ -187,7 +225,6 @@ const TicketViews = () => {
 
     const HandleFeedbackpopup = (parm) => {
         // setcommetpoup(true);
-        setthankcontent(true)
         if (parm == "open") {
             setcommentpart({
                 ...CommentPart,
@@ -222,6 +259,87 @@ const TicketViews = () => {
 
         return `${day}/${month}/${year}`;
     };
+
+
+    const getFileExtension = (url) => {
+        const parts = url.split('.');
+        return parts.length > 1 ? parts.pop() : ''; // Return the file extension, or an empty string if none
+    };
+
+
+
+    const handleDownloadDocuments = (documents) => {
+        if (!documents || documents.length === 0) {
+            alert("No documents to download.");
+            return;
+        }
+
+        documents.forEach((doc, index) => {
+            try {
+                console.log(doc, "documents");
+
+                // Ensure doc is an object and has a valid URL
+                if (doc && doc && doc.startsWith("https")) {
+                    const link = document.createElement('a');
+                    link.href = doc;  // Use the URL from doc.url
+                    link.download = doc.name || `document_${index + 1}`;  // Specify the file name
+
+                    document.body.appendChild(link);  // Temporarily add the link to the DOM
+                    link.click();  // Trigger the download
+                    document.body.removeChild(link);  // Remove the link after the download
+                } else {
+                    console.warn(`Document at index ${index} does not have a valid URL.`);
+                }
+            } catch (error) {
+                console.error(`Error processing document at index ${index}:`, error);
+            }
+        });
+
+        // documents.forEach((doc, index) => {
+        //     try {
+        //         console.log(doc, "documents");
+
+        //         if (doc && doc.startsWith("https")) { // Ensure the URL is valid
+        //             const link = document.createElement('a');
+        //             link.href = doc.url;  // Use the URL from `doc.url`
+        //             link.download = doc.name || `document_${index + 1}`; // Specify the file name
+        //             document.body.appendChild(link);  // Temporarily add the link to the DOM
+        //             link.click();  // Trigger the download
+        //             document.body.removeChild(link);  // Remove the link after the download
+        //         } else {
+        //             console.warn(`Document at index ${index} does not have a valid URL.`);
+        //         }
+        //     } catch (error) {
+        //         console.error(`Error processing document at index ${index}:`, error);
+        //     }
+        // });
+
+        // documents.forEach((doc, index) => {
+        //     try {
+        //         console.log(documents, "documents");
+
+        //         // Ensure the URL starts with 'https'
+        //         if (doc && doc.startsWith("https")) {
+        //             const link = document.createElement('a');
+        //             link.href = doc;  // Use the URL from `doc.url`
+
+        //             // Extract file extension and set it for the download
+        //             const extension = getFileExtension(doc);
+        //             link.download =  `document_${index + 1}.${extension}`; // Append the extension to the filename
+
+        //             document.body.appendChild(link);  // Temporarily add the link to the DOM
+        //             link.click();  // Trigger the download
+        //             document.body.removeChild(link);  // Remove the link after the download
+        //         } else {
+        //             console.warn(`Document at index ${index} does not have a valid URL starting with https.`);
+        //         }
+        //     } catch (error) {
+        //         console.error(`Error processing document at index ${index}:`, error);
+        //     }
+        // });
+
+    }
+
 
 
     return (
@@ -283,7 +401,7 @@ const TicketViews = () => {
                                                 <div className="d-flex justify-content-between">
                                                     <span>
                                                         <p className='ticketheader Headerticket'>Status:</p>{" "}
-                                                        <span className="text-success">{ticketretrieve.status == 0 ? "Open" : ticketretrieve.status == 1 ? "Closed" : ticketretrieve.status == 2 && "Closed"}</span>
+                                                        <span className="text-success">{ticketretrieve.status == 0 ? "Open" : ticketretrieve.status == 1 ? "Inprogress" : ticketretrieve.status == 2 ? "Completed" : ticketretrieve.status == 3 ? "Close":"Reopen" }</span>
                                                     </span>
 
                                                 </div>
@@ -304,7 +422,7 @@ const TicketViews = () => {
                                                         type="button">
                                                         Ticket Details
                                                         <span class="icon">
-                                                            ^
+                                                            <img src={downarrow} className='rotate-icon' />
                                                         </span>
                                                     </button>
                                                 </h5>
@@ -338,7 +456,9 @@ const TicketViews = () => {
                                                             <span className='ticketheader ticketheadercards '>Attachment</span>
                                                             <p className='FileAttachments'>
                                                                 <span className="Attachmentslist">     <img src={images} /> {ticketretrieve?.documents?.length} File Attached</span>
-                                                                <span className='Downloadimgoptions'>Download <img src={downloadimg} /></span>
+                                                                <span className='Downloadimgoptions'>Download <img src={downloadimg}
+                                                                    onClick={() => handleDownloadDocuments(ticketretrieve?.documents)}
+                                                                /></span>
                                                             </p>
 
 
@@ -347,10 +467,14 @@ const TicketViews = () => {
                                                         <p className="mb-1 cardpara">
                                                             <span className='ticketheader ticketheadercards '>Assigner</span>
                                                             <p className='FileAttachments'>
-                                                                {ticketretrieve?.client_user_id?.l1_user.map((item) => {
+                                                                {ticketretrieve?.client_user_id != undefined &&
+                                                                    ticketretrieve?.client_user_id != null &&
+                                                                    ticketretrieve?.client_user_id?.l1_user.map((item) => {
 
-                                                                    <span className="Attachmentslist">{item.first_name}</span>
-                                                                })}
+                                                                        return (
+                                                                            <span className="Attachmentslist">{capitalizeEachWord(item.first_name.toLowerCase())}</span>
+                                                                        )
+                                                                    })}
                                                             </p>
                                                         </p>
                                                     </div>
@@ -360,6 +484,28 @@ const TicketViews = () => {
                                         </div>
                                     </div>
 
+
+
+
+                                    <div className="timeline-container">
+                                        <div className="timeline">
+                                            {events.map((event, index) => (
+                                                <div key={index} className="timeline-event">
+                                                    <div
+                                                        className={`timeline-circle ${selectedEvent === index ? "active" : ""}`}
+                                                        onClick={() => handleClick(index)}
+                                                    />
+                                                    {index < events.length - 1 && <div className="timeline-line" />}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {selectedEvent !== null && (
+                                            <div className="event-details">
+                                                <h3>{events[selectedEvent].date}</h3>
+                                                <p>{events[selectedEvent].description}</p>
+                                            </div>
+                                        )}
+                                    </div>
 
                                     {/* Issue Assigner Section */}
                                     {/* <div className='issueAssigner'>
@@ -482,7 +628,6 @@ const TicketViews = () => {
                                     </div> */}
 
 
-
                                     {/* Remarks Section */}
                                     <div className="card RemarksCards shadow-sm p-3 mb-3">
                                         <h6>
@@ -499,7 +644,18 @@ const TicketViews = () => {
 
                                                                     <p className="Commentslist">  <span>{item.name}</span> <span>{formatDatefeed(item.created_at)}</span> </p>
                                                                     <br />
-
+                                                                    <div className='remarksdocumentsimg'>
+                                                                        {item?.documents != undefined && item?.documents.length > 0 && item?.documents.map((doc) => {
+                                                                            return (
+                                                                                <div className='InnerImagesdoc ' >
+                                                                                    <img src={doc} onClick={(e) => {
+                                                                                        e.stopPropagation();
+                                                                                        window.open(doc)
+                                                                                    }} />
+                                                                                </div>
+                                                                            )
+                                                                        })}
+                                                                    </div>
 
 
                                                                 </div>
@@ -513,56 +669,55 @@ const TicketViews = () => {
                                             </>
                                             : <>--</>}
                                     </div>
+                                    {ticketretrieve?.status == 1 ?
+                                        <div className="card shadow-sm p-3 mb-3">
+                                            <p className="mb-1 cardpara heaerspara">
+                                                <span className='ticketheader ticketheadercards'>Satisfaction</span>
+                                            </p>
 
-                                    <div className="card shadow-sm p-3 mb-3">
-                                        <p className="mb-1 cardpara heaerspara">
-                                            <span className='ticketheader ticketheadercards'>Satisfaction</span>
-                                        </p>
+                                            <p className="mb-1 cardpara heaerspara">
+                                                Your feedback brings us great satisfaction and inspires us to improve further!
+                                            </p>
 
-                                        <p className="mb-1 cardpara heaerspara">
-                                            Your feedback brings us great satisfaction and inspires us to improve further!
-                                        </p>
-
-                                        <div className="feedback">
-                                            {feedbackOptions.map((option) => (
-                                                <div
-                                                    key={option.id}
-                                                    className={`feedback-option ${activeFeedback === option.id ? "active" : ""}`}
-                                                    onClick={() => handleFeedbackClick(option.id)}
-                                                >
-                                                    <img src={option.imgSrc} alt={option.label} />
-                                                    <span>{option.label}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-
-
-                                        <div className='FeedbackField FeedbackFieldstatifications'>
-                                            <label className='form-label'>{`Please submit your feedback on it.`}</label>
-
-                                            <textarea value={CommentPart.name} onChange={(e) => {
-                                                setcommentpart({
-                                                    ...CommentPart,
-                                                    name: e.target.value
-                                                })
-                                            }}>
-
-                                            </textarea>
-                                        </div>
-
-                                        <div className='col-6  Createtickets'>
-                                            <button
-                                                className='OpenButtons'
-                                                onClick={() => {
-                                                    HandleFeedbackpopup("close");
-                                                    HandletheComments();
-                                                }}
-                                            >Submit</button>
-
-                                        </div>
+                                            <div className="feedback">
+                                                {feedbackOptions.map((option) => (
+                                                    <div
+                                                        key={option.id}
+                                                        className={`feedback-option ${activeFeedback === option.id ? "active" : ""}`}
+                                                        onClick={() => handleFeedbackClick(option.id)}
+                                                    >
+                                                        <img src={option.imgSrc} alt={option.label} />
+                                                        <span>{option.label}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
 
 
-                                        <div className="Documentslist">
+                                            <div className='FeedbackField FeedbackFieldstatifications'>
+                                                <label className='form-label'>{`Please submit your feedback on it.`}</label>
+
+                                                <textarea value={CommentPart.name} onChange={(e) => {
+                                                    setcommentpart({
+                                                        ...CommentPart,
+                                                        name: e.target.value
+                                                    })
+                                                }}>
+
+                                                </textarea>
+                                            </div>
+
+                                            <div className='col-6  Createtickets'>
+                                                <button
+                                                    className='OpenButtons'
+                                                    onClick={() => {
+                                                        HandletheComments();
+                                                    }}
+                                                >Submit</button>
+
+                                            </div>
+
+
+                                            {/* <div className="Documentslist">
                                             {remarksdatastate.length > 0 ?
                                                 <>
                                                     {remarksdatastate.map((item) => {
@@ -587,11 +742,12 @@ const TicketViews = () => {
 
                                                 </>
                                                 : <></>}
+                                        </div> */}
+
+
+
                                         </div>
-
-
-
-                                    </div>
+                                        : ""}
 
                                     {/* <div className="card shadow-sm p-3 mb-3">
                                         <p className="mb-1 cardpara heaerspara">
@@ -638,7 +794,7 @@ const TicketViews = () => {
                                         <button className="btn btn-outline-danger me-3">No</button>
                                         <button className="btn btn-outline-success">Yes</button>
                                     </div> */}
-
+                                    {/* 
                                     {ticketretrieve?.status == 1 ? (
                                         <div className='col-6  Createtickets'>
                                             <p>
@@ -656,7 +812,7 @@ const TicketViews = () => {
 
                                         </div>
                                     ) : <></>
-                                    }
+                                    } */}
 
 
 
@@ -751,14 +907,14 @@ const TicketViews = () => {
                                             <br />
                                             <br /> ensure better service. */}
                                             We appreciate you taking the time to share your
-                                            <br/> thoughts. Your feedback helps us improve and 
-                                            <br/>
+                                            <br /> thoughts. Your feedback helps us improve and
+                                            <br />
                                             ensure better service.
                                             .</label>
 
 
                                     </div>
-                                    <div className='feedbacksubmition' style={{bottom:"12px"}}>
+                                    <div className='feedbacksubmition' style={{ bottom: "12px" }}>
                                         <button onClick={() => {
                                             setthankcontent(false);
                                             Navigate("/tickets")

@@ -1323,7 +1323,7 @@ input[type=number] {
 .FileAttachments{
      display: flex;
      justify-content: space-between;
-     width: 74%;
+     width: 71%;
      .Attachmentslist{
         display: flex;
         gap: 4px;
@@ -1338,6 +1338,7 @@ input[type=number] {
 #collapseOne{
     border-radius: 12px;
     background: rgb(248, 251, 252);
+    margin-top: -15px;
 }
 .Downloadimgoptions{display: flex;
     justify-content: center;
@@ -1433,3 +1434,78 @@ img{
         outline: none !important;
     }
 }
+.rotate-icon {
+  transition: transform 0.3s ease; /* Smooth rotation */
+}
+
+.card-header[aria-expanded="true"] .rotate-icon {
+  transform: rotate(180deg); /* Rotates 180 degrees when expanded */
+}
+
+.remarksdocumentsimg{
+    display: flex;
+    gap: 20px;
+}
+
+///timeline
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .timeline {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+  }
+  
+  .timeline-event {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .timeline-circle {
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
+  }
+  
+  .timeline-circle.active {
+    background-color: #007bff;
+    border-color: #0056b3;
+    transform: scale(1.2);
+  }
+  
+  .timeline-line {
+    height: 2px;
+    width: 100px;
+    background-color: #ccc;
+  }
+  
+  .event-details {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    width: 80%;
+    text-align: center;
+  }
+  
+  .event-details h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .event-details p {
+    font-size: 14px;
+    color: #333;
+  }
+  

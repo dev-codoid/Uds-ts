@@ -20,20 +20,26 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction } from "../../ReactQuery/reactQuery";
 import { dashboardTicketapis } from "../../Api/Api";
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from "react-tooltip";
+
 
 
 
 const HomeScreen = () => {
     const {
         ToggleBars,
-        setToggleBars, setSelectedSideBarTab
+        setToggleBars, setSelectedSideBarTab,
+        SetActiveBars,
+        ActiveBars,
+        ownerDetails
 
     } = useStore();
     const [search, setsearch] = useState("");
     const [Dashboarddata, setdashboarddata] = useState([])
     const [data, setdata] = useState([]);
     const Navigate = useNavigate()
-    const [activeButton, setActiveButton] = useState("All");
+    const [activeButton, setActiveButton] = useState(ActiveBars);
+
 
 
 
@@ -59,6 +65,7 @@ const HomeScreen = () => {
 
     const handleButtonClick = (button) => {
         setActiveButton(button);
+        SetActiveBars(button)
     };
 
 
@@ -71,6 +78,7 @@ const HomeScreen = () => {
 
     }, [DashRefeshing])
 
+    console.log(ownerDetails, "ownerDetails");
 
 
     return (
@@ -83,7 +91,7 @@ const HomeScreen = () => {
                             <div className='card'>
                                 <div className='card-body'>
                                     <h5>Dashbord</h5>
-                                    <img src={Notify} alt="" />
+                                    <img src={Notify} alt="" className='Nofiyimages' />
                                 </div>
                             </div>
                         </div>
@@ -111,26 +119,34 @@ const HomeScreen = () => {
                                         <div className="card ">
                                             <h5>UDS Contact Peoples</h5>
                                             <div className="d-flex Recentcard2contact  gap-3">
+                                                {ownerDetails.l1_user != undefined && ownerDetails.l1_user != null && ownerDetails.l1_user.map((item) => {
 
-                                                <div className="contact-card d-flex justify-content-between align-items-center">
-                                                    <div className='ContactCards' >
-                                                        <div className='Contactimg' >
-                                                            <img src={personimg} />
-                                                        </div>
-                                                        <div className='InnerPhoneContact'>
-                                                            <div>
-                                                                <h6>Sakthivel P</h6>
-                                                                <p className="text-muted mb-0">Security</p>
+                                                    return (
+                                                        <div className="contact-card d-flex justify-content-between align-items-center">
+                                                            <div className='ContactCards' >
+                                                                <div className='Contactimg' >
+                                                                    <img src={personimg} />
+                                                                </div>
+                                                                <div className='InnerPhoneContact'>
+                                                                    <div>
+                                                                        <h6>{item.first_name}</h6>
+                                                                        <p className="text-muted mb-0">Security</p>
 
+                                                                    </div>
+
+                                                                    <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}  
+                                                                    //   onClick={() => window.location.href = `tel:${item.phone_number}`}
+                                                                    >
+                                                                        <img src={PhoneCall} />
+                                                                    </div>
+                                                                </div>
                                                             </div>
-
-                                                            <div className='Phoneimg' >
-                                                                <img src={PhoneCall} />
-                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                </div>
+                                                    )
+                                                })}
+
+
                                                 <div className="contact-card d-flex justify-content-between align-items-center">
                                                     <div className='ContactCards' >
                                                         <div className='Contactimg2' >
@@ -181,78 +197,102 @@ const HomeScreen = () => {
                         </>
                         :
 
-                        <div className="row mt-2 ticket-dashboard">
+                        <div className="row mt-3 ticket-dashboard">
                             {/* Header Stats */}
                             <div className='row Ticketdetails'>
                                 <div className=" Innerticket-dashboard text-center">
 
-
-                                    <div className="col-md-4 CardDesigns mb-3"
+                                    <div
+                                        className={`col-md-4 CardDesigns mb-3 ${ActiveBars === "All" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("All")}
                                     >
-                                        <div className="card  p-3">
-                                            <div className='InnercardImgData InnercardImgDataTicketcreate'>
-                                                <span className='FrstCard'><img src={Cardimgs} /></span>
+                                        <div className="card p-3">
+                                            <div className="InnercardImgData InnercardImgDataTicketcreate">
+                                                <span className="FrstCard">
+                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                </span>
                                                 <h2>{Dashboarddata.total_count}</h2>
                                             </div>
-
                                             <h5>Total Tickets</h5>
-
                                         </div>
                                     </div>
 
-
-                                    <div className="col-md-4 CardDesigns mb-3"
+                                    <div
+                                        className={`col-md-4 CardDesigns mb-3 ${ActiveBars === "Open" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("Open")}
                                     >
-                                        <div className="card  p-3">
-                                            <div className='InnercardImgData InnercardImgDataTicketcreate'>
-                                                <span className='FrstCard'><img src={Cardimgs} /></span>
+                                        <div className="card p-3">
+                                            <div className="InnercardImgData InnercardImgDataTicketcreate">
+                                                <span className="FrstCard">
+                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                </span>
                                                 <h2>{Dashboarddata.open_tracking_count}</h2>
                                             </div>
-
                                             <h5>Open Tickets</h5>
-
                                         </div>
                                     </div>
-                                    <div className="col-md-4 CardDesigns mb-3"
+
+                                    <div
+                                        className={`col-md-4 CardDesigns mb-3 ${ActiveBars === "Inprocess" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("Inprocess")}
                                     >
-                                        <div className="card  p-3">
-                                            <div className='InnercardImgData'>
-                                                <span className='secondCard'><img src={Cardimgs} /></span>
+                                        <div className="card p-3">
+                                            <div className="InnercardImgData">
+                                                <span className="secondCard">
+                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                </span>
                                                 <h2>{Dashboarddata.inprocess_tracking_count}</h2>
-
                                             </div>
                                             <h5>Inprogress Tickets</h5>
                                         </div>
                                     </div>
 
-                                    <div className="col-md-4 mb-3"
+
+                                    {/* <div
+                                        className={`col-md-4 mb-3 ${ActiveBars === "Completed" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("Completed")}
                                     >
                                         <div className="card p-3">
-                                            <div className='InnercardImgData'>
-                                                <span className='fourCard'><img src={Cardimgs} /></span>
+                                            <div className="InnercardImgData">
+                                                <span className="fourCard">
+                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                </span>
+                                                <h2>{Dashboarddata.close_tracking_count}</h2>
+                                            </div>
+                                            <h5>Completed Tickets</h5>
+                                        </div>
+                                    </div> */}
+
+
+                                    <div
+                                        className={`col-md-4 mb-3 ${ActiveBars === "Close" ? "active-card" : ""}`}
+                                        onClick={() => handleButtonClick("Close")}
+                                    >
+                                        <div className="card p-3">
+                                            <div className="InnercardImgData">
+                                                <span className="fourCard">
+                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                </span>
                                                 <h2>{Dashboarddata.close_tracking_count}</h2>
                                             </div>
                                             <h5>Closed Tickets</h5>
                                         </div>
                                     </div>
 
-
-                                    <div className="col-md-4 mb-3"
+                                    <div
+                                        className={`col-md-4 mb-3 ${ActiveBars === "Reopen" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("Reopen")}
                                     >
                                         <div className="card p-3">
-                                            <div className='InnercardImgData'>
-                                                <span className='threeCard' ><img src={Cardimgs} /></span>
+                                            <div className="InnercardImgData">
+                                                <span className="threeCard">
+                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                </span>
                                                 <h2>{Dashboarddata.reopen_tracking_count}</h2>
                                             </div>
                                             <h5>Reopen Tickets</h5>
                                         </div>
                                     </div>
-
 
 
 
@@ -285,37 +325,45 @@ const HomeScreen = () => {
                                         <p className='Borderpara'></p>
                                         <div className="Groupbtn mb-3">
                                             <button
-                                                className={`btn ${activeButton === "All" ? "active" : ""}`}
+                                                className={`btn ${ActiveBars === "All" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("All")}
                                             >
                                                 All
                                             </button>
                                             <button
-                                                className={`btn ${activeButton === "Open" ? "active" : ""}`}
+                                                className={`btn ${ActiveBars === "Open" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Open")}
                                             >
                                                 Open
                                             </button>
                                             <button
-                                                className={`btn ${activeButton === "Inprocess" ? "active" : ""}`}
+                                                className={`btn ${ActiveBars === "Inprocess" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Inprocess")}
                                             >
-                                                Inprocess
+                                                Inprogress
                                             </button>
+
                                             <button
-                                                className={`btn ${activeButton === "Completed" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Completed")}
+                                                className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Close")}
                                             >
                                                 Closed
                                             </button>
+
+                                            {/* <button
+                                                className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Close")}
+                                            >
+                                                Closed
+                                            </button> */}
                                             <button
-                                                className={`btn ${activeButton === "Reopen" ? "active" : ""}`}
+                                                className={`btn ${ActiveBars === "Reopen" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Reopen")}
                                             >
                                                 Reopened
                                             </button>
                                             {/* <button
-                                                className={`btn ${activeButton === "Resolved" ? "active" : ""}`}
+                                                className={`btn ${ActiveBars === "Resolved" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Resolved")}
                                             >
                                                 Resolved
@@ -327,7 +375,7 @@ const HomeScreen = () => {
                                         <div className='ContainsTickets'>
 
                                             <div className='containsticketprocess'>
-                                                <span className="priority-label inprocess">Inprocess</span>
+                                                <span className="priority-label inprocess">Inprogress</span>
 
                                                 <div className="ticket-item mb-2">
 
@@ -525,6 +573,9 @@ const HomeScreen = () => {
 
                 </div>
             </div>
+            <Tooltip id="submit-tooltip" place="top" />
+            <Tooltip id="hover-tooltip" place="top" />
+
 
         </>
 
