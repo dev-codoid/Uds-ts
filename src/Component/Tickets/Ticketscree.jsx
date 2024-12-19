@@ -38,13 +38,12 @@ const Ticketscreen = () => {
     const itemsPerPage = page_size; // Number of items per page
     const totalItems = total_count;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const [page, setpage] = useState(1)
+    const [page, setpage] = useState(1);
+    const [ticketcreatepopup  , setticketcreatepopup] = useState(false)
 
 
     const handleClick = (pageNumber) => {
         const newPageIndex = parseInt(pageNumber, 10);
-        console.log(newPageIndex, "newPageIndex");
-
         setpage(newPageIndex);
     };
     const capitalizeEachWord = (str) => {
@@ -53,6 +52,7 @@ const Ticketscreen = () => {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
             .join(' '); // Join the words back into a string
     };
+
 
 
     const Ticketspayloads = {
@@ -219,7 +219,7 @@ const Ticketscreen = () => {
                                     }}
                                 >
                                     {data.status == 0 ? "Open" :
-                                        data.status == 1 ? "Inprogress" :
+                                        data.status == 1 ? "In progress" :
                                             data.status == 2 ? "Completed" :
                                                 data.status == 3 ? "Close" : "Reopen"}
                                 </button>
@@ -268,6 +268,7 @@ const Ticketscreen = () => {
         settheTicketIDs(data.id)
         Navigate("/tickets/ticketview");
     };
+     
 
     return (
         <>
@@ -303,26 +304,42 @@ const Ticketscreen = () => {
                                                         className={`btn ${status === 0 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(0)}
                                                     >
-                                                        Open Tickets
+                                                        Open 
                                                     </button>
                                                     <button
                                                         className={`btn ${status === 1 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(1)}
                                                     >
-                                                        Review Tickets
+                                                            In progress 
                                                     </button>
                                                     <button
                                                         className={`btn ${status === 2 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(2)}
                                                     >
-                                                        Closed Tickets
+                                                        Completed 
                                                     </button>
+
+                                                    <button
+                                                        className={`btn ${status === 3 ? "active" : ""}`}
+                                                        onClick={() => handlestatusClick(3)}
+                                                    >
+                                                        Closed 
+                                                    </button>
+
+                                                    <button
+                                                        className={`btn ${status === 4 ? "active" : ""}`}
+                                                        onClick={() => handlestatusClick(4)}
+                                                    >
+                                                        Reopen 
+                                                    </button>
+
+
                                                 </div>
 
                                                 <div className='searchfields'>
                                                     <div className='searchfills'>
                                                         <img src={searchimg} />
-                                                        <input type='text' placeholder='Search' onChange={(e) => { searchFunction(e) }} />
+                                                        <input type='text' placeholder='Search...' onChange={(e) => { searchFunction(e) }} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -382,12 +399,12 @@ const Ticketscreen = () => {
                                         </button>
 
                                         <button
-                                            className="page-number"
+                                            className={`page-number ${page === 1  ?"active":""}`}
                                             onClick={() => handleClick(1)}
                                             style={{
                                                 // backgroundColor: page === 1 ? "hsla(207, 61%, 33%, 1)" : "#fff",
-                                                color: page === 1 ? "hsla(207, 61%, 33%, 1)" : "hsla(207, 61%, 33%, 1)",
-                                                border: page === 1 ? "1px solid hsla(207, 61%, 33%, 1)" : "1px solid #ddd",
+                                                color: page == 1 ? "hsla(207, 61%, 33%, 1)" : "hsla(207, 61%, 33%, 1)",
+                                                border: page == 1 ? "1px solid hsla(207, 61%, 33%, 1)" : "1px solid #ddd",
 
                                             }}
                                         >

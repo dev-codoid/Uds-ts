@@ -11,6 +11,7 @@ import { putcreatepasswordDetails } from "../../ReactQuery/reactQuery";
 import validator from "validator";
 import eyeopenimg from "../../assets/Login/Group 422.svg"
 import eyecloseimg from "../../assets/Login/Vector (8).svg"
+import upperbackimg from "../../assets/Login/illustrations-57 1.svg"
 
 
 
@@ -140,6 +141,8 @@ const PasswordCompo = () => {
                 <div className={styles.MainLeft}>
                     <div className={styles.leftSection}>
                         <img src={loginstyle} />
+                        <img src={upperbackimg} />
+
                     </div>
 
                 </div>

@@ -44,8 +44,8 @@ const HomeScreen = () => {
 
 
     const Ticketsdash = {
-        search: search,
-        page_size: 20,
+        // search: search,
+        // page_size: 20,
     };
     const { data: DashRefeshing, refetch: ticketDashRefetchcalls } = useQuery({
         queryKey: ["Dashboardparameters", search],
@@ -243,25 +243,44 @@ const HomeScreen = () => {
                                                 </span>
                                                 <h2>{Dashboarddata.inprocess_tracking_count}</h2>
                                             </div>
-                                            <h5>Inprogress Tickets</h5>
+                                            <h5>In progress Tickets</h5>
                                         </div>
                                     </div>
 
 
-                                    {/* <div
+                                    <div
                                         className={`col-md-4 mb-3 ${ActiveBars === "Completed" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("Completed")}
                                     >
                                         <div className="card p-3">
                                             <div className="InnercardImgData">
-                                                <span className="fourCard">
+                                                <span className="threeCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
                                                 <h2>{Dashboarddata.close_tracking_count}</h2>
                                             </div>
                                             <h5>Completed Tickets</h5>
                                         </div>
-                                    </div> */}
+                                    </div>
+
+
+
+                                    <div
+                                        className={`col-md-4 mb-3 ${ActiveBars === "Reopen" ? "active-card" : ""}`}
+                                        onClick={() => handleButtonClick("Reopen")}
+                                    >
+                                        <div className="card p-3">
+                                            <div className="InnercardImgData">
+                                                <span className="FrstCard">
+                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                </span>
+                                                <h2>{Dashboarddata.reopen_tracking_count}</h2>
+                                            </div>
+                                            <h5>Reopen Tickets</h5>
+                                        </div>
+                                    </div>
+
+
 
 
                                     <div
@@ -278,25 +297,6 @@ const HomeScreen = () => {
                                             <h5>Closed Tickets</h5>
                                         </div>
                                     </div>
-
-                                    <div
-                                        className={`col-md-4 mb-3 ${ActiveBars === "Reopen" ? "active-card" : ""}`}
-                                        onClick={() => handleButtonClick("Reopen")}
-                                    >
-                                        <div className="card p-3">
-                                            <div className="InnercardImgData">
-                                                <span className="threeCard">
-                                                    <img src={Cardimgs} alt="Card Icon" />
-                                                </span>
-                                                <h2>{Dashboarddata.reopen_tracking_count}</h2>
-                                            </div>
-                                            <h5>Reopen Tickets</h5>
-                                        </div>
-                                    </div>
-
-
-
-
 
                                 </div>
 
@@ -340,27 +340,29 @@ const HomeScreen = () => {
                                                 className={`btn ${ActiveBars === "Inprocess" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Inprocess")}
                                             >
-                                                Inprogress
+                                                In progress
                                             </button>
+
+
 
                                             <button
-                                                className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Close")}
+                                                className={`btn ${ActiveBars === "Completed" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Completed")}
                                             >
-                                                Closed
+                                                Completed
                                             </button>
-
-                                            {/* <button
-                                                className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Close")}
-                                            >
-                                                Closed
-                                            </button> */}
                                             <button
                                                 className={`btn ${ActiveBars === "Reopen" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Reopen")}
                                             >
                                                 Reopened
+                                            </button>
+
+                                            <button
+                                                className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Close")}
+                                            >
+                                                Closed
                                             </button>
                                             {/* <button
                                                 className={`btn ${ActiveBars === "Resolved" ? "active" : ""}`}
@@ -375,7 +377,7 @@ const HomeScreen = () => {
                                         <div className='ContainsTickets'>
 
                                             <div className='containsticketprocess'>
-                                                <span className="priority-label inprocess">Inprogress</span>
+                                                <span className="priority-label inprocess">In progress</span>
 
                                                 <div className="ticket-item mb-2">
 

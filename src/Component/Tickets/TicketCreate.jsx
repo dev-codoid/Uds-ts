@@ -41,8 +41,7 @@ const TicketCreate = () => {
         client_id: ownerDetails.id,
         remarks: "",
         issue_category_id: "",
-        client_priority:""
-        // Priority: ""
+        priority: ""
 
     }
     const [Ticketdata, setticketdata] = useState(normaldata);
@@ -654,7 +653,7 @@ const TicketCreate = () => {
                                                     setticketdata({
                                                         ...Ticketdata,
                                                         sub_category_id: e.value,
-                                                        client_priority:e.priorityvalu
+                                                        priority:e.priorityvalu
                                                     })
                                                     setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
 
@@ -670,7 +669,7 @@ const TicketCreate = () => {
                                         </div>
 
 
-                                        <div className='col-6 mt-3'>
+                                        {/* <div className='col-6 mt-3'>
                                             <label className="form-label LabelRemove" >
                                                 Priority
                                             </label>
@@ -680,7 +679,7 @@ const TicketCreate = () => {
                                                 value={Priorityvalues}
                                                 isDisabled
                                             />
-                                        </div>
+                                        </div> */}
 
                                         <div className='col-6 mt-3'>
                                             <label className="form-label LabelRemove" >
@@ -696,7 +695,7 @@ const TicketCreate = () => {
 
                                                     setticketdata({
                                                         ...Ticketdata,
-                                                        client_priority: e.value
+                                                        priority: e.value
                                                     })
 
                                                    }}

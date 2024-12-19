@@ -12,6 +12,12 @@ table {
 
 
     thead {
+
+        // z-index: 3;
+        // position: fixed;
+        // width: 78.6%;
+        // background: #F1F7FA;
+        // display: inherit;
         tr {
             th {
                 background-color: #F1F7FA;
@@ -43,12 +49,18 @@ table {
         text-align: left;
         width: auto !important;
         padding-left: 11px;
+        overflow: auto;
 
         p {
             margin: 0 !important;
         }
 
     }
+
+    // tbody{
+    //     position: relative;
+    //     top: 41px;
+    // }
 
     td,
     th tbody tr {
@@ -114,6 +126,7 @@ table {
 
 }
 
+
 .ViewListtable {
     cursor: pointer;
 }
@@ -123,8 +136,14 @@ table {
     padding: 18px 16px 6px 10px;
 
     .card {
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1019607843);
+        border: none;
+        box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.1);
         border-radius: 12px;
+
+        .col {
+            padding: 12px 0px;
+
+        }
     }
 
     .FilertParts {
@@ -209,14 +228,16 @@ table {
                 width: 287px;
                 background: white;
                 border-radius: 5px;
-                height: 31px;
+                height: 36px;
                 position: relative;
+                border: 1px solid hsla(0, 0%, 85%, 1);
 
                 img {
-                    width: 17px;
-                    margin-left: 9px;
-                    margin-top: 5px;
+                    width: 14px;
+                    margin-left: 11px;
+                    margin-top: 11px;
                     margin-right: 8px;
+
 
                 }
 
@@ -225,8 +246,13 @@ table {
                     background: transparent;
                     border: none;
                     position: absolute;
+                    color: #000;
+                    font-size: 15px;
+                }
 
-
+                ::placeholder {
+                    font-size: 12px;
+                    color: #000;
                 }
 
                 input:focus {
@@ -330,6 +356,7 @@ table {
 
         }
     }
+
 
     .pagination-and-goto {
         display: flex;
@@ -989,6 +1016,7 @@ table {
         .card {
             border: none;
             border-radius: 8px;
+            // background-color: hsla(195, 40%, 98%, 1);
             background-color: hsla(195, 40%, 98%, 1);
             box-shadow: none !important;
             display: flex;
@@ -1169,28 +1197,31 @@ table {
     }
 }
 
-.viewTicketDocuments{
+.viewTicketDocuments {
     width: 93px;
     height: 60px;
     display: flex;
     gap: 17px;
     border: 1px solid var(--mainColor);
     padding: 4px;
-img{
-     cursor: pointer;
-     width: 100%;
-     height: 100%;
- }
+
+    img {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
 
 }
+
 .Notifyimgs {
     position: absolute;
     z-index: 9;
     width: 132px;
     height: 103px;
     top: -10%;
-  
+
     left: 39%;
+
     img {
         width: 100%;
         height: 100%;
@@ -1297,152 +1328,183 @@ input[type=number] {
     margin: 0;
 }
 
-.accordion{
+.accordion {
     padding: 0 !important;
-    .HeaderCardsticketdetails{
+
+    .HeaderCardsticketdetails {
         background-color: hsla(212, 56%, 47%, 1) !important;
         border-radius: 12px !important;
-        h5{
+
+        h5 {
             color: #fff !important;
         }
-        button{
+
+        button {
             width: 100%;
             color: #fff !important;
         }
     }
-    button:focus{
+
+    button:focus {
         box-shadow: none !important;
         text-decoration: none !important;
-   
+
     }
-    .btn:focus{
+
+    .btn:focus {
         box-shadow: none !important;
         text-decoration: none !important;
     }
 }
-.FileAttachments{
-     display: flex;
-     justify-content: space-between;
-     width: 71%;
-     .Attachmentslist{
+
+.FileAttachments {
+    display: flex;
+    justify-content: space-between;
+    width: 71%;
+
+    .Attachmentslist {
         display: flex;
         gap: 4px;
         justify-content: center;
         align-items: center;
-    
-     }
+
+    }
 }
-.RemarksCards{
+
+.RemarksCards {
     margin-top: 22px !important;
 }
-#collapseOne{
+
+#collapseOne {
     border-radius: 12px;
     background: rgb(248, 251, 252);
     margin-top: -15px;
 }
-.Downloadimgoptions{display: flex;
+
+.Downloadimgoptions {
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
 
-     img{
+    img {
         width: 13px;
         height: 13px;
-     }
+    }
 }
 
 $active-color: #ff9800; // Highlight color for active feedback
-$default-color: #ddd;   // Default color for inactive options
-$text-color: #aaa;      // Text color for inactive
+$default-color: #ddd; // Default color for inactive options
+$text-color: #aaa; // Text color for inactive
+
+.Satisfactioncard {
+    background-color: #fff !important;
+}
 
 .feedback {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 20px 0;
+    gap: 64px;
 
-  .feedback-option {
-    text-align: center;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: all 0.3s ease;
-    gap: 20px;
+
+    .feedback-option {
+        text-align: center;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+
+        .active {
+            span {
+                color: hsla(15, 88%, 59%, 1) !important;
+
+            }
+        }
+
+        img {
+            width: 61px;
+            height: 61px;
+
+        }
+
+        &::before {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: $default-color;
+            transition: color 0.3s ease;
+        }
+
+        &.bad::before {
+            content: "\1F61E"; // 😞 Bad (Unicode)
+        }
+
+        &.acceptable::before {
+            content: "\1F610"; // 😐 Neutral (Unicode)
+        }
+
+        &.good::before {
+            content: "\1F642"; // 🙂 Smiling face (Unicode)
+        }
+
+        &.excellent::before {
+            content: "\1F929"; // 🤩 Starry-eyed (Unicode)
+        }
+
+        span {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: $text-color;
+        }
+
+        &.active {
+            opacity: 1;
+
+            &::before {
+                color: $active-color;
+            }
+
+            span {
+                color: hsla(15, 88%, 59%, 1);
+            }
+        }
+    }
+}
+
+.FeedbackFieldstatifications {
     display: flex;
     flex-direction: column;
-img{
-    width: 61px;
-    height: 61px;
 
-}
-    &::before {
-      display: block;
-      font-size: 2rem;
-      margin-bottom: 5px;
-      color: $default-color;
-      transition: color 0.3s ease;
-    }
-
-    &.bad::before {
-      content: "\1F61E"; // 😞 Bad (Unicode)
-    }
-
-    &.acceptable::before {
-      content: "\1F610"; // 😐 Neutral (Unicode)
-    }
-
-    &.good::before {
-      content: "\1F642"; // 🙂 Smiling face (Unicode)
-    }
-
-    &.excellent::before {
-      content: "\1F929"; // 🤩 Starry-eyed (Unicode)
-    }
-
-    span {
-      display: block;
-      font-size: 0.9rem;
-      color: $text-color;
-    }
-
-    &.active {
-      opacity: 1;
-
-      &::before {
-        color: $active-color;
-      }
-
-      span {
-        color: $active-color;
-        font-weight: bold;
-      }
-    }
-  }
-}
-
-.FeedbackFieldstatifications{
-    display: flex;
-    flex-direction: column;
-    textarea{
+    textarea {
         height: 112px;
         border-radius: 10px;
         border: 1px solid hsla(0, 0%, 85%, 1);
         padding: 12px;
         box-shadow: none !important;
     }
-    textarea:focus{
+
+    textarea:focus {
         box-shadow: none !important;
         outline: none !important;
     }
 }
+
 .rotate-icon {
-  transition: transform 0.3s ease; /* Smooth rotation */
+    transition: transform 0.3s ease;
+    /* Smooth rotation */
 }
 
 .card-header[aria-expanded="true"] .rotate-icon {
-  transform: rotate(180deg); /* Rotates 180 degrees when expanded */
+    transform: rotate(180deg);
+    /* Rotates 180 degrees when expanded */
 }
 
-.remarksdocumentsimg{
+.remarksdocumentsimg {
     display: flex;
     gap: 20px;
 }
@@ -1453,23 +1515,23 @@ img{
     flex-direction: column;
     align-items: center;
     margin: 20px;
-  }
-  
-  .timeline {
+}
+
+.timeline {
     display: flex;
     align-items: center;
     width: 100%;
     max-width: 800px;
     position: relative;
-  }
-  
-  .timeline-event {
+}
+
+.timeline-event {
     display: flex;
     align-items: center;
     position: relative;
-  }
-  
-  .timeline-circle {
+}
+
+.timeline-circle {
     width: 20px;
     height: 20px;
     background-color: #ccc;
@@ -1477,35 +1539,43 @@ img{
     border: 2px solid #ddd;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
-  }
-  
-  .timeline-circle.active {
+}
+
+.timeline-circle.active {
     background-color: #007bff;
-    border-color: #0056b3;
+    border-color: #0056b3 !important;
     transform: scale(1.2);
-  }
-  
-  .timeline-line {
+    border: 6px solid;
+}
+
+.timeline-line {
     height: 2px;
     width: 100px;
     background-color: #ccc;
-  }
-  
-  .event-details {
+
+}
+
+// .timeline-line.active{
+//     background-color: #0056b3 !important;
+// }
+
+
+.event-details {
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #ddd;
+    // border: 1px solid #ddd;
     width: 80%;
     text-align: center;
-  }
-  
-  .event-details h3 {
+    transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
+
+}
+
+.event-details h3 {
     font-size: 18px;
     margin-bottom: 10px;
-  }
-  
-  .event-details p {
+}
+
+.event-details p {
     font-size: 14px;
     color: #333;
-  }
-  
+}

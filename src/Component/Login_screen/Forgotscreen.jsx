@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { postforgotpassword } from "../../ReactQuery/reactQuery";
 import validator from "validator";
+import upperbackimg from "../../assets/Login/illustrations-57 1.svg"
+
 
 
 const Forgotscreen = () => {
@@ -73,6 +75,8 @@ const Forgotscreen = () => {
                 <div className={styles.MainLeft}>
                     <div className={styles.leftSection}>
                         <img src={loginstyle} />
+                        <img src={upperbackimg} />
+
                     </div>
 
                 </div>

@@ -24,6 +24,10 @@ import excellentimg from "../../assets/Dashboard/Union (6).svg";
 
 
 
+import badactiveimg from "../../assets/Dashboard/Vector (18).svg";
+import Acceptanceactiveimg from "../../assets/Dashboard/Vector (19).svg";
+import goodactiveimg from "../../assets/Dashboard/Union (9).svg";
+import excellentactiveimg from "../../assets/Dashboard/Union (10).svg"; /// active
 
 
 
@@ -61,7 +65,7 @@ const TicketViews = () => {
 
         { date: "2022-06-01", title: "Event 4", description: "Description for event 4" },
         { date: "2023-01-01", title: "Event 5", description: "Description for event 5" },
-   
+
     ];
 
     const [selectedEvent, setSelectedEvent] = useState(0);
@@ -76,10 +80,10 @@ const TicketViews = () => {
 
     // Feedback options data
     const feedbackOptions = [
-        { id: "bad", label: "Bad", imgSrc: badimg },
-        { id: "acceptable", label: "Acceptable", imgSrc: Acceptanceimg },
-        { id: "good", label: "Good", imgSrc: goodimg },
-        { id: "excellent", label: "Excellent", imgSrc: excellentimg },
+        { id: "bad", label: "Bad", imgSrc: activeFeedback =="bad"? badactiveimg :  badimg },
+        { id: "acceptable", label: "Acceptable", imgSrc:activeFeedback =="acceptable"? Acceptanceactiveimg:  Acceptanceimg },
+        { id: "good", label: "Good", imgSrc: activeFeedback =="good"? goodactiveimg:  goodimg },
+        { id: "excellent", label: "Excellent", imgSrc:activeFeedback =="excellent"?  excellentimg :  excellentactiveimg},
     ];
 
 
@@ -401,7 +405,7 @@ const TicketViews = () => {
                                                 <div className="d-flex justify-content-between">
                                                     <span>
                                                         <p className='ticketheader Headerticket'>Status:</p>{" "}
-                                                        <span className="text-success">{ticketretrieve.status == 0 ? "Open" : ticketretrieve.status == 1 ? "Inprogress" : ticketretrieve.status == 2 ? "Completed" : ticketretrieve.status == 3 ? "Close":"Reopen" }</span>
+                                                        <span className="text-success">{ticketretrieve.status == 0 ? "Open" : ticketretrieve.status == 1 ? "In progress" : ticketretrieve.status == 2 ? "Completed" : ticketretrieve.status == 3 ? "Close" : "Reopen"}</span>
                                                     </span>
 
                                                 </div>
@@ -487,7 +491,7 @@ const TicketViews = () => {
 
 
 
-                                    <div className="timeline-container">
+                                    <div className="timeline-container mt-4">
                                         <div className="timeline">
                                             {events.map((event, index) => (
                                                 <div key={index} className="timeline-event">
@@ -495,7 +499,8 @@ const TicketViews = () => {
                                                         className={`timeline-circle ${selectedEvent === index ? "active" : ""}`}
                                                         onClick={() => handleClick(index)}
                                                     />
-                                                    {index < events.length - 1 && <div className="timeline-line" />}
+
+                                                    {index < events.length - 1 && <div className={`timeline-line ${selectedEvent === index && index !== 0  ? "active" : ""}`} />}
                                                 </div>
                                             ))}
                                         </div>
@@ -669,8 +674,8 @@ const TicketViews = () => {
                                             </>
                                             : <>--</>}
                                     </div>
-                                    {ticketretrieve?.status == 1 ?
-                                        <div className="card shadow-sm p-3 mb-3">
+                                    {ticketretrieve?.status == 1 || ticketretrieve?.status == 2 ?
+                                        <div className="card Satisfactioncard shadow-sm p-3 mb-3">
                                             <p className="mb-1 cardpara heaerspara">
                                                 <span className='ticketheader ticketheadercards'>Satisfaction</span>
                                             </p>

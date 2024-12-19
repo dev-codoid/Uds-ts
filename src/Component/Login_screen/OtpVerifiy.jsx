@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { postAdminLogin, postforgotpassword, postotpverifications } from "../../ReactQuery/reactQuery";
 import validator from "validator";
+import upperbackimg from "../../assets/Login/illustrations-57 1.svg"
+
 
 const OtpVerifiy = () => {
     const { setIsNewUser, isNewUser, setOwnerDetails, setIsLoading, setSelectedLocationData, setOwnerinnerDetails, setForgotEmailId, ForgotEmailId,
@@ -55,7 +57,9 @@ const OtpVerifiy = () => {
 
         // Cleanup function to clear the interval if the component unmounts
         return () => clearInterval(countdown);
-    }, []); // Empty dependency array ensures this only runs once when the component mounts
+    }, [isResendDisabled]); // Empty dependency array ensures this only runs once when the component mounts
+
+     
     const handleForgotpassword = () => {
         const otpValue = otp.join("");
         if (otpValue.length === 6) {
@@ -81,6 +85,7 @@ const OtpVerifiy = () => {
             setIsLoading(false);
             setForgotEmailId(ForgotEmailId)
             setIsResendDisabled(true);
+            setTimer(30);
             toast.success(data.data.message);
         },
         onError: (error) => {
@@ -156,6 +161,8 @@ const OtpVerifiy = () => {
             <div className={styles.MainLeft}>
                 <div className={styles.leftSection}>
                     <img src={loginstyle} />
+                    <img src={upperbackimg} />
+
                 </div>
 
             </div>
@@ -226,7 +233,6 @@ const OtpVerifiy = () => {
 
                         </div>
 
-                        <p className={styles.forgotpassword} onClick={() => { navigate("/forgotpassword") }}>Forgot Password ?</p>
                         <button type="submit" className={styles.loginButton} onClick={onFormSubmit}>
                             LOGIN
                         </button>

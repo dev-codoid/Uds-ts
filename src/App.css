@@ -9,7 +9,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #215988;
+  background: hsla(0, 0%, 96%, 1);
   border-radius: 10px;
 }
 p{

@@ -10,6 +10,7 @@ import personimg from "../../assets/Dashboard/Union (1).svg"
 
 import Dashboardwhiteimg from "../../assets/Dashboard/Vector (13).svg"
 import Tciketingwhiteimg from "../../assets/Dashboard/Vector (14).svg"
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Dashboard = () => {
   const {
@@ -125,7 +126,10 @@ const Dashboard = () => {
                   localStorage.removeItem("Ticking-store");
                   window.location.href = "/login";
                   window.reload();
-                }}>Logout</a>
+                }}>
+                     <LogoutIcon/>
+                </a>
+             
               </div>
             )}
 

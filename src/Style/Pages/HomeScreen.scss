@@ -15,7 +15,8 @@
 .HomeConatiners {
     width: 100%;
     // height: calc(100vh - 20px);
-    height: calc(100vh - 60px);
+    // height: calc(100vh - 60px);
+    height: calc(100vh - 35px);
     display: flex;
     flex-direction: column;
     padding: 0px 17px;
@@ -358,7 +359,7 @@
                     text-align: left;
                     color: #000;
                     font-size: 45px;
-                    padding-left: 90px;
+                    // padding-left: 90px;
                 }
 
                 .CardDesigns {
@@ -368,7 +369,7 @@
 
                 .InnercardImgData {
                     display: flex;
-                    gap: 20px;
+                    gap: 27px;
                     justify-content: space-between;
 
                     .FrstCard {
@@ -386,7 +387,7 @@
                     }
 
                     .fourCard {
-                        background-color: hsla(11, 85%, 54%, 1);
+                        background-color: hsla(140, 82%, 39%, 1);
                     }
 
                     .fiveCard {
@@ -521,11 +522,13 @@
                 // align-items: center;
                 // flex-direction: column;
                 gap: 10px;
-                background: hsl(240deg 79.26% 21.64%);
+                background-image: url("../../assets/Dashboard/22746.svg");
+                // background: hsl(240deg 79.26% 21.64%);
                 // background: linear-gradient(235deg, #005EB0, #00004780);
                 color: white;
                 border-radius: 12px;
-
+                background-repeat: no-repeat;
+                background-size: cover;
 
                 p {
                     font-weight: 500;
@@ -655,7 +658,7 @@
                 }
 
                 .Borderpara {
-                    border-bottom: 1px solid gray;
+                    border-bottom: 1px solid hsla(0, 0%, 85%, 1);
                 }
 
                 .card {
@@ -788,7 +791,7 @@
                     h5 {
                         color: #000;
                         font-weight: 600;
-                        border-bottom: 1px solid gray;
+                        border-bottom: 1px solid hsla(0, 0%, 85%, 1);
                         padding-bottom: 20px;
 
                     }
@@ -1225,4 +1228,7 @@
 
 .Nofiyimages {
     cursor: pointer;
+}
+.btn:focus{
+    box-shadow:  none !important;
 }

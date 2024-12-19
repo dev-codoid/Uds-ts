@@ -47,6 +47,11 @@ const ReactTable = ({ columns, data, MakeCreate, ViewParts }) => {
                                     style={{
                                         cursor: (column.Header === "Created date" || column.Header === "Status" || column.Header === "Priority") ? 'pointer' : 'default'
                                     }}
+
+
+                                    
+        
+
                                 >
 
                                     {column.render("Header")}
