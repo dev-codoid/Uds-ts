@@ -20,6 +20,7 @@
     "react-horizontal-timeline": "^1.5.3",
     "react-router-dom": "^7.0.2",
     "react-select": "^5.8.3",
+    "react-shimmer-effects": "^1.0.3",
     "react-table": "^7.8.0",
     "react-timeline-horizontal": "^1.0.0",
     "react-toastify": "^10.0.6",

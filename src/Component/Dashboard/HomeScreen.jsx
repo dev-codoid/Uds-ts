@@ -18,9 +18,11 @@ import PhoneCall from "../../assets/Dashboard/Union (2).svg"
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction } from "../../ReactQuery/reactQuery";
-import { dashboardTicketapis } from "../../Api/Api";
+import { dashboardTicketapis, Ticketapis } from "../../Api/Api";
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from "react-tooltip";
+import { ShimmerTitle } from "react-shimmer-effects";
+
 
 
 
@@ -31,7 +33,8 @@ const HomeScreen = () => {
         setToggleBars, setSelectedSideBarTab,
         SetActiveBars,
         ActiveBars,
-        ownerDetails
+        ownerDetails, setIsLoading
+
 
     } = useStore();
     const [search, setsearch] = useState("");
@@ -39,7 +42,7 @@ const HomeScreen = () => {
     const [data, setdata] = useState([]);
     const Navigate = useNavigate()
     const [activeButton, setActiveButton] = useState(ActiveBars);
-
+    const [TicketDatas, setTicketDatas] = useState([])
 
 
 
@@ -58,6 +61,33 @@ const HomeScreen = () => {
         },
     });
 
+
+    const TicketPayloadsPass = {
+        search: "",
+        page_size: 10,
+        page: 1,
+        status: activeButton == "All" ? "" : activeButton == "Open" ? "0" : activeButton == "Inprocess" ? "1" :
+            activeButton == "Completed" ? "2" : activeButton == "Close" ? "3" : activeButton == "Reopen" && "4",
+    };
+
+
+
+    const { data: TicketRecordlist, refetch: ticketrecordlisted } = useQuery({
+        queryKey: ["TicketDataCalled", ActiveBars],
+        queryFn: async () => {
+            setIsLoading(true);
+            const response = await getAPICallFunction({
+                url: Ticketapis,
+                payload: TicketPayloadsPass,
+            });
+            setIsLoading(false);
+            return response;
+        },
+    });
+
+
+
+
     const HandleTicketraise = () => {
         Navigate("/tickets/raiseticket");
         setSelectedSideBarTab("Tickets")
@@ -70,15 +100,21 @@ const HomeScreen = () => {
 
 
     useEffect(() => {
-        if (DashRefeshing) {
-            setdashboarddata(DashRefeshing.data);
-            // settotalpagecount(DashRefeshing.total_count)
-            setdata(DashRefeshing.data.data)
+        if (TicketRecordlist) {
+            setTicketDatas(TicketRecordlist.data);
         }
 
-    }, [DashRefeshing])
+    }, [TicketRecordlist])
 
-    console.log(ownerDetails, "ownerDetails");
+    // useEffect(() => {
+    //     if (DashRefeshing) {
+    //         setdashboarddata(DashRefeshing.data);
+    //         // settotalpagecount(DashRefeshing.total_count)
+    //         setdata(DashRefeshing.data.data)
+    //     }
+
+    // }, [DashRefeshing])
+
 
 
     return (
@@ -134,7 +170,7 @@ const HomeScreen = () => {
 
                                                                     </div>
 
-                                                                    <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}  
+                                                                    <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}
                                                                     //   onClick={() => window.location.href = `tel:${item.phone_number}`}
                                                                     >
                                                                         <img src={PhoneCall} />
@@ -248,7 +284,7 @@ const HomeScreen = () => {
                                     </div>
 
 
-                                    <div
+                                    {/* <div
                                         className={`col-md-4 mb-3 ${ActiveBars === "Completed" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("Completed")}
                                     >
@@ -261,8 +297,7 @@ const HomeScreen = () => {
                                             </div>
                                             <h5>Completed Tickets</h5>
                                         </div>
-                                    </div>
-
+                                    </div>*/}
 
 
                                     <div
@@ -376,83 +411,59 @@ const HomeScreen = () => {
 
                                         <div className='ContainsTickets'>
 
-                                            <div className='containsticketprocess'>
-                                                <span className="priority-label inprocess">In progress</span>
+                                            {TicketDatas.length != 0 ?
+                                                <>
+                                                    {TicketDatas != undefined && TicketDatas.map((item, index) => {
+                                                        return (
+                                                            <>
+                                                                <div className='containsticketprocess mt-3' key={index}>
+                                                                    <span className="priority-label inprocess"
 
-                                                <div className="ticket-item mb-2">
+                                                                        style={{
+                                                                            background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
+                                                                                item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
+                                                                                    item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
+                                                                                        item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
+                                                                                            "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
+                                                                            color: "#fff",
+                                                                        }}
 
-                                                    <div >
-                                                        <img src={ApprovedTickets} />
-                                                    </div>
-                                                    <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
-                                                        <div className='ticket-itemCols'>
+                                                                    >
 
-                                                            <h6>House keeping is not arriving</h6>
-                                                            <p className="text-muted DateFields mb-0">Created Date <span>12-04-2024</span></p>
-                                                        </div>
+                                                                        {item.status == 0 ? "Open" :
+                                                                            item.status == 1 ? "In progress" :
+                                                                                item.status == 2 ? "Completed" :
+                                                                                    item.status == 3 ? "Close" : "Reopen"}</span>
 
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                                    <div className="ticket-item mb-2">
 
-                                            <div className='containsticketprocess'>
-                                                <span className="priority-label complete">Completed</span>
-
-
-                                                <div className="ticket-item mb-2">
-                                                    <div >
-                                                        <img src={cancelTickets} />
-                                                    </div>
-                                                    <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
-                                                        <div className='ticket-itemCols'>
-                                                            <h6>Security not wear uniform</h6>
-                                                            <p className="text-muted DateFields mb-0">Created Date <span>12-04-2024</span></p>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className='containsticketprocess'>
-                                                <span className="priority-label resolve-priority">Resolved</span>
+                                                                        <div >
+                                                                            <img src={
+                                                                                item.status == 0 ? cancelTickets :
+                                                                                    item.status == 1 ? arrivingTickets :
+                                                                                        item.status == 2 ? ApprovedTickets :
+                                                                                            item.status == 3 ? ApprovedTickets : arrivingTickets
 
 
-                                                <div className="ticket-item mb-2">
-                                                    <div >
-                                                        <img src={arrivingTickets} />
-                                                    </div>
-                                                    <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
+                                                                            } />
+                                                                        </div>
+                                                                        <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
+                                                                            <div className='ticket-itemCols'>
 
-                                                        <div className='ticket-itemCols'>
-                                                            <h6>House keeping Attendance Issue</h6>
-                                                            <p className="text-muted DateFields mb-0">Created Date <span>12-04-2024</span></p>                                                </div>
+                                                                                <h6>{item?.sub_category_id?.name}</h6>
+                                                                                <p className="text-muted DateFields mb-0">Created Date <span>12-04-2024</span></p>
+                                                                            </div>
 
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className='containsticketprocess'>
-                                                <span className="priority-label reopen-priority">Reopen</span>
-
-
-                                                <div className="ticket-item mb-2">
-                                                    <div >
-                                                        <img src={arrivingTickets} />
-                                                    </div>
-                                                    <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
-
-                                                        <div className='ticket-itemCols'>
-                                                            <h6>Lack of attendance for security</h6>
-                                                            <p className="text-muted DateFields mb-0">Created Date <span>12-04-2024</span></p>                                                </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        )
+                                                    })}
+                                                </>
+                                                : <ShimmerTitle line={2} gap={10} variant="primary" />}
 
 
-
-                                                    </div>
-                                                </div>
-                                            </div>
 
 
                                         </div>

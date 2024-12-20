@@ -62,7 +62,6 @@ const Ticketscreen = () => {
         status: status,
         // clientuser: ownerDetails.id
     };
-    console.log(Ticketspayloads, "Ticketspayloads");
 
     const { data: ticketRefeshing, refetch: ticketRefetchcalls } = useQuery({
         queryKey: ["ticketparameters", search, status, page_size, page],

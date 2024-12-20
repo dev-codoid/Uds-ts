@@ -717,9 +717,15 @@
                 // .DateFields {
                 //     padding-top: 6px;
                 // }
+
+                .containsticketprocess{
+                    border: 1px solid rgba(0, 0, 0, 0.125);
+                    width: 100%;
+                    border-radius: 9px;
+                }
                 .containsticketprocess:hover {
                     background-color: hsla(203, 49%, 81%, 0.25);
-
+   
                     .ticket-item:hover {
                         border-radius: 0 !important;
                     }
@@ -727,14 +733,20 @@
 
                 .ticket-item {
                     // padding: 16px;
-                    border: 1px solid rgba(0, 0, 0, .125);
-                    border-radius: 9px;
+                    // border: 1px solid rgba(0, 0, 0, .125);
+                    // border-radius: 9px;
+                    // display: flex;
+                    // justify-content: center;
+                    // align-items: center;
+                    // padding: 25px 24px;
+                    // gap: 16px;
+                    padding: 14px;
                     display: flex;
-                    justify-content: center;
+                    gap: 22px;
                     align-items: center;
-                    padding: 25px 24px;
-                    gap: 16px;
-
+                    justify-content: center;
+                
+                
                     .ticket-itemCols {
                         // border: 1px solid #000;
                         width: 100%;
@@ -887,15 +899,28 @@
             // padding: 4px 16px;
             // font-size: 0.85rem;
             // font-weight: 600;
+            // display: block;
+            // width: 144px;
+            // position: absolute;
+            // right: 84px;
+            // padding: 10px 10px;
+            // color: #fff;
+            // border-radius: 0px 0px 9px 9px;
+            // font-weight: 500;
+            // text-align: center;
+
             display: block;
             width: 144px;
-            position: absolute;
-            right: 84px;
+            position: relative;
             padding: 10px 10px;
             color: #fff;
             border-radius: 0px 0px 9px 9px;
             font-weight: 500;
             text-align: center;
+            /* right: 0 !important; */
+            float: right;
+            margin-right: 29px;
+        
 
             &.high-priority {
                 background-color: hsla(170, 75%, 41%, 1);

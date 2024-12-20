@@ -78,7 +78,7 @@ const Dashboard = () => {
                     <>
                       {item.name ?
                         <NavLink
-                          key={item.id}
+                          key={ind}
                           className={`MenusNavlink ${selectedSideBarTab == item.name ? "activenav" : "notactive"}`}
 
                           to={item.path}
