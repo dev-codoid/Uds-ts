@@ -722,6 +722,7 @@
                     border: 1px solid rgba(0, 0, 0, 0.125);
                     width: 100%;
                     border-radius: 9px;
+                    cursor: pointer;
                 }
                 .containsticketprocess:hover {
                     background-color: hsla(203, 49%, 81%, 0.25);
@@ -1256,4 +1257,23 @@
 }
 .btn:focus{
     box-shadow:  none !important;
+}
+
+.TickerSTatementHeaders{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 12px;
+     button{
+        background: #F26639;
+        width: 98px;
+        height: 38px;
+        border-radius: 5px;
+        padding: 10px;
+        color: #fff;
+        border: none;
+        outline: none;
+        font-weight: 520;
+        cursor: pointer;
+        font-size: 14px;
+     }
 }

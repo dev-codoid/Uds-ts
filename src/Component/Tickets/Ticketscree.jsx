@@ -262,7 +262,7 @@ const Ticketscreen = () => {
     const handlestatusClick = (value) => {
         setstatus(value);
     };
-    const turfOverViewFunc = (data) => {
+    const ticketOverViewFunc = (data) => {
 
         settheTicketIDs(data.id)
         Navigate("/tickets/ticketview");
@@ -354,7 +354,7 @@ const Ticketscreen = () => {
                                             <ReactTable data={data} columns={columns}
                                                 MakeCreate={true}
                                                 ViewParts={(e) => {
-                                                    turfOverViewFunc(e)
+                                                    ticketOverViewFunc(e)
                                                 }}
 
                                             />

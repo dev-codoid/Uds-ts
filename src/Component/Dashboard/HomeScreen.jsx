@@ -18,7 +18,7 @@ import PhoneCall from "../../assets/Dashboard/Union (2).svg"
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction } from "../../ReactQuery/reactQuery";
-import { dashboardTicketapis, Ticketapis } from "../../Api/Api";
+import { dashboardTicketapis, Leveluserapi, Ticketapis } from "../../Api/Api";
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from "react-tooltip";
 import { ShimmerTitle } from "react-shimmer-effects";
@@ -33,7 +33,8 @@ const HomeScreen = () => {
         setToggleBars, setSelectedSideBarTab,
         SetActiveBars,
         ActiveBars,
-        ownerDetails, setIsLoading
+        ownerDetails, setIsLoading,
+        settheTicketIDs
 
 
     } = useStore();
@@ -43,6 +44,7 @@ const HomeScreen = () => {
     const Navigate = useNavigate()
     const [activeButton, setActiveButton] = useState(ActiveBars);
     const [TicketDatas, setTicketDatas] = useState([])
+    const [LevelOfuser, setLevelOfusers] = useState([])
 
 
 
@@ -86,7 +88,43 @@ const HomeScreen = () => {
     });
 
 
+    const { data: LevelofUsers } = useQuery({
+        queryKey: ["TicketDataCalled"],
+        queryFn: async () => {
+            setIsLoading(true);
+            const response = await getAPICallFunction({
+                url: Leveluserapi,
+            });
+            setIsLoading(false);
+            return response;
+        },
+    });
 
+    useEffect(() => {
+        if (LevelofUsers) {
+            setLevelOfusers(LevelofUsers.data);
+        }
+
+    }, [LevelofUsers])
+
+
+    const capitalizeEachWord = (str) => {
+        return str
+            .split(' ') // Split the string into an array of words
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+            .join(' '); // Join the words back into a string
+    };
+
+
+    const formatDate = (dateString) => {
+        const dateObject = new Date(dateString);
+
+        const day = String(dateObject.getDate()).padStart(2, '0');
+        const month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const year = dateObject.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    };
 
     const HandleTicketraise = () => {
         Navigate("/tickets/raiseticket");
@@ -106,15 +144,25 @@ const HomeScreen = () => {
 
     }, [TicketRecordlist])
 
-    // useEffect(() => {
-    //     if (DashRefeshing) {
-    //         setdashboarddata(DashRefeshing.data);
-    //         // settotalpagecount(DashRefeshing.total_count)
-    //         setdata(DashRefeshing.data.data)
-    //     }
+    useEffect(() => {
+        if (DashRefeshing) {
+            setdashboarddata(DashRefeshing.data);
+            // settotalpagecount(DashRefeshing.total_count)
+            setdata([DashRefeshing.data.recent_ticket])
+        }
 
-    // }, [DashRefeshing])
+    }, [DashRefeshing])
 
+    const ticketOverViewFunc = (datas) => {
+        settheTicketIDs(datas?.id)
+        setSelectedSideBarTab("Tickets")
+        Navigate("/tickets/ticketview");
+    };
+     const MoveTotheNextTab = ()=>{
+        Navigate("/tickets");
+        setSelectedSideBarTab("Tickets")
+
+     }
 
 
     return (
@@ -160,14 +208,13 @@ const HomeScreen = () => {
                                                     return (
                                                         <div className="contact-card d-flex justify-content-between align-items-center">
                                                             <div className='ContactCards' >
-                                                                <div className='Contactimg' >
+                                                                <div className={index % 2 === 0 ? 'Contactimg' : 'Contactimg2'} >
                                                                     <img src={personimg} />
                                                                 </div>
                                                                 <div className='InnerPhoneContact'>
                                                                     <div>
-                                                                        <h6>{item.first_name}</h6>
-                                                                        <p className="text-muted mb-0">Security</p>
-
+                                                                        <h6>{capitalizeEachWord(item.first_name.toLowerCase())}</h6>
+                                                                        <p className="text-muted mb-0">{capitalizeEachWord(item?.user_role?.role.toLowerCase())}</p>
                                                                     </div>
 
                                                                     <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}
@@ -262,7 +309,7 @@ const HomeScreen = () => {
                                                 <span className="FrstCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.open_tracking_count}</h2>
+                                                <h2>{Dashboarddata.open_ticketing_count}</h2>
                                             </div>
                                             <h5>Open Tickets</h5>
                                         </div>
@@ -277,14 +324,14 @@ const HomeScreen = () => {
                                                 <span className="secondCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.inprocess_tracking_count}</h2>
+                                                <h2>{Dashboarddata.inprocess_ticketing_count}</h2>
                                             </div>
                                             <h5>In progress Tickets</h5>
                                         </div>
                                     </div>
 
 
-                                    {/* <div
+                                    <div
                                         className={`col-md-4 mb-3 ${ActiveBars === "Completed" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("Completed")}
                                     >
@@ -293,11 +340,11 @@ const HomeScreen = () => {
                                                 <span className="threeCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.close_tracking_count}</h2>
+                                                <h2>{Dashboarddata.completed_ticketing_count}</h2>
                                             </div>
                                             <h5>Completed Tickets</h5>
                                         </div>
-                                    </div>*/}
+                                    </div>
 
 
                                     <div
@@ -309,7 +356,7 @@ const HomeScreen = () => {
                                                 <span className="FrstCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.reopen_tracking_count}</h2>
+                                                <h2>{Dashboarddata.reopen_ticketing_count}</h2>
                                             </div>
                                             <h5>Reopen Tickets</h5>
                                         </div>
@@ -327,7 +374,7 @@ const HomeScreen = () => {
                                                 <span className="fourCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.close_tracking_count}</h2>
+                                                <h2>{Dashboarddata.close_ticketing_count}</h2>
                                             </div>
                                             <h5>Closed Tickets</h5>
                                         </div>
@@ -356,7 +403,12 @@ const HomeScreen = () => {
 
                                 <div className="col RecentcardTickets mb-3">
                                     <div className="card p-3">
-                                        <h5>Ticket Statement</h5>
+
+                                        <div className='TickerSTatementHeaders'>
+                                            <h5>Ticket Statement</h5>
+                                            <button onClick={()=>MoveTotheNextTab()}>View all</button>
+                                        </div>
+
                                         <p className='Borderpara'></p>
                                         <div className="Groupbtn mb-3">
                                             <button
@@ -416,7 +468,8 @@ const HomeScreen = () => {
                                                     {TicketDatas != undefined && TicketDatas.map((item, index) => {
                                                         return (
                                                             <>
-                                                                <div className='containsticketprocess mt-3' key={index}>
+                                                                <div className='containsticketprocess mt-3' key={index}
+                                                                    onClick={() => { ticketOverViewFunc(item) }}                                                                >
                                                                     <span className="priority-label inprocess"
 
                                                                         style={{
@@ -450,8 +503,8 @@ const HomeScreen = () => {
                                                                         <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
                                                                             <div className='ticket-itemCols'>
 
-                                                                                <h6>{item?.sub_category_id?.name}</h6>
-                                                                                <p className="text-muted DateFields mb-0">Created Date <span>12-04-2024</span></p>
+                                                                                <h6>{item?.sub_category_id?.name ? capitalizeEachWord(item?.sub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                                <p className="text-muted DateFields mb-0">Created Date <span>{formatDate(item.created_at)}</span></p>
                                                                             </div>
 
                                                                         </div>
@@ -473,21 +526,29 @@ const HomeScreen = () => {
 
                                 <div className='col-5 FirstCards'>
                                     <div className="col-5 Recentcard mb-3">
-                                        <div className="card p-3">
-                                            <h5>Recent Ticket Statement</h5>
-                                            <div className="d-flex Statement  align-items-center   mt-3">
-                                                <div className='Tcketingimglist'>
-                                                    <img src={Tickets} />
-                                                </div>
-                                                <div className='TicketingCardSecuritys'>
-                                                    <div>
-                                                        <h6>Security is not arriving</h6>
-                                                        <p className="text-muted DateFields mb-0">Created Date <span>28-06-2024</span></p>
+                                        {data != undefined && data.map((item) => {
+                                            return (
+
+                                                <>
+                                                    <div className="card p-3">
+                                                        <h5>Recent Ticket Statement</h5>
+                                                        <div className="d-flex Statement  align-items-center   mt-3">
+                                                            <div className='Tcketingimglist'>
+                                                                <img src={Tickets} />
+                                                            </div>
+                                                            <div className='TicketingCardSecuritys'>
+                                                                <div>
+                                                                    <h6>{item.sub_category_id?.name ? capitalizeEachWord(item.sub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                    <p className="text-muted DateFields mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span></p>
+                                                                </div>
+                                                                <button className="btn track-btn" onClick={() => { ticketOverViewFunc(item) }}>Track Now</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <button className="btn track-btn">Track Now</button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                </>
+                                            )
+                                        })}
+
                                     </div>
 
 
@@ -495,83 +556,38 @@ const HomeScreen = () => {
                                         <div className="card ">
                                             <h5>UDS Contact Peoples</h5>
                                             <div className="d-flex Recentcard2contact flex-column gap-3">
+                                                {LevelOfuser != undefined && LevelOfuser.map((item, index) => {
+                                                    return (
+                                                        <>
+                                                            <div className="contact-card d-flex justify-content-between align-items-center">
+                                                                <div className='ContactCards' >
+                                                                    <div className={index % 2 === 0 ? 'Contactimg' : 'Contactimg2'} >
+                                                                        <img src={personimg} />
+                                                                    </div>
+                                                                    <div className='InnerPhoneContact'>
+                                                                        <div>
+                                                                            <h6>{capitalizeEachWord(item.first_name.toLowerCase())}</h6>
+                                                                            <p className="text-muted mb-0">{capitalizeEachWord(item?.user_role?.role.toLowerCase())}</p>
 
-                                                <div className="contact-card d-flex justify-content-between align-items-center">
-                                                    <div className='ContactCards' >
-                                                        <div className='Contactimg' >
-                                                            <img src={personimg} />
-                                                        </div>
-                                                        <div className='InnerPhoneContact'>
-                                                            <div>
-                                                                <h6>Sakthivel P</h6>
-                                                                <p className="text-muted mb-0">Security</p>
+                                                                        </div>
+
+                                                                        <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}>
+                                                                            <img src={PhoneCall} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
                                                             </div>
 
-                                                            <div className='Phoneimg' >
-                                                                <img src={PhoneCall} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
-                                                </div>
-                                                <div className="contact-card d-flex justify-content-between align-items-center">
-                                                    <div className='ContactCards' >
-                                                        <div className='Contactimg2' >
-                                                            <img src={personimg} />
-                                                        </div>
-                                                        <div className='InnerPhoneContact'>
-
-                                                            <div>
-                                                                <h6>Priya Dharshini S</h6>
-                                                                <p className="text-muted mb-0">House Keeping</p>
-                                                            </div>
-
-                                                            <div className='Phoneimg' >
-                                                                <img src={PhoneCall} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                        </>
 
 
-                                                <div className="contact-card d-flex justify-content-between align-items-center">
-                                                    <div className='ContactCards' >
-                                                        <div className='Contactimg2' >
-                                                            <img src={personimg} />
-                                                        </div>
-                                                        <div className='InnerPhoneContact'>
+                                                    )
+                                                })}
 
-                                                            <div>
-                                                                <h6>Priya Dharshini S</h6>
-                                                                <p className="text-muted mb-0">House Keeping</p>
-                                                            </div>
 
-                                                            <div className='Phoneimg' >
-                                                                <img src={PhoneCall} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div className="contact-card d-flex justify-content-between align-items-center">
-                                                    <div className='ContactCards' >
-                                                        <div className='Contactimg2' >
-                                                            <img src={personimg} />
-                                                        </div>
-                                                        <div className='InnerPhoneContact'>
-
-                                                            <div>
-                                                                <h6>Priya Dharshini S</h6>
-                                                                <p className="text-muted mb-0">House Keeping</p>
-                                                            </div>
-
-                                                            <div className='Phoneimg' >
-                                                                <img src={PhoneCall} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
                                             </div>
                                         </div>

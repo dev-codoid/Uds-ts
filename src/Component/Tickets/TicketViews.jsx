@@ -5,7 +5,7 @@ import closepopup from "../../assets/Dashboard/Group 442.svg";
 import ticketimg from "../../assets/Dashboard/Group 427319997.svg";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction, postAPICallFunction, putAPICallFunction } from "../../ReactQuery/reactQuery";
-import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi, remarksapi, commentapi } from "../../Api/Api";
+import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi, remarksapi, commentapi, feedbackapi } from "../../Api/Api";
 import { useNavigate } from 'react-router-dom';
 import PhoneCall from "../../assets/Dashboard/Union (2).svg"
 import trackingimg from "../../assets/Dashboard/Vector (15).svg"
@@ -50,9 +50,13 @@ const TicketViews = () => {
     const progressColor = "#20588f"; // Progress color
     const [CommentPart, setcommentpart] = useState({
         status: "2",
-        name: "",
+        feedbacks: "",
         client_user_id: "",
-        ticket_id: TicketIDS
+        ticket_id: TicketIDS,
+        satisfaction:"",
+    });
+    const [ticketStatus , setTicketStatus] = useState({
+        status:""
     })
 
     const events = [
@@ -88,14 +92,19 @@ const TicketViews = () => {
 
 
 
-
+  
+   
 
 
     const handleFeedbackClick = (id) => {
         setActiveFeedback(id);
-        HandleFeedbackpopup(id == "excellent" ? "close" : "open");
-
+        setcommentpart({
+            ...CommentPart,
+            satisfaction:id
+        })
+        // HandleFeedbackpopup(id == "excellent" ? "close" : "open");
     };
+    console.log(CommentPart ,"activeFeedback");
 
     const timelineValues = [
         { label: 'January', value: 1 },
@@ -127,7 +136,7 @@ const TicketViews = () => {
             setIsLoading(true);
 
             const response = await postAPICallFunction({
-                url: commentapi,
+                url: feedbackapi,
                 data: CommentPart,
             });
             setIsLoading(false);
@@ -149,7 +158,7 @@ const TicketViews = () => {
     });
 
     const Status = {
-        status: CommentPart.status
+        status: ticketStatus.status
     }
 
     const TicketStatusChanges = useMutation({
@@ -229,16 +238,24 @@ const TicketViews = () => {
 
     const HandleFeedbackpopup = (parm) => {
         // setcommetpoup(true);
-        if (parm == "open") {
+        if (parm == "Reopen") {
             setcommentpart({
                 ...CommentPart,
-                status: "3"
+                status: "1"
+            })
+            setTicketStatus({
+                ...ticketStatus,
+                status:"4"  
             })
         }
         else if (parm == "close") {
             setcommentpart({
                 ...CommentPart,
-                status: "2"
+                status: "0"
+            })
+            setTicketStatus({
+                ...ticketStatus,
+                status:"3"  
             })
 
         }
@@ -674,7 +691,7 @@ const TicketViews = () => {
                                             </>
                                             : <>--</>}
                                     </div>
-                                    {ticketretrieve?.status == 1 || ticketretrieve?.status == 2 ?
+                                    {ticketretrieve?.status == 1 || ticketretrieve?.status == 2 || ticketretrieve?.status == 4 ?
                                         <div className="card Satisfactioncard shadow-sm p-3 mb-3">
                                             <p className="mb-1 cardpara heaerspara">
                                                 <span className='ticketheader ticketheadercards'>Satisfaction</span>
@@ -704,7 +721,7 @@ const TicketViews = () => {
                                                 <textarea value={CommentPart.name} onChange={(e) => {
                                                     setcommentpart({
                                                         ...CommentPart,
-                                                        name: e.target.value
+                                                        feedbacks: e.target.value
                                                     })
                                                 }}>
 
@@ -712,12 +729,20 @@ const TicketViews = () => {
                                             </div>
 
                                             <div className='col-6  Createtickets'>
+                                            <button
+                                                    className='OpenButtons'
+                                                    onClick={() => {
+                                                        HandleFeedbackpopup("Reopen")
+                                                        HandletheComments();
+                                                    }}
+                                                >Reopen</button>
                                                 <button
                                                     className='OpenButtons'
                                                     onClick={() => {
+                                                        HandleFeedbackpopup("close")
                                                         HandletheComments();
                                                     }}
-                                                >Submit</button>
+                                                >Close</button>
 
                                             </div>
 
