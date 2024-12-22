@@ -3,7 +3,7 @@ import useStore from "../../Store";
 import ReactTable from '../Reacttable/Reacttable';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction, postAPICallFunction } from "../../ReactQuery/reactQuery";
-import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi } from "../../Api/Api";
+import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi,Ticketretrieveapis } from "../../Api/Api";
 import searchimg from "../../assets/Dashboard/Vector (3).svg";
 import high from "../../assets/Dashboard/Group 427319195.svg";
 import low from "../../assets/Dashboard/Group 427319197.svg";
@@ -38,12 +38,13 @@ const TicketCreate = () => {
     const normaldata = {
         documents: [],
         sub_category_id: "",
-        client_id: ownerDetails.id,
+        client_id: ownerDetails?.client_id,
         remarks: "",
         issue_category_id: "",
         priority: ""
 
     }
+
     const [Ticketdata, setticketdata] = useState(normaldata);
     const [Categoryoptions, setCategpryOptions] = useState([]);
 
@@ -132,8 +133,8 @@ const TicketCreate = () => {
 
 
     // };
- console.log(Ticketdata ,"Ticketdata", Subcategoryoptions);
- 
+    console.log(Ticketdata, "Ticketdata", Subcategoryoptions);
+
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
@@ -508,7 +509,7 @@ const TicketCreate = () => {
             const listofsubOptions = []
 
             SubCategorydetailsdata.forEach(element => {
-                listofsubOptions.push({ value: element.id, label: element.name,priorityvalu:element.Priority , priority: element.Priority == 1 ? "Medium" : element.Priority == 2 ? "High" : "Low" })
+                listofsubOptions.push({ value: element.id, label: element.name, priorityvalu: element.Priority, priority: element.Priority == 1 ? "Medium" : element.Priority == 2 ? "High" : "Low" })
 
             });
 
@@ -520,7 +521,7 @@ const TicketCreate = () => {
             setIsLoading(true);
 
             const response = await postAPICallFunction({
-                url: Ticketapis,
+                url: Ticketretrieveapis,
                 data: Ticketdata,
             });
             setIsLoading(false);
@@ -584,14 +585,16 @@ const TicketCreate = () => {
                                             <img src={creationimg} alt="" />
                                         </div>
                                     </div>
-                                    {/* <div className='CreatedBy'>
-                                    <div className='CreateBodyofcontent'>
-                                        <div className='createrimgs'><img src={creationimg} alt="" />
-                                        </div>
-                                        <div><p>Created by {ownerDetails.first_name} </p></div>
+                                    {ownerDetails.first_name ?
+                                        <div className='CreatedBy'>
+                                            <div className='CreateBodyofcontent'>
+                                                <div className='createrimgs'><img src={creationimg} alt="" />
+                                                </div>
+                                                <div><p>Created by {capitalizeEachWord(ownerDetails.first_name)} </p></div>
 
-                                    </div>
-                                </div> */}
+                                            </div>
+                                        </div>
+                                        : null}
                                 </div>
                                 <div className='col-7 rightsideticketcreations'>
                                     <div className='col-12 ClosePopupDesigns'>
@@ -653,7 +656,7 @@ const TicketCreate = () => {
                                                     setticketdata({
                                                         ...Ticketdata,
                                                         sub_category_id: e.value,
-                                                        priority:e.priorityvalu
+                                                        priority: e.priorityvalu
                                                     })
                                                     setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
 
@@ -682,7 +685,7 @@ const TicketCreate = () => {
                                         </div> */}
 
                                         <div className='col-6 mt-3'>
-                                            <label className="form-label LabelRemove" >
+                                            <label className="form-label " >
                                                 Priority
                                             </label>
                                             <Select
@@ -690,7 +693,7 @@ const TicketCreate = () => {
                                                 labelledBy="Select"
                                                 value={Priorityclientvalues}
                                                 options={Priorityoptions}
-                                                onChange={(e)=>{
+                                                onChange={(e) => {
                                                     setPriorityclientValues(e);
 
                                                     setticketdata({
@@ -698,7 +701,7 @@ const TicketCreate = () => {
                                                         priority: e.value
                                                     })
 
-                                                   }}
+                                                }}
                                             />
                                         </div>
 
@@ -740,7 +743,7 @@ const TicketCreate = () => {
                                                 }}
                                             >
                                                 <div className="d-flex flex-wrap align-items-center gap-3">
-                                                    {uploadedFiles.map((file, index) => (
+                                                    {/* {uploadedFiles.map((file, index) => (
                                                         <div key={index} style={{ position: "relative" }}>
                                                             <img
                                                                 src={file}
@@ -756,18 +759,58 @@ const TicketCreate = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-danger btn-sm DeleteImages"
-                                                                // style={{
-                                                                //     position: "absolute",
-                                                                //     top: "5px",
-                                                                //     right: "5px",
-                                                                //     borderRadius: "50%",
-                                                                // }}
                                                                 onClick={() => removeFile(index)}
                                                             >
                                                                 &times;
                                                             </button>
                                                         </div>
-                                                    ))}
+                                                    ))} */}
+                                                    {
+                                                        // uploadedFiles
+                                                        PresentUrls.map((file, index) => {
+
+                                                            let displayImg;
+                                                            if (file.type === "image/png" || file.type === "image/jpeg") {
+                                                                displayImg = high; // Replace with your gallery image variable
+                                                            } else if (file.type === "application/pdf") {
+                                                                displayImg = thumbsup; // Replace with your PDF icon variable
+                                                            } else if (file.type === "application/vnd.ms-excel" || file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+                                                                displayImg = notifyimg; // Replace with your Excel icon variable
+                                                            } else {
+                                                                displayImg = thumbsup; // Replace with a default image/icon if none match
+                                                            }
+                                                            return (
+                                                                <>
+
+                                                                    <div key={index} style={{
+                                                                        position: "relative",
+                                                                        width: "38px",
+                                                                        height: "38px",
+                                                                        borderRadius: "8px",
+                                                                    }}>
+                                                                        <img
+                                                                            src={displayImg}
+                                                                            alt={`Uploaded File ${index + 1}`}
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                height: "100%",
+                                                                                objectFit: "cover",
+                                                                                borderRadius: "8px",
+                                                                                border: "1px solid #ddd",
+                                                                            }}
+                                                                        />
+                                                                        <button
+                                                                            type="button"
+                                                                            className=" btn-danger btn-sm DeleteImages"
+
+                                                                            onClick={() => removeFile(index)}
+                                                                        >
+                                                                            &times;
+                                                                        </button>
+                                                                    </div>
+                                                                </>
+                                                            )
+                                                        })}
 
                                                     {uploadedFiles.length == 0 && (
                                                         <div className='InnerImages d-flex flex-wrap align-items-center  justify-content-center' >
@@ -856,7 +899,7 @@ const TicketCreate = () => {
                                     </div>
                                     <div className='feedbacksubmition'>
                                         <button onClick={() => {
-                                            
+
                                             setthankcontent(false);
                                             settheThankpopup(false)
                                             Navigate("/tickets")

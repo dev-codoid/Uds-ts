@@ -5,7 +5,7 @@ import closepopup from "../../assets/Dashboard/Group 442.svg";
 import ticketimg from "../../assets/Dashboard/Group 427319997.svg";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction, postAPICallFunction, putAPICallFunction } from "../../ReactQuery/reactQuery";
-import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi, remarksapi, commentapi, feedbackapi } from "../../Api/Api";
+import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi, remarksapi, commentapi, feedbackapi, tickettimeline, Ticketretrieveapis } from "../../Api/Api";
 import { useNavigate } from 'react-router-dom';
 import PhoneCall from "../../assets/Dashboard/Union (2).svg"
 import trackingimg from "../../assets/Dashboard/Vector (15).svg"
@@ -53,11 +53,12 @@ const TicketViews = () => {
         feedbacks: "",
         client_user_id: "",
         ticket_id: TicketIDS,
-        satisfaction:"",
+        satisfaction: "",
     });
-    const [ticketStatus , setTicketStatus] = useState({
-        status:""
+    const [ticketStatus, setTicketStatus] = useState({
+        status: ""
     })
+    const [TIckettimelinerecordDetails, setTicketRecordDetails] = useState([])
 
     const events = [
         { date: "2021-01-01", title: "Event 1", description: "Description for event 1" },
@@ -84,27 +85,27 @@ const TicketViews = () => {
 
     // Feedback options data
     const feedbackOptions = [
-        { id: "bad", label: "Bad", imgSrc: activeFeedback =="bad"? badactiveimg :  badimg },
-        { id: "acceptable", label: "Acceptable", imgSrc:activeFeedback =="acceptable"? Acceptanceactiveimg:  Acceptanceimg },
-        { id: "good", label: "Good", imgSrc: activeFeedback =="good"? goodactiveimg:  goodimg },
-        { id: "excellent", label: "Excellent", imgSrc:activeFeedback =="excellent"?  excellentimg :  excellentactiveimg},
+        { id: "bad", label: "Bad", imgSrc: activeFeedback == "bad" ? badactiveimg : badimg },
+        { id: "acceptable", label: "Acceptable", imgSrc: activeFeedback == "acceptable" ? Acceptanceactiveimg : Acceptanceimg },
+        { id: "good", label: "Good", imgSrc: activeFeedback == "good" ? goodactiveimg : goodimg },
+        { id: "excellent", label: "Excellent", imgSrc: activeFeedback == "excellent" ? excellentimg : excellentactiveimg },
     ];
 
 
 
-  
-   
+
+
 
 
     const handleFeedbackClick = (id) => {
         setActiveFeedback(id);
         setcommentpart({
             ...CommentPart,
-            satisfaction:id
+            satisfaction: id
         })
         // HandleFeedbackpopup(id == "excellent" ? "close" : "open");
     };
-    console.log(CommentPart ,"activeFeedback");
+    console.log(CommentPart, "activeFeedback");
 
     const timelineValues = [
         { label: 'January', value: 1 },
@@ -121,7 +122,7 @@ const TicketViews = () => {
             setIsLoading(true);
 
             const response = await getAPICallFunction({
-                url: Ticketapis,
+                url: Ticketretrieveapis,
                 id: TicketIDS,
             });
             setIsLoading(false);
@@ -165,7 +166,7 @@ const TicketViews = () => {
         mutationFn: async () => {
             setIsLoading(true);
             return await putAPICallFunction({
-                url: Ticketapis,
+                url: Ticketretrieveapis,
                 data: Status,
                 id: TicketIDS
             });
@@ -190,13 +191,38 @@ const TicketViews = () => {
             setIsLoading(true);
 
             const response = await getAPICallFunction({
-                url: remarksapi,
+                url: commentapi,
                 payload: remarkspayloads,
             });
             setIsLoading(false);
             return response;
         },
     });
+    const tickettimelinepayloads = {
+        ticket_id: TicketIDS,
+    }
+
+
+    const { data: ticketdatas, } = useQuery({
+        queryKey: ["getthetickettimelinerecords"],
+        queryFn: async () => {
+            setIsLoading(true);
+
+            const response = await getAPICallFunction({
+                url: tickettimeline,
+                payload: tickettimelinepayloads,
+            });
+            setIsLoading(false);
+            return response;
+        },
+    });
+
+    useEffect(() => {
+        if (ticketdatas) {
+            setTicketRecordDetails(ticketdatas.data)
+        }
+    }, [ticketdatas])
+
 
     useEffect(() => {
         if (remarksdata) {
@@ -216,6 +242,7 @@ const TicketViews = () => {
         }
     }, [ticketretrieveRefeshing])
 
+    console.log(ticketretrieveRefeshing, "ticketretrieveRefeshing", ticketretrieve, TIckettimelinerecordDetails);
 
 
     const HandletheComments = () => {
@@ -245,7 +272,7 @@ const TicketViews = () => {
             })
             setTicketStatus({
                 ...ticketStatus,
-                status:"4"  
+                status: "4"
             })
         }
         else if (parm == "close") {
@@ -255,7 +282,7 @@ const TicketViews = () => {
             })
             setTicketStatus({
                 ...ticketStatus,
-                status:"3"  
+                status: "3"
             })
 
         }
@@ -289,77 +316,86 @@ const TicketViews = () => {
 
 
 
-    const handleDownloadDocuments = (documents) => {
-        if (!documents || documents.length === 0) {
-            alert("No documents to download.");
+    // const handleDownloadDocuments = (documents) => {
+    //     if (!documents || documents.length === 0) {
+    //         console.error("No documents to download");
+    //         return;
+    //     }
+
+    //     // Loop through each document and handle it
+    //     documents.forEach((doc) => {
+    //         if (doc && typeof doc === "string") {
+    //             // Check if the URL is a valid file
+    //             const isViewable = /\.(pdf|jpg|jpeg|png|txt)$/i.test(doc);
+
+    //             if (isViewable) {
+    //                 // Open the file in a new tab for viewing
+    //                 window.open(doc, "_blank");
+    //             } else {
+    //                 // Trigger file download for other file types
+    //                 const link = document.createElement("a");
+    //                 link.href = doc;
+    //                 link.download = doc.split("/").pop(); // Extract file name from URL
+    //                 document.body.appendChild(link);
+    //                 link.click();
+    //                 document.body.removeChild(link);
+    //             }
+    //         }
+    //     });
+    // };
+
+    // const handleDownloadDocuments = (s3Urls) => {
+    //     if (!s3Urls || s3Urls.length === 0) {
+    //         console.error("No S3 URLs provided for download");
+    //         return;
+    //     }
+
+    //     s3Urls.forEach((url) => {
+    //         if (typeof url === "string") {
+    //             const fileName = url.split("/").pop(); // Extract file name from URL
+
+    //             const link = document.createElement("a");
+    //             link.href = url; // Set the S3 URL as the link href
+    //             link.download = fileName; // Set the file name for download
+    //             document.body.appendChild(link);
+
+    //             link.click(); // Trigger download
+
+    //             document.body.removeChild(link); // Clean up the DOM
+    //             console.log(`Download started for ${fileName}`);
+    //         } else {
+    //             console.error("Invalid URL:", url);
+    //         }
+    //     });
+    // };
+
+    function handleDownloadDocuments(urls) {
+        for (var i = 0, len = urls.length; i < len; i++) {
+            //for valid urls tabs will be opened
+            console.log(urls, "urls", urls[i]);
+
+            if ((urls[i])) {
+                window.open(urls[i], '_blank');
+            }
+        }
+        swal("Note!", "If all URLs were not opened, they would probably be blocked by your browser. Allow popups in this site for this tool to work properly.", "warning");
+    }
+
+    const downloadAll = (remarkdocuments) => {
+        const allLinks = remarkdocuments;
+    
+        if (!allLinks || allLinks.length === 0) {
+            alert("No documents available for download.");
             return;
         }
-
-        documents.forEach((doc, index) => {
-            try {
-                console.log(doc, "documents");
-
-                // Ensure doc is an object and has a valid URL
-                if (doc && doc && doc.startsWith("https")) {
-                    const link = document.createElement('a');
-                    link.href = doc;  // Use the URL from doc.url
-                    link.download = doc.name || `document_${index + 1}`;  // Specify the file name
-
-                    document.body.appendChild(link);  // Temporarily add the link to the DOM
-                    link.click();  // Trigger the download
-                    document.body.removeChild(link);  // Remove the link after the download
-                } else {
-                    console.warn(`Document at index ${index} does not have a valid URL.`);
-                }
-            } catch (error) {
-                console.error(`Error processing document at index ${index}:`, error);
-            }
+    
+        allLinks.forEach((link, index) => {
+            setTimeout(() => {
+                window.open(link, "_blank");
+            }, index * 500); // Opens a new window every 500ms (adjust as needed)
         });
+    };
 
-        // documents.forEach((doc, index) => {
-        //     try {
-        //         console.log(doc, "documents");
-
-        //         if (doc && doc.startsWith("https")) { // Ensure the URL is valid
-        //             const link = document.createElement('a');
-        //             link.href = doc.url;  // Use the URL from `doc.url`
-        //             link.download = doc.name || `document_${index + 1}`; // Specify the file name
-        //             document.body.appendChild(link);  // Temporarily add the link to the DOM
-        //             link.click();  // Trigger the download
-        //             document.body.removeChild(link);  // Remove the link after the download
-        //         } else {
-        //             console.warn(`Document at index ${index} does not have a valid URL.`);
-        //         }
-        //     } catch (error) {
-        //         console.error(`Error processing document at index ${index}:`, error);
-        //     }
-        // });
-
-        // documents.forEach((doc, index) => {
-        //     try {
-        //         console.log(documents, "documents");
-
-        //         // Ensure the URL starts with 'https'
-        //         if (doc && doc.startsWith("https")) {
-        //             const link = document.createElement('a');
-        //             link.href = doc;  // Use the URL from `doc.url`
-
-        //             // Extract file extension and set it for the download
-        //             const extension = getFileExtension(doc);
-        //             link.download =  `document_${index + 1}.${extension}`; // Append the extension to the filename
-
-        //             document.body.appendChild(link);  // Temporarily add the link to the DOM
-        //             link.click();  // Trigger the download
-        //             document.body.removeChild(link);  // Remove the link after the download
-        //         } else {
-        //             console.warn(`Document at index ${index} does not have a valid URL starting with https.`);
-        //         }
-        //     } catch (error) {
-        //         console.error(`Error processing document at index ${index}:`, error);
-        //     }
-        // });
-
-    }
 
 
 
@@ -417,7 +453,7 @@ const TicketViews = () => {
                                                     <p className='ticketheader Headerticket'>Created Date</p> {ticketretrieve?.created_at ? formatDate(ticketretrieve?.created_at) : "--"} <br />
                                                 </p>
                                                 <p className="mb-1 heaerspara">
-                                                    <p className='ticketheader Headerticket'>Resolved Date:</p> {ticketretrieve?.closing_date ? formatDate(ticketretrieve?.closing_date) : "--"}
+                                                    <p className='ticketheader Headerticket'>Resolved Date:</p> {ticketretrieve?.client_closing_at ? formatDate(ticketretrieve?.client_closing_at) : "--"}
                                                 </p>
                                                 <div className="d-flex justify-content-between">
                                                     <span>
@@ -477,9 +513,14 @@ const TicketViews = () => {
                                                             <span className='ticketheader ticketheadercards '>Attachment</span>
                                                             <p className='FileAttachments'>
                                                                 <span className="Attachmentslist">     <img src={images} /> {ticketretrieve?.documents?.length} File Attached</span>
+
+                                                                {/* {ticketretrieve?.documents == undefined || ticketretrieve?.documents == null ||
+                                                                                                    ticketretrieve?.documents.length == 0 ? "":
+
+
                                                                 <span className='Downloadimgoptions'>Download <img src={downloadimg}
                                                                     onClick={() => handleDownloadDocuments(ticketretrieve?.documents)}
-                                                                /></span>
+                                                                /></span>} */}
                                                             </p>
 
 
@@ -488,9 +529,9 @@ const TicketViews = () => {
                                                         <p className="mb-1 cardpara">
                                                             <span className='ticketheader ticketheadercards '>Assigner</span>
                                                             <p className='FileAttachments'>
-                                                                {ticketretrieve?.client_user_id != undefined &&
-                                                                    ticketretrieve?.client_user_id != null &&
-                                                                    ticketretrieve?.client_user_id?.l1_user.map((item) => {
+                                                                {ticketretrieve?.client_id != undefined &&
+                                                                    ticketretrieve?.client_id != null &&
+                                                                    ticketretrieve?.client_id?.l1_user.map((item) => {
 
                                                                         return (
                                                                             <span className="Attachmentslist">{capitalizeEachWord(item.first_name.toLowerCase())}</span>
@@ -505,29 +546,178 @@ const TicketViews = () => {
                                         </div>
                                     </div>
 
-
-
-
-                                    <div className="timeline-container mt-4">
-                                        <div className="timeline">
-                                            {events.map((event, index) => (
-                                                <div key={index} className="timeline-event">
-                                                    <div
-                                                        className={`timeline-circle ${selectedEvent === index ? "active" : ""}`}
-                                                        onClick={() => handleClick(index)}
-                                                    />
-
-                                                    {index < events.length - 1 && <div className={`timeline-line ${selectedEvent === index && index !== 0  ? "active" : ""}`} />}
-                                                </div>
-                                            ))}
-                                        </div>
-                                        {selectedEvent !== null && (
-                                            <div className="event-details">
-                                                <h3>{events[selectedEvent].date}</h3>
-                                                <p>{events[selectedEvent].description}</p>
+                                    {TIckettimelinerecordDetails != undefined ?
+                                        <div className='issueAssigner' style={{ marginTop: "7px" }}>
+                                            <div className='Issues'>
+                                                <p>Tracking</p>
                                             </div>
-                                        )}
-                                    </div>
+                                            <div className="card shadow-sm p-2 phonecallcard">
+                                                <div className='TimeLIneDayLeft'>
+                                                    {ticketretrieve?.status != 3 ?
+                                                        <button className='TimelineButtons'>
+                                                            {(() => {
+                                                                const createdAt = ticketretrieve?.created_at;
+                                                                if (createdAt) {
+                                                                    const createdDate = new Date(createdAt);
+                                                                    const currentDate = new Date();
+                                                                    const timeDifference = currentDate - createdDate; // Difference in milliseconds
+                                                                    const daysLeft = Math.max(0, Math.ceil(timeDifference / (1000 * 60 * 60 * 24))); // Convert to days
+                                                                    return `${daysLeft} days left`;
+                                                                }
+                                                                return "No date";
+                                                            })()}
+
+                                                        </button>
+                                                        : null}
+                                                </div>
+                                                <div className="timeline-containers">
+
+
+
+
+                                                    {/* {TIckettimelinerecordDetails !== undefined && TIckettimelinerecordDetails.map((item, index) => {
+                                                        console.log(item?.previous_status, "item?.previous_status");
+
+                                                        return (
+                                                            <React.Fragment key={index}>
+                                                                <div className="timeline-item active">
+                                                                    <div className='InnerTimelines'>
+                                                                        <div className="dot"></div>
+                                                                        <span>
+                                                                            {item?.previous_status == 0
+                                                                                ? "Open"
+                                                                                : item?.previous_status == 1
+                                                                                    ? "In progress"
+                                                                                    : item?.previous_status == 2
+                                                                                        ? "Completed"
+                                                                                        : item?.previous_status == 3
+                                                                                            ? "Close"
+                                                                                            : "Reopen"}
+                                                                        </span>
+
+                                                                    </div>
+                                                                    <div className="timeline-line active"></div>
+                                                                </div>
+                                                            </React.Fragment>
+                                                        );
+                                                    })} */}
+                                                    {/* {TIckettimelinerecordDetails && Object.keys(TIckettimelinerecordDetails).map((key, index) => {
+                                                        const item = TIckettimelinerecordDetails[key]; // Get the status object (e.g., open, inprogress, etc.)
+                                                        console.log(item, "item");
+
+                                                        const getStatusText = (statusObj, statusKey) => {
+                                                            // Check if the status object is not null and has a created_date
+                                                            if (statusObj && statusObj.created_date) {
+                                                                // If created_date exists, return the status key (like open, completed) with the first letter capitalized
+                                                                return `${statusKey.charAt(0).toUpperCase() + statusKey.slice(1)} - Created on ${new Date(statusObj.created_date).toLocaleDateString()}`;
+                                                            }
+                                                            return `${statusKey.charAt(0).toUpperCase() + statusKey.slice(1)} - `; // Default if no created_date or if status is null
+                                                        };
+
+                                                        return (
+                                                            <React.Fragment key={index}>
+                                                                <div className="timeline-item active">
+                                                                    <div className="InnerTimelines">
+                                                                        <div className="dot"></div>
+                                                                        <span>
+                                                                            {getStatusText(item, key)}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="timeline-line active"></div>
+                                                                </div>
+                                                            </React.Fragment>
+                                                        );
+                                                    })} */}
+
+                                                    {TIckettimelinerecordDetails && Object.keys(TIckettimelinerecordDetails).map((key, index) => {
+                                                        const item = TIckettimelinerecordDetails[key]; // Get the status object (e.g., open, inprogress, etc.)
+                                                        console.log(key, "item");
+
+                                                        // const getStatusText = (statusObj, statusKey) => {
+                                                        //     // Check if the status object is not null and has a created_date
+                                                        //     if (statusObj && statusObj.created_date) {
+                                                        //         // If created_date exists, return the status key (like open, completed) with the first letter capitalized
+                                                        //         return (
+                                                        //             <>
+                                                        //                 <span>{statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}</span>
+                                                        //                 <br />
+                                                        //                 <span>Created on {new Date(statusObj.created_date).toLocaleDateString()}</span>
+                                                        //             </>
+                                                        //         );
+                                                        //     }
+                                                        //     // Return the status key with no date if no created_date exists
+                                                        //     return (
+                                                        //         <>
+                                                        //             <span>{statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}</span>
+                                                        //             <br />
+                                                        //             <span>{statusKey.charAt(0).toUpperCase() + "--"}</span>
+                                                        //         </>
+                                                        //     );
+                                                        // };
+
+                                                        const getStatusText = (statusObj, statusKey) => {
+                                                            // Check if the status object is not null and has a created_date
+                                                            if (statusObj) {
+                                                                console.log(statusKey, "statusKey", statusObj);
+
+                                                                // If created_date exists, return the status key (like open, completed) with the first letter capitalized
+                                                                return (
+                                                                    <>
+                                                                        {/* <span>{key}</span>
+                                                                        <br />xcs */}
+                                                                        <span>
+                                                                            {statusObj.created_date
+                                                                                ? `Created on ${new Date(statusObj.created_date).toLocaleDateString()}`
+                                                                                : " "}
+                                                                        </span>
+                                                                    </>
+                                                                );
+                                                            }
+                                                            // Return the status key as a label without the "Created on" date if no created_date exists
+                                                            // return (
+                                                            //     <>
+                                                            //         <span>{statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}sd</span>
+                                                            //     </>
+                                                            // );
+                                                        };
+
+                                                        return (
+
+                                                            <React.Fragment key={index}>
+                                                                <div className={`timeline-item ${item ? "active" : "NotactiveInBars"}`}>
+                                                                    <div className={`InnerTimelines ${item ? "active" : ""}`}>
+                                                                        <div className="dot"></div>
+                                                                        {/* {item && ( */}
+                                                                        <span>
+                                                                            {/* {getStatusText(item, key)} */}
+                                                                            {capitalizeEachWord(key)}
+                                                                            <br/>
+                                                                            {getStatusText(item, key)}
+
+                                                                        </span>
+                                                                        {/* )} */}
+                                                                    </div>
+                                                                    <div className={`timeline-line ${item ? "active" : ""}`}></div>
+                                                                </div>
+                                                            </React.Fragment>
+
+                                                        );
+                                                    })}
+
+
+
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        : null}
+
+
+
 
                                     {/* Issue Assigner Section */}
                                     {/* <div className='issueAssigner'>
@@ -653,20 +843,26 @@ const TicketViews = () => {
                                     {/* Remarks Section */}
                                     <div className="card RemarksCards shadow-sm p-3 mb-3">
                                         <h6>
-                                            <span className='ticketheader RemarksHeaders' >Remarks:</span>
+                                            <span className='ticketheader RemarksHeaders' >Remarks </span>
                                         </h6>
                                         {remarksdatastate.length > 0 ?
                                             <>
                                                 <p className='Remarkspara'>
-                                                    {remarksdatastate.map((item) => {
+                                                    {remarksdatastate.map((item, index) => {
+                                                         console.log(remarksdatastate[index]?.documents ,"remarksdatastate?.documents");
+                                                         
                                                         return (
                                                             <>
 
-                                                                <div>
+                                                                <div key={index} style={{
+                                                                    display: "flex",
+                                                                    flexDirection: "column"
+                                                                    , gap: "5px"
+                                                                }}>
 
                                                                     <p className="Commentslist">  <span>{item.name}</span> <span>{formatDatefeed(item.created_at)}</span> </p>
-                                                                    <br />
-                                                                    <div className='remarksdocumentsimg'>
+
+                                                                    {/* <div className='remarksdocumentsimg'>
                                                                         {item?.documents != undefined && item?.documents.length > 0 && item?.documents.map((doc) => {
                                                                             return (
                                                                                 <div className='InnerImagesdoc ' >
@@ -677,8 +873,17 @@ const TicketViews = () => {
                                                                                 </div>
                                                                             )
                                                                         })}
-                                                                    </div>
+                                                                    </div> */}
 
+                                                                    <p className='FileAttachments'
+                                                                        style={{ width: "100%" }}>
+                                                                        <span className="Attachmentslist">     <img src={images} /> {remarksdatastate[index]?.documents.length} File Attached</span>
+                                                                        <span className='Downloadimgoptions'>Download <img src={downloadimg}
+
+                                                                            onClick={() => downloadAll(remarksdatastate[index]?.documents)}
+
+                                                                        /></span>
+                                                                    </p>
 
                                                                 </div>
                                                             </>
@@ -691,7 +896,9 @@ const TicketViews = () => {
                                             </>
                                             : <>--</>}
                                     </div>
-                                    {ticketretrieve?.status == 1 || ticketretrieve?.status == 2 || ticketretrieve?.status == 4 ?
+
+
+                                    {ticketretrieve?.status == 2 ?
                                         <div className="card Satisfactioncard shadow-sm p-3 mb-3">
                                             <p className="mb-1 cardpara heaerspara">
                                                 <span className='ticketheader ticketheadercards'>Satisfaction</span>
@@ -729,7 +936,7 @@ const TicketViews = () => {
                                             </div>
 
                                             <div className='col-6  Createtickets'>
-                                            <button
+                                                <button
                                                     className='OpenButtons'
                                                     onClick={() => {
                                                         HandleFeedbackpopup("Reopen")

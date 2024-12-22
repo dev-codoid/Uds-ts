@@ -84,6 +84,31 @@ export const getAPICallFunction = async (payload) => {
   }
 };
 
+export const getexportdatas = async (payload) => {   
+  try {
+    const response = await axios.get(payload.url + `${payload.id ? payload.id:""}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("TicketsToken")}`,
+      },
+      params: {
+        ...payload?.payload,
+      },
+    });
+    return response.data;
+  } catch (e) {
+    if (e.response.data.status.code === 401) {
+      localStorage.removeItem("TicketsToken");
+      localStorage.removeItem("isTicketsLogin");
+      window.location.href = "/";
+      window.location.reload();
+      toast.error("Error occured please login");
+
+    } else {
+      toast.error(e.response.data.status.message);
+    }
+  }
+};
+
 
 export const postAPICallFunction = async (payload) => {
   try {

@@ -115,7 +115,7 @@ const Ticketscreen = () => {
 
 
             {
-                Header: "TNo",
+                Header: "Ticket number",
                 accessor: "",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
@@ -242,11 +242,11 @@ const Ticketscreen = () => {
                     return (
                         <span className='PriorityColumns'>
                             <img src=
-                                {data.sub_category_id?.Priority === "0"
+                                {data?.priority === "0"
                                     ? low
-                                    : data.sub_category_id?.Priority === "1"
+                                    : data?.priority === "1"
                                         ? medimum
-                                        : data.sub_category_id?.Priority === "2"
+                                        : data?.priority === "2"
                                             ? high
                                             : "---"}
                                 alt="" />

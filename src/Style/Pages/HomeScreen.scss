@@ -1277,3 +1277,99 @@
         font-size: 14px;
      }
 }
+
+.ExportForms{
+     padding: 20px  0px;
+}
+
+.DownloadBTNS {
+    &:focus {
+      border: none !important;
+  
+      outline: none !important;
+    }
+  }
+  .dnbtn {
+    border: 2px solid white;
+    border-radius: 50px;
+    position: relative;
+    color: #9370db;
+    /* transform: translate(-50%, -50%); */
+    padding: 3px;
+    width: 50px;
+    height: 50px;
+    text-decoration: none;
+    transition: 0.3s;
+    display: block;
+    background-color: hsl(212, 56%, 47%);
+  }
+
+
+.dnbtn:before {
+    background-image: url("../../assets/Dashboard/UDS Needs Image-20 (1).svg");
+    // background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='19' height='25' fill='white' class='bi bi-download' viewBox='0 0 16 16'> <path d='M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z'/> <path d='M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z'/> </svg>");
+    content: "";
+    background-repeat: no-repeat;
+    background-size: contain;
+    // height: 25px;
+    // display: block;
+    // color: transparent;
+    // position: absolute;
+    // // top: 9px;
+    // top:13px;
+    // left: 13px;
+    height: 24px;
+    left: 13.1px;
+    position: absolute;
+    top: 13px;
+    width: 19px;
+  }
+  
+  @-moz-document url-prefix() {
+    .dnbtn:before {
+      margin-right: -2px;
+      font-size: 44px;
+    }
+  }
+  
+  .dnbtn:hover:before {
+    display: none;
+  }
+  
+  .dnbtn:hover:after {
+    font-family: Prompt;
+    content: "DOWNLOAD DATA";
+    color: #fff;
+    font-size: 13px;
+    position: relative;
+    transform: translate(-50%, -50%);
+    transition: 0.3s;
+    animation: fadein 0.3s;
+    top: 7px;
+    font-weight: 800;
+  }
+  
+  .dnbtn:hover {
+    width: 140px;
+    text-decoration: none !important;
+  }
+  
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeout {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+    }
+  }

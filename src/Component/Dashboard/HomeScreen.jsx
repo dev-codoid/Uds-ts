@@ -17,11 +17,13 @@ import arrivingTickets from "../../assets/Dashboard/Group 420.svg"
 import PhoneCall from "../../assets/Dashboard/Union (2).svg"
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getAPICallFunction } from "../../ReactQuery/reactQuery";
-import { dashboardTicketapis, Leveluserapi, Ticketapis } from "../../Api/Api";
+import { getAPICallFunction, getexportdatas } from "../../ReactQuery/reactQuery";
+import { dashboardTicketapis, Leveluserapi, Ticketapis, ticketexportapi } from "../../Api/Api";
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from "react-tooltip";
 import { ShimmerTitle } from "react-shimmer-effects";
+import Select from "react-select";
+
 
 
 
@@ -34,7 +36,9 @@ const HomeScreen = () => {
         SetActiveBars,
         ActiveBars,
         ownerDetails, setIsLoading,
-        settheTicketIDs
+        settheTicketIDs,
+        setPriorityValuesstore,
+        PrioritValues
 
 
     } = useStore();
@@ -45,7 +49,28 @@ const HomeScreen = () => {
     const [activeButton, setActiveButton] = useState(ActiveBars);
     const [TicketDatas, setTicketDatas] = useState([])
     const [LevelOfuser, setLevelOfusers] = useState([])
+    let Priorityoptions = [
+        {
+            value: "",
+            label: "ALL"
+        },
+        {
+            value: "0",
+            label: "LOW"
+        },
+        {
+            value: "1",
+            label: "MEDIUM"
 
+        },
+        {
+            value: "2",
+            label: "HIGH"
+
+        }
+    ]
+    const [PriorityValues, setPriorityValues] = useState(PrioritValues?.value)
+    const [prioritySelect, setpriorityselect] = useState(PrioritValues)
 
 
     const Ticketsdash = {
@@ -158,13 +183,49 @@ const HomeScreen = () => {
         setSelectedSideBarTab("Tickets")
         Navigate("/tickets/ticketview");
     };
-     const MoveTotheNextTab = ()=>{
+    const MoveTotheNextTab = () => {
         Navigate("/tickets");
         setSelectedSideBarTab("Tickets")
 
-     }
+    }
+
+    const ExportPayloads = {
+        priority: PriorityValues,
+        status: activeButton == "All" ? "" : activeButton == "Open" ? "0" : activeButton == "Inprocess" ? "1" :
+            activeButton == "Completed" ? "2" : activeButton == "Close" ? "3" : activeButton == "Reopen" && "4",
+    }
+    const exporttheticketrecords = useMutation({
+        mutationFn: async () => {
+            setIsLoading(true);
+            const response = await getexportdatas({
+                url: ticketexportapi,
+                payload: ExportPayloads, // Use the data passed in mutate
+            });
+            setIsLoading(false);
+
+            return { ...response };
+        },
+        onSuccess: (data) => {
+            setIsLoading(false);
+            console.log(data, "aspodaposdi aospdia sd");
+            window.open(data.data)
 
 
+        },
+        onError: (error) => {
+            setIsLoading(false);
+            console.log(error, "error");
+
+        },
+    });
+
+
+
+    const HandleTheExports = () => {
+        exporttheticketrecords.mutate()
+
+
+    }
     return (
         <>
             <div className={!ToggleBars ? "HomeScreen" : "MainHomeScreen"}>
@@ -175,7 +236,7 @@ const HomeScreen = () => {
                             <div className='card'>
                                 <div className='card-body'>
                                     <h5>Dashbord</h5>
-                                    <img src={Notify} alt="" className='Nofiyimages' />
+                                    {/* <img src={Notify} alt="" className='Nofiyimages' /> */}
                                 </div>
                             </div>
                         </div>
@@ -203,72 +264,35 @@ const HomeScreen = () => {
                                         <div className="card ">
                                             <h5>UDS Contact Peoples</h5>
                                             <div className="d-flex Recentcard2contact  gap-3">
-                                                {ownerDetails.l1_user != undefined && ownerDetails.l1_user != null && ownerDetails.l1_user.map((item) => {
-
+                                                {LevelOfuser != undefined && LevelOfuser.map((item, index) => {
                                                     return (
-                                                        <div className="contact-card d-flex justify-content-between align-items-center">
-                                                            <div className='ContactCards' >
-                                                                <div className={index % 2 === 0 ? 'Contactimg' : 'Contactimg2'} >
-                                                                    <img src={personimg} />
-                                                                </div>
-                                                                <div className='InnerPhoneContact'>
-                                                                    <div>
-                                                                        <h6>{capitalizeEachWord(item.first_name.toLowerCase())}</h6>
-                                                                        <p className="text-muted mb-0">{capitalizeEachWord(item?.user_role?.role.toLowerCase())}</p>
+                                                        <>
+                                                            <div className="contact-card d-flex justify-content-between align-items-center">
+                                                                <div className='ContactCards' >
+                                                                    <div className={index % 2 === 0 ? 'Contactimg' : 'Contactimg2'} >
+                                                                        <img src={personimg} />
                                                                     </div>
+                                                                    <div className='InnerPhoneContact'>
+                                                                        <div>
+                                                                            <h6>{capitalizeEachWord(item.first_name.toLowerCase())}</h6>
+                                                                            <p className="text-muted mb-0">{capitalizeEachWord(item?.user_role?.role.toLowerCase())}</p>
 
-                                                                    <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}
-                                                                    //   onClick={() => window.location.href = `tel:${item.phone_number}`}
-                                                                    >
-                                                                        <img src={PhoneCall} />
+                                                                        </div>
+
+                                                                        <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}>
+                                                                            <img src={PhoneCall} />
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+
                                                             </div>
-                                                        </div>
+
+
+                                                        </>
+
 
                                                     )
                                                 })}
-
-
-                                                <div className="contact-card d-flex justify-content-between align-items-center">
-                                                    <div className='ContactCards' >
-                                                        <div className='Contactimg2' >
-                                                            <img src={personimg} />
-                                                        </div>
-                                                        <div className='InnerPhoneContact'>
-
-                                                            <div>
-                                                                <h6>Priya Dharshini S</h6>
-                                                                <p className="text-muted mb-0">House Keeping</p>
-                                                            </div>
-
-                                                            <div className='Phoneimg' >
-                                                                <img src={PhoneCall} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <div className="contact-card d-flex justify-content-between align-items-center">
-                                                    <div className='ContactCards' >
-                                                        <div className='Contactimg2' >
-                                                            <img src={personimg} />
-                                                        </div>
-                                                        <div className='InnerPhoneContact'>
-
-                                                            <div>
-                                                                <h6>Priya Dharshini S</h6>
-                                                                <p className="text-muted mb-0">House Keeping</p>
-                                                            </div>
-
-                                                            <div className='Phoneimg' >
-                                                                <img src={PhoneCall} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
 
 
                                             </div>
@@ -281,6 +305,57 @@ const HomeScreen = () => {
                         :
 
                         <div className="row mt-3 ticket-dashboard">
+
+                            <div className='row ExportForms'>
+                                <div
+                                    class=" field-div col-sm-2"
+                                    style={{ zIndex: "20", marginTop: "-19px" }}
+
+                                >
+                                    <label
+                                        class="form-label"
+
+                                    >
+                                        priority
+                                    </label>
+
+                                    <Select
+                                        className="Selects"
+                                        styles={{ position: "relative", top: "60px" }}
+
+                                        placeholder="search"
+                                        options={Priorityoptions}
+                                        onChange={(e) => {
+                                            setpriorityselect(e)
+                                            setPriorityValues(e.value)
+                                            setPriorityValuesstore(e)
+                                        }}
+                                        value={prioritySelect}
+                                    />
+                                </div>
+
+
+
+                                <div className="col-sm-2" style={{ paddingTop: "4px" }}>
+                                    <button
+                                        align="center"
+                                        type="button"
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "flex-end",
+                                            background: "transparent",
+                                            border: "none",
+                                            outline: "none"
+                                        }}
+                                        className="DownloadBTNS"
+                                        onClick={(e) => {
+                                            HandleTheExports()
+                                        }}
+                                    >
+                                        <a class="dnbtn"></a>
+                                    </button>
+                                </div>
+                            </div>
                             {/* Header Stats */}
                             <div className='row Ticketdetails'>
                                 <div className=" Innerticket-dashboard text-center">
@@ -406,7 +481,7 @@ const HomeScreen = () => {
 
                                         <div className='TickerSTatementHeaders'>
                                             <h5>Ticket Statement</h5>
-                                            <button onClick={()=>MoveTotheNextTab()}>View all</button>
+                                            <button onClick={() => MoveTotheNextTab()}>View all</button>
                                         </div>
 
                                         <p className='Borderpara'></p>
