@@ -24,7 +24,7 @@ table {
                 line-height: 54px;
                 padding: 0px 11px !important;
                 color: var(--mainColor);
-font-weight: 600;
+                font-weight: 600;
             }
 
             th:first-child {
@@ -307,6 +307,7 @@ font-weight: 600;
             background-color: #FDEDE9;
             font-weight: 500;
             border-radius: 7px;
+             width: 125px;
 
         }
 
@@ -562,7 +563,7 @@ font-weight: 600;
 
                             p {
                                 font-weight: 500;
-                                 font-size: 18px;
+                                font-size: 18px;
                             }
                         }
 
@@ -1045,7 +1046,7 @@ font-weight: 600;
                 display: flex;
                 flex-direction: column;
                 gap: 23px;
-            
+
 
             }
 
@@ -1121,6 +1122,22 @@ font-weight: 600;
     bottom: 0;
     z-index: 98;
 
+
+    .DeleteImages {
+        position: absolute;
+        top: -7px;
+        right: -3px;
+        border-radius: 50%;
+        font-size: 19px;
+        /* padding: 0px !important; */
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+    }
+
     .innercommentpopup {
         width: 100%;
         height: 100vh;
@@ -1130,9 +1147,17 @@ font-weight: 600;
         position: relative;
         z-index: 0;
 
+        .DocumentUploads {
+            padding: 0 31px;
+
+            p {
+                margin: 0;
+            }
+        }
+
         .FormParts {
-            width: 700px;
-            height: 470px;
+            width: 770px;
+            height: 578px;
 
             border-radius: 15px;
             background-color: #fff;
@@ -1142,6 +1167,28 @@ font-weight: 600;
             align-items: center;
             gap: 20%;
 
+            textarea {
+                background-color: #fff !important;
+                height: 96px !important;
+                border: 0.5px solid hsla(0, 0%, 85%, 1) !important; 
+            }
+
+            .RemarksForms {
+                padding: 30px 34px 34px 34px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+                .FeedbackField {
+                    padding: 0 !important;
+                }
+            }
+
+        }
+        .FormPartsticketslist{
+             p{
+                font-size: 15px !important;
+             }
         }
 
         .FormPartsthanks {
@@ -1163,8 +1210,14 @@ font-weight: 600;
                 .form-label {
                     padding: 22px 0px;
                     text-align: center;
-
                 }
+
+                .form-label::after {
+                    content: "* ";
+                    color: rgb(255, 81, 0);
+                    margin-left: 4px;
+                }
+
 
 
 
@@ -1563,9 +1616,11 @@ $text-color: #aaa; // Text color for inactive
     background-color: #ccc;
 
 }
-.NotactiveInBars{
-    margin-top:19px ;
+
+.NotactiveInBars {
+    margin-top: 19px;
 }
+
 .timeline-circle.active {
     background-color: #ccc;
     border-color: #ccc !important;
@@ -1608,12 +1663,13 @@ $text-color: #aaa; // Text color for inactive
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap:15px;
+    gap: 15px;
     padding: 20px;
     background-color: #f8f9fa;
     overflow: auto;
-  }
-  .InnerTimelines{
+}
+
+.InnerTimelines {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -1622,9 +1678,10 @@ $text-color: #aaa; // Text color for inactive
     padding-bottom: 9px;
     width: 100%;
 
-}  
-  /* Individual Timeline Item */
-  .timeline-item {
+}
+
+/* Individual Timeline Item */
+.timeline-item {
     // text-align: center;
     // flex: 1;
     // position: relative;
@@ -1632,10 +1689,10 @@ $text-color: #aaa; // Text color for inactive
     flex-direction: column;
     align-items: center;
     position: relative;
-  }
-  
-  /* Dot */
-  .timeline-item .dot {
+}
+
+/* Dot */
+.timeline-item .dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -1643,23 +1700,23 @@ $text-color: #aaa; // Text color for inactive
     // margin: 0 auto;
     position: relative;
     z-index: 2;
-    top:4px;
-  }
-  
-  /* Active Dot */
-  .timeline-item.active .dot {
+    top: 4px;
+}
+
+/* Active Dot */
+.timeline-item.active .dot {
     background-color: #007bff;
-  }
-  
-  /* Text */
-  .timeline-item span{
+}
+
+/* Text */
+.timeline-item span {
     margin-top: 8px;
     font-size: 12px;
     color: #000;
-  }
-  
-  /* Connecting Line */
-  .timeline-item::after {
+}
+
+/* Connecting Line */
+.timeline-item::after {
     content: "";
     position: absolute;
     top: 6px;
@@ -1668,14 +1725,15 @@ $text-color: #aaa; // Text color for inactive
     height: 2px;
     background-color: #d9d9d9;
     z-index: 1;
-  }
-  .timeline-item span{
+}
+
+.timeline-item span {
     margin-top: 8px;
     font-size: 12px;
     color: #000;
-  }
-  
-  /* Connecting Line */
+}
+
+/* Connecting Line */
 //   .timeline-line {
 //     flex-grow: 1;
 //     height: 2px;
@@ -1683,8 +1741,8 @@ $text-color: #aaa; // Text color for inactive
 //     position: relative;
 //     top: 5px;
 //   }
-  
-  /* Connecting Line */
+
+/* Connecting Line */
 .timeline-line {
     flex-grow: 1;
     height: 11px;
@@ -1694,32 +1752,34 @@ $text-color: #aaa; // Text color for inactive
     top: 5px;
     border-radius: 19px;
 
-  }
-  
-
-
-  .timeline-item.active::after {
-    background-color: hsla(212, 56%, 47%, 1);
-  }
-  
-  .timeline-item:first-child::after {
-    left: 50%;
-  }
-  
-  .timeline-item:last-child::after {
-    right: 50%;
-  }
-  .timeline-line.active {
-    background-color: hsla(212, 56%, 47%, 1);
-  }
-  
-  
-.TimeLIneDayLeft{
-     display: flex;
-     justify-content: flex-end;
-     align-items: center;
 }
-  .TimelineButtons {
+
+
+
+.timeline-item.active::after {
+    background-color: hsla(212, 56%, 47%, 1);
+}
+
+.timeline-item:first-child::after {
+    left: 50%;
+}
+
+.timeline-item:last-child::after {
+    right: 50%;
+}
+
+.timeline-line.active {
+    background-color: hsla(212, 56%, 47%, 1);
+}
+
+
+.TimeLIneDayLeft {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.TimelineButtons {
     border: none;
     margin: 7px 0px;
     padding: 2px 16px;
@@ -1734,11 +1794,35 @@ $text-color: #aaa; // Text color for inactive
     border-radius: 5px;
 
 
-  }
+}
 
-  .TimelineButtons:focus {
+.TimelineButtons:focus {
     border: none;
     box-shadow: none;
 
 
-  }
+}
+.ticketnumberlist{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .InnerNUmber{
+        padding: 12px;
+        background: hsla(15, 88%, 59%, 0.1);
+        border-radius: 12px;
+        width: 160px;
+        display: flex;
+        justify-content: space-between;
+        span{
+            width: 100%;
+            color: hsla(15, 88%, 59%, 1);
+            margin-left: 13px;
+            font-size: 20px;
+            font-weight: 600;
+        
+        
+        
+        }
+    }
+
+    }

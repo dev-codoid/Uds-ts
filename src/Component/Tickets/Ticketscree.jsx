@@ -219,8 +219,8 @@ const Ticketscreen = () => {
                                 >
                                     {data.status == 0 ? "Open" :
                                         data.status == 1 ? "In progress" :
-                                            data.status == 2 ? "Completed" :
-                                                data.status == 3 ? "Close" : "Reopen"}
+                                            data.status == 2 ? "Review" :
+                                                data.status == 3 ? "Resolved" : "Reopen"}
                                 </button>
                             </>
 
@@ -315,14 +315,14 @@ const Ticketscreen = () => {
                                                         className={`btn ${status === 2 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(2)}
                                                     >
-                                                        Completed 
+                                                        Review 
                                                     </button>
 
                                                     <button
                                                         className={`btn ${status === 3 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(3)}
                                                     >
-                                                        Closed 
+                                                        Resolved 
                                                     </button>
 
                                                     <button

@@ -262,7 +262,7 @@ const HomeScreen = () => {
                                 <div className='TicketCreateDashboards '>
                                     <div className="col-5 Recentcard2">
                                         <div className="card ">
-                                            <h5>UDS Contact Peoples</h5>
+                                            <h5>UDS Contact People</h5>
                                             <div className="d-flex Recentcard2contact  gap-3">
                                                 {LevelOfuser != undefined && LevelOfuser.map((item, index) => {
                                                     return (
@@ -316,7 +316,7 @@ const HomeScreen = () => {
                                         class="form-label"
 
                                     >
-                                        priority
+                                        Priority
                                     </label>
 
                                     <Select
@@ -417,7 +417,7 @@ const HomeScreen = () => {
                                                 </span>
                                                 <h2>{Dashboarddata.completed_ticketing_count}</h2>
                                             </div>
-                                            <h5>Completed Tickets</h5>
+                                            <h5>Review Tickets</h5>
                                         </div>
                                     </div>
 
@@ -451,7 +451,7 @@ const HomeScreen = () => {
                                                 </span>
                                                 <h2>{Dashboarddata.close_ticketing_count}</h2>
                                             </div>
-                                            <h5>Closed Tickets</h5>
+                                            <h5>Resolved Tickets</h5>
                                         </div>
                                     </div>
 
@@ -511,7 +511,7 @@ const HomeScreen = () => {
                                                 className={`btn ${ActiveBars === "Completed" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Completed")}
                                             >
-                                                Completed
+                                                Review
                                             </button>
                                             <button
                                                 className={`btn ${ActiveBars === "Reopen" ? "active" : ""}`}
@@ -524,7 +524,7 @@ const HomeScreen = () => {
                                                 className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Close")}
                                             >
-                                                Closed
+                                                Resolved
                                             </button>
                                             {/* <button
                                                 className={`btn ${ActiveBars === "Resolved" ? "active" : ""}`}
@@ -560,8 +560,8 @@ const HomeScreen = () => {
 
                                                                         {item.status == 0 ? "Open" :
                                                                             item.status == 1 ? "In progress" :
-                                                                                item.status == 2 ? "Completed" :
-                                                                                    item.status == 3 ? "Close" : "Reopen"}</span>
+                                                                                item.status == 2 ? "Review" :
+                                                                                    item.status == 3 ? "Resolved" : "Reopen"}</span>
 
                                                                     <div className="ticket-item mb-2">
 
@@ -629,7 +629,7 @@ const HomeScreen = () => {
 
                                     <div className="col-5 Recentcard2">
                                         <div className="card ">
-                                            <h5>UDS Contact Peoples</h5>
+                                            <h5>UDS Contact People</h5>
                                             <div className="d-flex Recentcard2contact flex-column gap-3">
                                                 {LevelOfuser != undefined && LevelOfuser.map((item, index) => {
                                                     return (

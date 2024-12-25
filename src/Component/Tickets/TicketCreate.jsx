@@ -3,7 +3,7 @@ import useStore from "../../Store";
 import ReactTable from '../Reacttable/Reacttable';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction, postAPICallFunction } from "../../ReactQuery/reactQuery";
-import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi,Ticketretrieveapis } from "../../Api/Api";
+import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi, Ticketretrieveapis } from "../../Api/Api";
 import searchimg from "../../assets/Dashboard/Vector (3).svg";
 import high from "../../assets/Dashboard/Group 427319195.svg";
 import low from "../../assets/Dashboard/Group 427319197.svg";
@@ -20,6 +20,7 @@ import backimg from "../../assets/Dashboard/Union (3).svg";
 import { useNavigate } from 'react-router-dom';
 import notifyimg from "../../assets/Dashboard/Group 427320010.svg"
 import thumbsup from "../../assets/Dashboard/plastic-hand-with-thumb-up 1.svg"
+import ticketimg from "../../assets/Dashboard/Union (17).svg"
 
 
 const TicketCreate = () => {
@@ -29,7 +30,9 @@ const TicketCreate = () => {
         setIsLoading,
         ownerDetails,
         settheThankpopup,
-        thanksContent
+        thanksContent,
+        setTicketResponse,
+        TicketCreateREsponse
 
     } = useStore();
     //---creating ticket 
@@ -52,7 +55,7 @@ const TicketCreate = () => {
     const [subcategoryvalues, setsubcategoryvalues] = useState([]);
     const [CategoryValues, setCategoryvalues] = useState([]);
     const [Priorityvalues, setPriorityValues] = useState([]);
-    const [Priorityclientvalues, setPriorityclientValues] = useState([])
+    const [Priorityclientvalues, setPriorityclientValues] = useState([]);
 
     const handleChange = (file) => {
         setFile(file);
@@ -91,49 +94,7 @@ const TicketCreate = () => {
 
     const Navigate = useNavigate()
     const fileTypes = ["JPEG", "PNG", "GIF"];
-    // const handleFileChange = (event) => {
-    //     const files = Array.from(event.target.files);
 
-    //     const newFiles = files.map((file) => URL.createObjectURL(file));
-    //     setUploadedFiles((prev) => [...prev, ...newFiles]);
-    //     setdosumentuploads(true)
-    //     setcroppedFilestatet((prev) => [...prev, ...files]);
-
-    //     const generateRandomNumber = () => {
-    //         return Math.floor(Math.random() * 100000);
-    //     };
-    //     const createPresentData = (file) => {
-    //         const randomNumber = generateRandomNumber();
-    //         const formattedFilename = `ticket/${file.name}`; // Adjust the filename as needed
-    //         return {
-    //             multiple_files: [
-    //                 {
-    //                     filename: formattedFilename,
-    //                     file_type: file.type,
-    //                 },
-    //             ],
-    //         };
-    //     };
-    //     //   const Presentdata = createPresentData(croppedFile);
-    //     files.forEach((file) => {
-    //         const presentData = createPresentData(file);
-    //         // createPresntUrlMutation.mutate(presentData, {
-    //         createPresntUrlMutation.mutate({ filepart: file, responsedatas: presentData }, {
-
-    //             onSuccess: (response) => {
-    //                 // console.log(`Successfully uploaded: ${file.name}`, response);
-    //                 // console.log('Present data:', presentData);
-    //                 // console.log('File part:', file);
-    //             },
-    //             onError: (error) => {
-    //                 console.error(`Error uploading: ${file.name}`, error);
-    //             },
-    //         });
-    //     });
-
-
-    // };
-    console.log(Ticketdata, "Ticketdata", Subcategoryoptions);
 
 
     const handleFileChange = (event) => {
@@ -197,57 +158,6 @@ const TicketCreate = () => {
             setdosumentuploads(false)
         }
     }, [uploadedFiles])
-    // const handleDrop = useCallback((event) => {
-    //     event.preventDefault();
-
-    //     const droppedFiles = Array.from(event.dataTransfer.files);
-
-    //     droppedFiles.forEach((file) => {
-    //         const reader = new FileReader();
-
-    //         reader.onload = () => {
-    //             const base64Url = reader.result;
-
-    //             setUploadedFiles((prevFiles) => [
-    //                 ...prevFiles,
-    //                 { file, base64Url },
-    //             ]);
-    //         };
-
-    //         reader.readAsDataURL(file);
-    //     });
-    //     if (droppedFiles) {
-    //         setdosumentuploads(true)
-    //         const generateRandomNumber = () => {
-    //             return Math.floor(Math.random() * 100000);
-    //         };
-    //         const createPresentData = (droppedFiles) => {
-    //             const randomNumber = generateRandomNumber();
-    //             const formattedFilename = `ticket/${droppedFiles.name}`; // Adjust the filename as needed
-    //             return {
-    //                 multiple_files: [
-    //                     {
-    //                         filename: formattedFilename,
-    //                         file_type: droppedFiles.type,
-    //                     },
-    //                 ],
-    //             };
-    //         };
-
-    //         droppedFiles.forEach((file) => {
-    //             const presentData = createPresentData(file);
-    //             createPresntUrlMutation.mutate(presentData, {
-    //                 onSuccess: (response) => {
-    //                 },
-    //                 onError: (error) => {
-    //                 },
-    //             });
-    //         });
-    //     }
-    // }, []);
-
-
-    // Prevent default drag-over behavior
 
 
     const handleDrop = useCallback((event) => {
@@ -531,6 +441,7 @@ const TicketCreate = () => {
         onSuccess: (response) => {
             toast.success(response.data.message);
             // Navigate("/tickets")
+            setTicketResponse(response.data.data)
             setthankcontent(true);
             settheThankpopup(true);
             setIsLoading(false);
@@ -568,6 +479,8 @@ const TicketCreate = () => {
         }
 
     }
+
+    console.log("ticketResponse", TicketCreateREsponse);
 
     return (
         <>
@@ -877,22 +790,28 @@ const TicketCreate = () => {
                                         }} />
                                     </div>
 
+                                    <div className='ticketnumberlist'>
+                                        <span className='InnerNUmber'>
+                                            <img src={ticketimg} />
+                                            <span>{"ID  "}
+                                                {TicketCreateREsponse.ticket_number}
+                                            </span>
+                                        </span>
+                                    </div>
                                     <h5 className='pt-4'>Ticket Successfully Created!</h5>
 
 
                                     <div className='FeedbackField'>
                                         <label className='form-label'>
-                                            {/* We appreciate you taking the time to share your
-                                            <br />
-                                            <br /> thoughts. Your feedback helps us improve and
-                                            <br />
-                                            <br /> ensure better service. */}
-                                            <p>
-                                                Thank you for bringing this to our attention. We’re committed to resolving your issue as quickly as possible and appreciate
-                                                your patience.
+
+                                            {/* <p>
+                                                Thank you for bringing this to our attention. We’re committed to
 
                                             </p>
-                                            <p>You can track the progress of your ticket or contact us directly if you need further assistance.</p>
+                                            <p>resolving your issue as quickly as possible and appreciate.</p>
+                                            <p>your patience.</p> */}
+                                            <p>Thank you for bringing this to our attention. We’re committed to resolving your issue as quickly as possible and appreciate 
+                                            your patience</p>
                                             .</label>
 
 

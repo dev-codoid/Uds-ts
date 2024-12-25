@@ -26,6 +26,8 @@ const useStore = create(
       thanksContent: false,
       ActiveBars: "All",
       PrioritValues: { value: "", label: "ALL" },
+      TicketCreateREsponse:[],
+      setTicketResponse: (newData) => set({ TicketCreateREsponse: newData }),
       setPriorityValuesstore: (newData) => set({ PrioritValues: newData }),
       SetActiveBars: (newData) => set({ ActiveBars: newData }),
       settheThankpopup: (newData) => set({ thanksContent: newData }),
