@@ -29,6 +29,8 @@ import Acceptanceactiveimg from "../../assets/Dashboard/Vector (19).svg";
 import goodactiveimg from "../../assets/Dashboard/Union (9).svg";
 import excellentactiveimg from "../../assets/Dashboard/Union (10).svg"; /// active
 
+import PhoneCallevel from "../../assets/Dashboard/Group 427320000.svg"
+import personimg from "../../assets/Dashboard/profile2.png"
 
 import backimg from "../../assets/Dashboard/Union (3).svg";
 
@@ -61,7 +63,7 @@ const TicketViews = () => {
 
     });
 
-
+    const [FeedbackDatas, setFeedbackDatas] = useState()
     const [remarksreopendatas, setremarksreopendata] = useState({
 
         documents: [],
@@ -72,22 +74,11 @@ const TicketViews = () => {
     })
     const [TIckettimelinerecordDetails, setTicketRecordDetails] = useState([]);
 
-    const events = [
-        { date: "2021-01-01", title: "Event 1", description: "Description for event 1" },
-        { date: "2021-06-01", title: "Event 2", description: "Description for event 2" },
-        { date: "2022-01-01", title: "Event 3", description: "Description for event 3" },
-        { date: "2022-06-01", title: "Event 4", description: "Description for event 4" },
-        { date: "2023-01-01", title: "Event 5", description: "Description for event 5" },
 
-
-        { date: "2022-06-01", title: "Event 4", description: "Description for event 4" },
-        { date: "2023-01-01", title: "Event 5", description: "Description for event 5" },
-
-    ];
 
     const [selectedEvent, setSelectedEvent] = useState(0);
 
-    const [clientRemarks , setclientremarks] = useState([])
+    const [clientRemarks, setclientremarks] = useState([])
     const handleClick = (index) => {
         setSelectedEvent(index);
     };
@@ -473,13 +464,13 @@ const TicketViews = () => {
     });// remarks retrieve
 
 
-     useEffect(()=>{
-         if(remarksretrieve){
+    useEffect(() => {
+        if (remarksretrieve) {
 
-         
-        setclientremarks(remarksretrieve.data);
-         }
-     },[remarksretrieve])
+
+            setclientremarks(remarksretrieve.data);
+        }
+    }, [remarksretrieve])
 
 
     const RemarkspayloadReopen = {
@@ -569,9 +560,47 @@ const TicketViews = () => {
         },
     });
 
+
+
+    const { data: FeedbackRetrieveedata, } = useQuery({
+        queryKey: ["gettheFeedbackretrievrecords"],
+        queryFn: async () => {
+            setIsLoading(true);
+
+            const response = await getAPICallFunction({
+                url: feedbackapi,
+                payload: tickettimelinepayloads,
+            });
+            setIsLoading(false);
+            return response;
+        },
+        enabled: ticketretrieve?.status == 3,
+    });
+
+
+    useEffect(() => {
+        if (FeedbackRetrieveedata) {
+            setFeedbackDatas(FeedbackRetrieveedata?.data[0])
+        }
+    }, [FeedbackRetrieveedata])
+
+    useEffect(() => {
+        if (FeedbackDatas != undefined) {
+            setActiveFeedback(FeedbackDatas?.feedbacks);
+            setcommentpart({
+                ...CommentPart,
+                feedbacks: FeedbackDatas?.feedbacks,
+                satisfaction: FeedbackDatas?.satisfaction,
+                status: FeedbackDatas?.status,
+            })
+        }
+    }, [FeedbackDatas])
+    console.log(FeedbackRetrieveedata, CommentPart, "FeedbackRetrieveedata", FeedbackDatas);
+
     useEffect(() => {
         if (ticketdatas) {
             setTicketRecordDetails(ticketdatas.data)
+
         }
     }, [ticketdatas])
 
@@ -774,6 +803,7 @@ const TicketViews = () => {
                                                 aria-controls="collapseOne"
                                             >
                                                 <h5 class="mb-0">
+                                                    
                                                     <button class="btn btn-link d-flex justify-content-between align-items-center"
                                                         type="button">
                                                         Ticket Details
@@ -894,12 +924,11 @@ const TicketViews = () => {
                                                                         <span>
                                                                             {key == "completed" ? "Review" : key == "close" ? "Resolved" : capitalizeEachWord(key)}
 
-                                                                            <br />
-                                                                            {getStatusText(item, key)}
-
                                                                         </span>
                                                                     </div>
                                                                     <div className={`timeline-line ${item ? "active" : ""}`}></div>
+
+                                                                    <p className='CreatedDateList'>{getStatusText(item, key)}</p>
                                                                 </div>
                                                             </React.Fragment>
 
@@ -917,7 +946,46 @@ const TicketViews = () => {
                                             </div>
                                         </div>
                                         : null}
+                                    {TIckettimelinerecordDetails != undefined ?
+                                        <div className='issueAssigner' style={{ marginTop: "7px" }}>
+                                            <div className='Issues'>
+                                                <p>Assignee</p>
+                                            </div>
+                                            <div className="card shadow-sm p-2 phonecallcard">
+                                                {ticketretrieve?.client_id != undefined &&
+                                                    ticketretrieve?.client_id != null &&
+                                                    ticketretrieve?.client_id?.l1_user.map((item) => {
 
+                                                        return (
+
+                                                            <div className='LeveluserCards'>
+
+                                                                <div className='InnercardOflevels'>
+                                                                    <div className='LevelUserImg'>
+                                                                        <img src={personimg} />
+                                                                    </div>
+
+                                                                    <div className='Contactednames'>
+                                                                        <span>{capitalizeEachWord(item.first_name.toLowerCase())}</span>
+                                                                        <p>Site Supervisor</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div>
+                                                                        <img src={PhoneCallevel} />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+                                                        )
+                                                    })}
+
+
+                                            </div>
+                                        </div>
+                                        : null}
 
                                     <div className="card RemarksCards shadow-sm p-3 mb-3">
                                         <h6>
@@ -1014,7 +1082,7 @@ const TicketViews = () => {
 
 
 
-                                    {ticketretrieve?.status == 2 ?
+                                    {ticketretrieve?.status == 2 || ticketretrieve?.status == 3 ?
                                         <div className="card Satisfactioncard shadow-sm p-3 mb-3">
                                             <p className="mb-1 cardpara heaerspara">
                                                 <span className='ticketheader ticketheadercards'>Satisfaction</span>
@@ -1028,8 +1096,16 @@ const TicketViews = () => {
                                                 {feedbackOptions.map((option) => (
                                                     <div
                                                         key={option.id}
-                                                        className={`feedback-option ${activeFeedback === option.id ? "active" : ""}`}
-                                                        onClick={() => handleFeedbackClick(option.id)}
+                                                        className={`feedback-option ${activeFeedback === option.id ? "active" : FeedbackDatas != undefined && FeedbackDatas?.id ? "disabledthefiled" : ""}`}
+                                                        onClick={() => {
+                                                            if (FeedbackDatas != undefined && FeedbackDatas?.id) {
+
+                                                            }
+                                                            else {
+                                                                handleFeedbackClick(option.id)
+                                                            }
+
+                                                        }}
                                                     >
                                                         <img src={option.imgSrc} alt={option.label} />
                                                         <span>{option.label}</span>
@@ -1040,34 +1116,38 @@ const TicketViews = () => {
 
                                             <div className='FeedbackField FeedbackFieldstatifications'>
                                                 <label className='form-label'>{`Please submit your feedback on it.`}</label>
-
-                                                <textarea value={CommentPart.name} onChange={(e) => {
-                                                    setcommentpart({
-                                                        ...CommentPart,
-                                                        feedbacks: e.target.value
-                                                    })
-                                                }}>
+                                                <textarea value={CommentPart.feedbacks}
+                                                    className={`${FeedbackDatas.id ? "disabledthefiled" : ""}`}
+                                                    disabled={FeedbackDatas.id ? true : false}
+                                                    onChange={(e) => {
+                                                        setcommentpart({
+                                                            ...CommentPart,
+                                                            feedbacks: e.target.value
+                                                        })
+                                                    }}>
 
                                                 </textarea>
                                             </div>
+                                            {ticketretrieve?.status != 3 ?
 
-                                            <div className='col-6  Createtickets'>
-                                                <button
-                                                    className='OpenButtons'
-                                                    onClick={() => {
-                                                        HandleFeedbackpopup("Reopen")
-                                                        // HandletheComments();
-                                                    }}
-                                                >Reopen</button>
-                                                <button
-                                                    className='OpenButtons'
-                                                    onClick={() => {
-                                                        HandleFeedbackpopup("close")
-                                                        HandletheComments();
-                                                    }}
-                                                >Close</button>
+                                                <div className='col-6  Createtickets'>
+                                                    <button
+                                                        className='OpenButtons'
+                                                        onClick={() => {
+                                                            HandleFeedbackpopup("Reopen")
+                                                            // HandletheComments();
+                                                        }}
+                                                    >Reopen</button>
+                                                    <button
+                                                        className='OpenButtons'
+                                                        onClick={() => {
+                                                            HandleFeedbackpopup("close")
+                                                            HandletheComments();
+                                                        }}
+                                                    >Close</button>
+                                                </div>
+                                                : null}
 
-                                            </div>
 
                                         </div>
                                         : ""}

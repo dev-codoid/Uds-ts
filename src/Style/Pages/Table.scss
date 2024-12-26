@@ -307,7 +307,7 @@ table {
             background-color: #FDEDE9;
             font-weight: 500;
             border-radius: 7px;
-             width: 125px;
+            width: 125px;
 
         }
 
@@ -954,6 +954,43 @@ table {
             justify-content: center !important;
         }
 
+
+        .LeveluserCards {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px  17px;
+            .InnercardOflevels{
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 12px;
+            }
+
+            .LevelUserImg {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                }
+            }
+            .Contactednames{
+                 span{
+                     color:#000;
+                    font-size: 15px;
+                     font-weight: 500;
+                     p{
+                         font-size: 13px
+                     }
+                 }
+            }
+
+        }
+
         .Phoneimg {
             width: 45px;
             height: 45px;
@@ -1135,7 +1172,7 @@ table {
         display: flex;
         justify-content: center;
         align-items: center;
-    
+
     }
 
     .innercommentpopup {
@@ -1170,7 +1207,7 @@ table {
             textarea {
                 background-color: #fff !important;
                 height: 96px !important;
-                border: 0.5px solid hsla(0, 0%, 85%, 1) !important; 
+                border: 0.5px solid hsla(0, 0%, 85%, 1) !important;
             }
 
             .RemarksForms {
@@ -1185,10 +1222,11 @@ table {
             }
 
         }
-        .FormPartsticketslist{
-             p{
+
+        .FormPartsticketslist {
+            p {
                 font-size: 15px !important;
-             }
+            }
         }
 
         .FormPartsthanks {
@@ -1618,7 +1656,7 @@ $text-color: #aaa; // Text color for inactive
 }
 
 .NotactiveInBars {
-    margin-top: 19px;
+    margin-top: -21px;
 }
 
 .timeline-circle.active {
@@ -1675,8 +1713,9 @@ $text-color: #aaa; // Text color for inactive
     align-items: center;
     gap: 8px;
     padding-left: 13px;
-    padding-bottom: 9px;
+    // padding-bottom: 9px;
     width: 100%;
+
 
 }
 
@@ -1689,6 +1728,12 @@ $text-color: #aaa; // Text color for inactive
     flex-direction: column;
     align-items: center;
     position: relative;
+
+    .CreatedDateList {
+        width: 90%;
+        padding-top: 6px;
+        padding-left: 5px;
+    }
 }
 
 /* Dot */
@@ -1802,27 +1847,34 @@ $text-color: #aaa; // Text color for inactive
 
 
 }
-.ticketnumberlist{
+
+.ticketnumberlist {
     display: flex;
     justify-content: center;
     align-items: center;
-    .InnerNUmber{
+
+    .InnerNUmber {
         padding: 12px;
         background: hsla(15, 88%, 59%, 0.1);
         border-radius: 12px;
         width: 160px;
         display: flex;
         justify-content: space-between;
-        span{
+
+        span {
             width: 100%;
             color: hsla(15, 88%, 59%, 1);
             margin-left: 13px;
             font-size: 20px;
             font-weight: 600;
-        
-        
-        
+
+
+
         }
     }
 
-    }
+}
+
+.disabledthefiled {
+    cursor: not-allowed !important;
+}

@@ -237,6 +237,56 @@ const HomeScreen = () => {
                                 <div className='card-body'>
                                     <h5>Dashbord</h5>
                                     {/* <img src={Notify} alt="" className='Nofiyimages' /> */}
+                                    <div className='row ExportForms' style={{ display:'none'}}>
+                                <div
+                                    class=" field-div col-sm-2"
+                                    style={{ zIndex: "20", marginTop: "-19px" ,display:"none"}}
+
+                                >
+                                    <label
+                                        class="form-label"
+
+                                    >
+                                        Priority
+                                    </label>
+
+                                    <Select
+                                        className="Selects"
+                                        styles={{ position: "relative", top: "60px" }}
+
+                                        placeholder="search"
+                                        options={Priorityoptions}
+                                        onChange={(e) => {
+                                            setpriorityselect(e)
+                                            setPriorityValues(e.value)
+                                            setPriorityValuesstore(e)
+                                        }}
+                                        value={prioritySelect}
+                                    />
+                                </div>
+
+
+
+                                <div className="col-sm-2" style={{ paddingTop: "4px" }}>
+                                    <button
+                                        align="center"
+                                        type="button"
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "flex-end",
+                                            background: "transparent",
+                                            border: "none",
+                                            outline: "none"
+                                        }}
+                                        className="DownloadBTNS"
+                                        onClick={(e) => {
+                                            HandleTheExports()
+                                        }}
+                                    >
+                                        <a class="dnbtn"></a>
+                                    </button>
+                                </div>
+                            </div>
                                 </div>
                             </div>
                         </div>
@@ -306,7 +356,7 @@ const HomeScreen = () => {
 
                         <div className="row mt-3 ticket-dashboard">
 
-                            <div className='row ExportForms'>
+                            <div className='row ExportForms' style={{display:"none"}}>
                                 <div
                                     class=" field-div col-sm-2"
                                     style={{ zIndex: "20", marginTop: "-19px" }}
@@ -477,125 +527,125 @@ const HomeScreen = () => {
                             <div className="row RecentTicket mt-4">
 
                                 <div className="col RecentcardTickets mb-3">
-                                    <div className="card p-3">
+                                        <div className="card p-3">
 
-                                        <div className='TickerSTatementHeaders'>
-                                            <h5>Ticket Statement</h5>
-                                            <button onClick={() => MoveTotheNextTab()}>View all</button>
-                                        </div>
+                                            <div className='TickerSTatementHeaders'>
+                                                <h5>Ticket Statement</h5>
+                                                <button onClick={() => MoveTotheNextTab()}>View all</button>
+                                            </div>
 
-                                        <p className='Borderpara'></p>
-                                        <div className="Groupbtn mb-3">
-                                            <button
-                                                className={`btn ${ActiveBars === "All" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("All")}
-                                            >
-                                                All
-                                            </button>
-                                            <button
-                                                className={`btn ${ActiveBars === "Open" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Open")}
-                                            >
-                                                Open
-                                            </button>
-                                            <button
-                                                className={`btn ${ActiveBars === "Inprocess" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Inprocess")}
-                                            >
-                                                In progress
-                                            </button>
-
-
-
-                                            <button
-                                                className={`btn ${ActiveBars === "Completed" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Completed")}
-                                            >
-                                                Review
-                                            </button>
-                                            <button
-                                                className={`btn ${ActiveBars === "Reopen" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Reopen")}
-                                            >
-                                                Reopened
-                                            </button>
-
-                                            <button
-                                                className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Close")}
-                                            >
-                                                Resolved
-                                            </button>
-                                            {/* <button
-                                                className={`btn ${ActiveBars === "Resolved" ? "active" : ""}`}
-                                                onClick={() => handleButtonClick("Resolved")}
-                                            >
-                                                Resolved
-                                            </button> */}
-                                        </div>
+                                            <p className='Borderpara'></p>
+                                            <div className="Groupbtn mb-3">
+                                                <button
+                                                    className={`btn ${ActiveBars === "All" ? "active" : ""}`}
+                                                    onClick={() => handleButtonClick("All")}
+                                                >
+                                                    All
+                                                </button>
+                                                <button
+                                                    className={`btn ${ActiveBars === "Open" ? "active" : ""}`}
+                                                    onClick={() => handleButtonClick("Open")}
+                                                >
+                                                    Open
+                                                </button>
+                                                <button
+                                                    className={`btn ${ActiveBars === "Inprocess" ? "active" : ""}`}
+                                                    onClick={() => handleButtonClick("Inprocess")}
+                                                >
+                                                    In progress
+                                                </button>
 
 
 
-                                        <div className='ContainsTickets'>
+                                                <button
+                                                    className={`btn ${ActiveBars === "Completed" ? "active" : ""}`}
+                                                    onClick={() => handleButtonClick("Completed")}
+                                                >
+                                                    Review
+                                                </button>
+                                                <button
+                                                    className={`btn ${ActiveBars === "Reopen" ? "active" : ""}`}
+                                                    onClick={() => handleButtonClick("Reopen")}
+                                                >
+                                                    Reopened
+                                                </button>
 
-                                            {TicketDatas.length != 0 ?
-                                                <>
-                                                    {TicketDatas != undefined && TicketDatas.map((item, index) => {
-                                                        return (
-                                                            <>
-                                                                <div className='containsticketprocess mt-3' key={index}
-                                                                    onClick={() => { ticketOverViewFunc(item) }}                                                                >
-                                                                    <span className="priority-label inprocess"
-
-                                                                        style={{
-                                                                            background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
-                                                                                item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
-                                                                                    item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
-                                                                                        item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
-                                                                                            "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
-                                                                            color: "#fff",
-                                                                        }}
-
-                                                                    >
-
-                                                                        {item.status == 0 ? "Open" :
-                                                                            item.status == 1 ? "In progress" :
-                                                                                item.status == 2 ? "Review" :
-                                                                                    item.status == 3 ? "Resolved" : "Reopen"}</span>
-
-                                                                    <div className="ticket-item mb-2">
-
-                                                                        <div >
-                                                                            <img src={
-                                                                                item.status == 0 ? cancelTickets :
-                                                                                    item.status == 1 ? arrivingTickets :
-                                                                                        item.status == 2 ? ApprovedTickets :
-                                                                                            item.status == 3 ? ApprovedTickets : arrivingTickets
+                                                <button
+                                                    className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
+                                                    onClick={() => handleButtonClick("Close")}
+                                                >
+                                                    Resolved
+                                                </button>
+                                                {/* <button
+                                                    className={`btn ${ActiveBars === "Resolved" ? "active" : ""}`}
+                                                    onClick={() => handleButtonClick("Resolved")}
+                                                >
+                                                    Resolved
+                                                </button> */}
+                                            </div>
 
 
-                                                                            } />
-                                                                        </div>
-                                                                        <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
-                                                                            <div className='ticket-itemCols'>
 
-                                                                                <h6>{item?.sub_category_id?.name ? capitalizeEachWord(item?.sub_category_id?.name.toLowerCase()) : ""}</h6>
-                                                                                <p className="text-muted DateFields mb-0">Created Date <span>{formatDate(item.created_at)}</span></p>
+                                            <div className='ContainsTickets'>
+
+                                                {TicketDatas.length != 0 ?
+                                                    <>
+                                                        {TicketDatas != undefined && TicketDatas.map((item, index) => {
+                                                            return (
+                                                                <>
+                                                                    <div className='containsticketprocess mt-3' key={index}
+                                                                        onClick={() => { ticketOverViewFunc(item) }}                                                                >
+                                                                        <span className="priority-label inprocess"
+
+                                                                            style={{
+                                                                                background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
+                                                                                    item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
+                                                                                        item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
+                                                                                            item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
+                                                                                                "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
+                                                                                color: "#fff",
+                                                                            }}
+
+                                                                        >
+
+                                                                            {item.status == 0 ? "Open" :
+                                                                                item.status == 1 ? "In progress" :
+                                                                                    item.status == 2 ? "Review" :
+                                                                                        item.status == 3 ? "Resolved" : "Reopen"}</span>
+
+                                                                        <div className="ticket-item mb-2">
+
+                                                                            <div >
+                                                                                <img src={
+                                                                                    item.status == 0 ? cancelTickets :
+                                                                                        item.status == 1 ? arrivingTickets :
+                                                                                            item.status == 2 ? ApprovedTickets :
+                                                                                                item.status == 3 ? ApprovedTickets : arrivingTickets
+
+
+                                                                                } />
                                                                             </div>
+                                                                            <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
+                                                                                <div className='ticket-itemCols'>
 
+                                                                                    <h6>{item?.sub_category_id?.name ? capitalizeEachWord(item?.sub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                                    <p className="text-muted DateFields mb-0">Created Date <span>{formatDate(item.created_at)}</span></p>
+                                                                                </div>
+
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </>
-                                                        )
-                                                    })}
-                                                </>
-                                                : <ShimmerTitle line={2} gap={10} variant="primary" />}
+                                                                </>
+                                                            )
+                                                        })}
+                                                    </>
+                                                    : <ShimmerTitle line={2} gap={10} variant="primary" />}
 
 
 
 
+                                            </div>
                                         </div>
-                                    </div>
                                 </div>
 
 
