@@ -33,7 +33,7 @@ import PhoneCallevel from "../../assets/Dashboard/Group 427320000.svg"
 import personimg from "../../assets/Dashboard/profile2.png"
 
 import backimg from "../../assets/Dashboard/Union (3).svg";
-
+import downloadimg2 from "../../assets/Dashboard/Group 427320153.svg"
 import high from "../../assets/Dashboard/Group 427319195.svg";
 
 
@@ -561,6 +561,9 @@ const TicketViews = () => {
     });
 
 
+    const ticketfeebbacjretrieve = {
+        ticket: TicketIDS,
+    }
 
     const { data: FeedbackRetrieveedata, } = useQuery({
         queryKey: ["gettheFeedbackretrievrecords"],
@@ -569,7 +572,7 @@ const TicketViews = () => {
 
             const response = await getAPICallFunction({
                 url: feedbackapi,
-                payload: tickettimelinepayloads,
+                payload: ticketfeebbacjretrieve,
             });
             setIsLoading(false);
             return response;
@@ -803,7 +806,7 @@ const TicketViews = () => {
                                                 aria-controls="collapseOne"
                                             >
                                                 <h5 class="mb-0">
-                                                    
+
                                                     <button class="btn btn-link d-flex justify-content-between align-items-center"
                                                         type="button">
                                                         Ticket Details
@@ -822,14 +825,14 @@ const TicketViews = () => {
 
                                                         <p className="mb-1 cardpara heaerspara">
                                                             <span className="ticketheader ticketheadercards">Issue Category</span>
-                                                            {ticketretrieve?.sub_category_id?.issue_category_id?.name
-                                                                ? capitalizeEachWord(ticketretrieve?.sub_category_id?.issue_category_id?.name.toLowerCase())
+                                                            {ticketretrieve?.clientsub_category_id?.issue_id?.name
+                                                                ? capitalizeEachWord(ticketretrieve?.clientsub_category_id?.issue_id?.name.toLowerCase())
                                                                 : "--"}
                                                         </p>
                                                         <p className="mb-1 cardpara heaerspara">
                                                             <span className="ticketheader ticketheadercards">Sub Category</span>
-                                                            {ticketretrieve?.sub_category_id?.name
-                                                                ? capitalizeEachWord(ticketretrieve?.sub_category_id?.name.toLowerCase())
+                                                            {ticketretrieve?.clientsub_category_id?.name
+                                                                ? capitalizeEachWord(ticketretrieve?.clientsub_category_id?.name.toLowerCase())
                                                                 : "---"}
                                                         </p>
                                                         <p className="mb-1 cardpara">
@@ -843,7 +846,16 @@ const TicketViews = () => {
                                                                 <>
                                                                     <span className='ticketheader ticketheadercards '>Attachment</span>
                                                                     <p className='FileAttachments'>
-                                                                        <span className="Attachmentslist">     <img src={images} /> {ticketretrieve?.documents?.length} File Attached</span>
+                                                                        <span className="Attachmentslist">
+                                                                            <img src={images} /> {ticketretrieve?.documents?.length} File Attached
+                                                                            {/* <span className='Downloadimgoptions' onClick={() => {
+                                                                                window.open(item)
+                                                                            }}>
+                                                                                <img src={downloadimg2} />
+
+                                                                            </span> */}
+
+                                                                        </span>
                                                                     </p>
                                                                 </>
                                                                 : null}
@@ -1014,6 +1026,7 @@ const TicketViews = () => {
                                                                             <span className="Attachmentslist">     <img src={images} /> {remarksdatastate[index]?.documents.length} File Attached</span>
                                                                             <span className='Downloadimgoptions'>Download <img src={downloadimg}
 
+
                                                                                 onClick={() => downloadAll(remarksdatastate[index]?.documents)}
 
                                                                             /></span>
@@ -1115,10 +1128,10 @@ const TicketViews = () => {
 
 
                                             <div className='FeedbackField FeedbackFieldstatifications'>
-                                                <label className='form-label'>{`Please submit your feedback on it.`}</label>
+                                                <label className='form-label labelstart'>Please submit your feedback on it.</label>
                                                 <textarea value={CommentPart.feedbacks}
-                                                    className={`${FeedbackDatas.id ? "disabledthefiled" : ""}`}
-                                                    disabled={FeedbackDatas.id ? true : false}
+                                                    className={`${FeedbackDatas?.id ? "disabledthefiled" : ""}`}
+                                                    disabled={FeedbackDatas?.id ? true : false}
                                                     onChange={(e) => {
                                                         setcommentpart({
                                                             ...CommentPart,
@@ -1141,8 +1154,13 @@ const TicketViews = () => {
                                                     <button
                                                         className='OpenButtons'
                                                         onClick={() => {
-                                                            HandleFeedbackpopup("close")
-                                                            HandletheComments();
+                                                            if (CommentPart.feedbacks == "") {
+                                                                toast.info("Please enter the valid details");
+                                                            }
+                                                            else {
+                                                                HandleFeedbackpopup("close")
+                                                                HandletheComments();
+                                                            }
                                                         }}
                                                     >Close</button>
                                                 </div>
@@ -1197,7 +1215,7 @@ const TicketViews = () => {
                                     <div className='RemarksForms'>
 
                                         <div className='FeedbackField  remarksInnerbox'>
-                                            <label className='form-label'>{`${ticketStatus.status == 3 ? `Enter your reason for closing.` : `Please submit your feedback on it.`}`}</label>
+                                            <label className='form-label labelstart'>{`${ticketStatus.status == 3 ? `Enter your reason for closing.` : `Please submit your feedback on it.`}`}</label>
 
                                             <textarea value={remarksreopendatas.name} onChange={(e) => {
                                                 setremarksreopendata({

@@ -1250,7 +1250,7 @@ table {
                     text-align: center;
                 }
 
-                .form-label::after {
+                .labelstart::after {
                     content: "* ";
                     color: rgb(255, 81, 0);
                     margin-left: 4px;
@@ -1488,6 +1488,8 @@ input[type=number] {
     img {
         width: 13px;
         height: 13px;
+        cursor: pointer;
+        
     }
 }
 
@@ -1877,4 +1879,9 @@ $text-color: #aaa; // Text color for inactive
 
 .disabledthefiled {
     cursor: not-allowed !important;
+}
+.labelstart::after {
+    content: "* ";
+    color: rgb(255, 81, 0);
+    margin-left: 4px;
 }

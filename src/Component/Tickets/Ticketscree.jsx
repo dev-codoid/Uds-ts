@@ -157,11 +157,11 @@ const Ticketscreen = () => {
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
                     return (
-                        <div className="listTurfImgCell">
-                            <p> {data.sub_category_id?.issue_category_id?.name ?
-                                capitalizeEachWord(data.sub_category_id?.issue_category_id?.name.toLowerCase()) :
+                        <div className="ParaTickets">
+                            <p> {data.clientsub_category_id?.issue_id?.name ?
+                                capitalizeEachWord(data.clientsub_category_id?.issue_id?.name.toLowerCase()) :
                                 "-"
-
+    
                             }</p>
                         </div>
                     );
@@ -173,9 +173,9 @@ const Ticketscreen = () => {
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
                     return (
-                        <div className="listTurfImgCell">
-                            <p> {data.sub_category_id?.name ?
-                                capitalizeEachWord(data.sub_category_id?.name.toLowerCase()) : "-"}</p>
+                        <div className="ParaTickets">
+                            <p> {data.clientsub_category_id?.name ?
+                                capitalizeEachWord(data.clientsub_category_id?.name.toLowerCase()) : "-"}</p>
                         </div>
                     );
                 },

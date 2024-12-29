@@ -20,6 +20,8 @@ export const  Leveluserapi  = BaseUrl+"/ticketapp/leveluser/"
 export const  ticketexportapi  = BaseUrl+"/ticketapp/clientexcelexport/"
 export const  tickettimeline  = BaseUrl+"/ticketapp/tickettimeline/"
 
+export const clientcategoryapi   = BaseUrl+"/ticketapp/clientissuelist/"
+export const clientsubcategoryapi   = BaseUrl+"/ticketapp/clientsubissuelist/"
 
 
 

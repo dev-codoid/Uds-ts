@@ -3,7 +3,7 @@ import useStore from "../../Store";
 import ReactTable from '../Reacttable/Reacttable';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAPICallFunction, postAPICallFunction } from "../../ReactQuery/reactQuery";
-import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi, Ticketretrieveapis } from "../../Api/Api";
+import { Ticketapis, ticketcategoryapi, ticketsubcategoryapi, Presenturlapi, Ticketretrieveapis, clientcategoryapi, clientsubcategoryapi } from "../../Api/Api";
 import searchimg from "../../assets/Dashboard/Vector (3).svg";
 import high from "../../assets/Dashboard/Group 427319195.svg";
 import low from "../../assets/Dashboard/Group 427319197.svg";
@@ -40,11 +40,13 @@ const TicketCreate = () => {
     const [file, setFile] = useState(null);
     const normaldata = {
         documents: [],
-        sub_category_id: "",
+        // sub_category_id: "",
+        clientsub_category_id:"",
         client_id: ownerDetails?.client_id,
         remarks: "",
         issue_category_id: "",
-        priority: ""
+        priority: "",
+        client_subcategory:true,
 
     }
 
@@ -360,7 +362,7 @@ const TicketCreate = () => {
             setIsLoading(true);
 
             const response = await getAPICallFunction({
-                url: ticketcategoryapi,
+                url: clientcategoryapi,
                 payload: payloadcategory
             });
             setIsLoading(false);
@@ -402,7 +404,7 @@ const TicketCreate = () => {
 
             try {
                 const response = await getAPICallFunction({
-                    url: ticketsubcategoryapi,
+                    url: clientsubcategoryapi,
                     payload: subpayload
                 });
                 return response;
@@ -459,9 +461,9 @@ const TicketCreate = () => {
     });
     const CreateTicket = () => {
         if (Ticketdata.remarks != "" && Ticketdata.issue_category_id !== "" &&
-            Ticketdata.sub_category_id !== ""
+            Ticketdata.clientsub_category_id !== ""
         ) {
-
+                delete Ticketdata.issue_category_id;
 
             if (documentnotuploads) {
                 setticketdata(prevState => ({
@@ -539,7 +541,7 @@ const TicketCreate = () => {
                                                     setticketdata({
                                                         ...Ticketdata,
                                                         issue_category_id: e.value,
-                                                        sub_category_id: ""
+                                                        clientsub_category_id: ""
 
 
                                                     })
@@ -568,7 +570,7 @@ const TicketCreate = () => {
                                                     setPriorityValues({ value: e.value, label: e.priority })
                                                     setticketdata({
                                                         ...Ticketdata,
-                                                        sub_category_id: e.value,
+                                                        clientsub_category_id: e.value,
                                                         priority: e.priorityvalu
                                                     })
                                                     setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
