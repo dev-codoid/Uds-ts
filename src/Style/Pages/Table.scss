@@ -563,7 +563,7 @@ table {
 
                             p {
                                 font-weight: 500;
-                                font-size: 18px;
+                                font-size: 15px;
                             }
                         }
 
@@ -1884,4 +1884,7 @@ $text-color: #aaa; // Text color for inactive
     content: "* ";
     color: rgb(255, 81, 0);
     margin-left: 4px;
+}
+.Droplabel2{
+     cursor: pointer;
 }

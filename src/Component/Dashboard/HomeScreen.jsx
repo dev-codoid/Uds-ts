@@ -628,7 +628,7 @@ const HomeScreen = () => {
                                                                             <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
                                                                                 <div className='ticket-itemCols'>
 
-                                                                                    <h6>{item?.sub_category_id?.name ? capitalizeEachWord(item?.sub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                                    <h6>{item?.clientsub_category_id?.name ? capitalizeEachWord(item?.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
                                                                                     <p className="text-muted DateFields mb-0">Created Date <span>{formatDate(item.created_at)}</span></p>
                                                                                 </div>
 
@@ -663,7 +663,7 @@ const HomeScreen = () => {
                                                             </div>
                                                             <div className='TicketingCardSecuritys'>
                                                                 <div>
-                                                                    <h6>{item.sub_category_id?.name ? capitalizeEachWord(item.sub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                    <h6>{item.clientsub_category_id?.name ? capitalizeEachWord(item.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
                                                                     <p className="text-muted DateFields mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span></p>
                                                                 </div>
                                                                 <button className="btn track-btn" onClick={() => { ticketOverViewFunc(item) }}>Track Now</button>

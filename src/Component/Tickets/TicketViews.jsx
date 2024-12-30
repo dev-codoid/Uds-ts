@@ -59,7 +59,7 @@ const TicketViews = () => {
         feedbacks: "",
         client_user_id: "",
         ticket_id: TicketIDS,
-        satisfaction: "",
+        satisfaction: "excellent",
 
     });
 
@@ -94,6 +94,7 @@ const TicketViews = () => {
         { id: "good", label: "Good", imgSrc: activeFeedback == "good" ? goodactiveimg : goodimg },
         { id: "excellent", label: "Excellent", imgSrc: activeFeedback == "excellent" ? excellentimg : excellentactiveimg },
     ];
+    console.log(activeFeedback, "activeFeedback");
 
 
     const [PresentUrls, setPresentUrls] = useState([]);
@@ -421,7 +422,10 @@ const TicketViews = () => {
         },
         onSuccess: (data) => {
             setIsLoading(false);
-            ticketreteievRefetchcalls()
+            // ticketreteievRefetchcalls()
+            Navigate("/tickets")
+
+
         },
         onError: () => {
             setIsLoading(false);
@@ -500,12 +504,14 @@ const TicketViews = () => {
                 name: "",
                 documents: ""
             });
+            TicketStatusChanges.mutate()
+            // gettheTimeFetch()
             setUploadedFiles([]);
             setcroppedFilestatet([]);
             setPresentUrls([]);
             seturlandfile([]);
             setcommetpoup(false);
-            TicketStatusChanges.mutate()
+
 
 
 
@@ -517,8 +523,12 @@ const TicketViews = () => {
 
 
     const HandlethRemarksfromclient = () => {
+        console.log(remarksreopendatas, "remarksreopendatas");
 
-        if (remarksreopendatas.name != "" && documentnotuploads == true) {
+
+        if (remarksreopendatas.name != ""
+            // && documentnotuploads == true
+        ) {
 
             setremarksreopendata(prevState => ({
                 ...prevState,
@@ -546,7 +556,7 @@ const TicketViews = () => {
     }
 
 
-    const { data: ticketdatas, } = useQuery({
+    const { data: ticketdatas, refetch: gettheTimeFetch } = useQuery({
         queryKey: ["getthetickettimelinerecords"],
         queryFn: async () => {
             setIsLoading(true);
@@ -596,6 +606,8 @@ const TicketViews = () => {
                 satisfaction: FeedbackDatas?.satisfaction,
                 status: FeedbackDatas?.status,
             })
+            setActiveFeedback(FeedbackDatas?.satisfaction)
+
         }
     }, [FeedbackDatas])
     console.log(FeedbackRetrieveedata, CommentPart, "FeedbackRetrieveedata", FeedbackDatas);
@@ -639,11 +651,20 @@ const TicketViews = () => {
 
         }
     }
+    // const capitalizeEachWord = (str) => {
+    //     return str
+    //         .split(' ') // Split the string into an array of words
+    //         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+    //         .join(' '); // Join the words back into a string
+    // };
+
     const capitalizeEachWord = (str) => {
-        return str
-            .split(' ') // Split the string into an array of words
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
-            .join(' '); // Join the words back into a string
+        return str && typeof str === 'string'
+            ? str
+                .split(' ') // Split the string into an array of words
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+                .join(' ') // Join the words back into a string
+            : ''; // Return an empty string if the input is invalid
     };
 
 
@@ -727,6 +748,7 @@ const TicketViews = () => {
         });
     };
 
+    console.log(TIckettimelinerecordDetails, "TIckettimelinerecordDetails");
 
 
 
@@ -777,7 +799,7 @@ const TicketViews = () => {
                                             <div className="col-md-10 Ticketingrecords">
 
                                                 <p className="mb-1 heaerspara">
-                                                    <p className='ticketheader Headerticket'>Ticket ID</p> {ticketretrieve?.ticket_number} <br />
+                                                    <p className='ticketheader Headerticket'>Ticket Number</p> {ticketretrieve?.ticket_number} <br />
                                                 </p>
 
                                                 <p className="mb-1 heaerspara">
@@ -891,7 +913,7 @@ const TicketViews = () => {
                                                 <div className='TimeLIneDayLeft'>
                                                     {ticketretrieve?.status != 3 ?
                                                         <button className='TimelineButtons'>
-                                                            {(() => {
+                                                            {/* {(() => {
                                                                 const createdAt = ticketretrieve?.created_at;
                                                                 if (createdAt) {
                                                                     const createdDate = new Date(createdAt);
@@ -901,7 +923,115 @@ const TicketViews = () => {
                                                                     return `${daysLeft} days left`;
                                                                 }
                                                                 return "No date";
+                                                            })()} */}
+
+                                                            {/* {(() => {
+                                                                const createdAt = ticketretrieve?.created_at; // Retrieve the created_at date
+                                                                const tatNumber = ticketretrieve?.clientsub_category_id?.TAT || 0; // Retrieve the TAT number, default to 0 if undefined
+
+                                                                if (createdAt && tatNumber > 0) {
+                                                                    const createdDate = new Date(createdAt);
+                                                                    const tatDeadline = new Date(createdDate); // Clone created date
+                                                                    tatDeadline.setDate(tatDeadline.getDate() + tatNumber); // Add TAT days to the created date
+
+                                                                    const currentDate = new Date();
+                                                                    const timeDifference = tatDeadline - currentDate; // Difference in milliseconds
+
+                                                                    const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
+
+                                                                    if (daysLeft > 0) {
+                                                                        return `${daysLeft} days left`; // Days remaining
+                                                                    } else {
+                                                                        return "days exceeded"; // Deadline has passed
+                                                                    }
+                                                                }
+
+                                                                return "No date available"; // Fallback if created_at or TAT is not provided
+                                                            })()} */}
+
+
+
+                                                            {/* {(() => {
+                                                                const tatNumber = ticketretrieve?.clientsub_category_id?.TAT || 0; // Retrieve the TAT number, default to 0 if undefined
+
+                                                                if (tatNumber > 0) {
+                                                                    const currentDate = new Date(); // Get the current date
+                                                                    const tatDeadline = new Date(currentDate); // Clone current date
+                                                                    tatDeadline.setDate(tatDeadline.getDate() + tatNumber); // Add TAT days to the current date
+
+                                                                    const timeDifference = tatDeadline - currentDate; // Difference in milliseconds
+                                                                    const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
+
+                                                                    if (daysLeft > 0) {
+                                                                        return `${daysLeft} days left`; // Days remaining
+                                                                    } else {
+                                                                        return "days exceeded"; // Deadline has passed
+                                                                    }
+                                                                }
+
+                                                                return "No TAT provided"; // Fallback if TAT is not provided
+                                                            })()} */}
+                                                            {/* {(() => {
+                                                                const createdAt = ticketretrieve?.created_at;
+                                                                const TAT = ticketretrieve?.clientsub_category_id?.TAT; // Turn-Around Time in days
+                                                                if (createdAt && TAT) {
+                                                                    const createdDate = new Date(createdAt);
+                                                                    const currentDate = new Date();
+
+                                                                    // Time difference in days
+                                                                    const timeDifferenceInDays = Math.ceil((currentDate - createdDate) / (1000 * 60 * 60 * 24));
+
+                                                                    // First scenario: Remaining time
+                                                                    const remainingTime = TAT - timeDifferenceInDays;
+
+                                                                    // Second scenario: Overdue time
+                                                                    const overdueTime = timeDifferenceInDays - TAT;
+                                                                     console.log(remainingTime ,"remainingTime", ticketretrieve?.clientsub_category_id?.TAT , timeDifferenceInDays);
+                                                                     
+
+                                                                    // Determine what to display
+                                                                    if (remainingTime > 0) {
+                                                                        return `${remainingTime} days left`;
+                                                                    } else {
+                                                                        return `${Math.abs(overdueTime)} days overdue`;
+                                                                    }
+                                                                }
+                                                                return "No date";
+                                                            })()} */}
+
+
+
+                                                            {(() => {
+                                                                const createdAt = ticketretrieve?.created_at;
+                                                                const TAT = ticketretrieve?.clientsub_category_id?.TAT; // Turn-Around Time in days
+                                                                if (createdAt && TAT) {
+                                                                    const createdDate = new Date(createdAt);
+                                                                    const currentDate = new Date();
+
+                                                                    // Time difference in days
+                                                                    const timeDifferenceInDays = Math.ceil((currentDate - createdDate));
+
+                                                                    // First scenario: Remaining time
+                                                                    const remainingTime = TAT - timeDifferenceInDays;
+
+                                                                    // Second scenario: Overdue time
+                                                                    const overdueTime = timeDifferenceInDays - TAT;
+
+
+                                                                    // Determine what to display
+                                                                    if (remainingTime > 0) {
+                                                                        return `${remainingTime} day left`;
+                                                                    }
+                                                                    else if (formatDate(currentDate) == formatDate(createdDate)) {
+                                                                        return `${ticketretrieve?.clientsub_category_id?.TAT} day left`;
+                                                                    }
+                                                                    else {
+                                                                        return `${Math.abs(overdueTime)} day left`;
+                                                                    }
+                                                                }
+                                                                return "";
                                                             })()}
+
 
                                                         </button>
                                                         : null}
@@ -911,7 +1041,7 @@ const TicketViews = () => {
 
                                                     {TIckettimelinerecordDetails && Object.keys(TIckettimelinerecordDetails).map((key, index) => {
                                                         const item = TIckettimelinerecordDetails[key]; // Get the status object (e.g., open, inprogress, etc.)
-
+                                                        console.log(key, "asodgoasudasud key", item?.created_date);
                                                         const getStatusText = (statusObj, statusKey) => {
                                                             if (statusObj) {
                                                                 return (
@@ -930,15 +1060,18 @@ const TicketViews = () => {
                                                         return (
 
                                                             <React.Fragment key={index}>
-                                                                <div className={`timeline-item ${item ? "active" : "NotactiveInBars"}`}>
-                                                                    <div className={`InnerTimelines ${item ? "active" : ""}`}>
+                                                                <div className={`timeline-item ${item?.created_date ? "active" : "NotactiveInBars"}`}>
+                                                                    <div className={`InnerTimelines ${item?.created_date ? "active" : ""}`}>
                                                                         <div className="dot"></div>
                                                                         <span>
-                                                                            {key == "completed" ? "Review" : key == "close" ? "Resolved" : capitalizeEachWord(key)}
+                                                                            {/* {key == "completed" ? "Review" : key == "close" ? "Resolved" : capitalizeEachWord(key)} */}
+                                                                            {item?.status != null &&
+                                                                                capitalizeEachWord(item?.status)}
+
 
                                                                         </span>
                                                                     </div>
-                                                                    <div className={`timeline-line ${item ? "active" : ""}`}></div>
+                                                                    <div className={`timeline-line ${item?.created_date ? "active" : ""}`}></div>
 
                                                                     <p className='CreatedDateList'>{getStatusText(item, key)}</p>
                                                                 </div>
@@ -964,9 +1097,9 @@ const TicketViews = () => {
                                                 <p>Assignee</p>
                                             </div>
                                             <div className="card shadow-sm p-2 phonecallcard">
-                                                {ticketretrieve?.client_id != undefined &&
-                                                    ticketretrieve?.client_id != null &&
-                                                    ticketretrieve?.client_id?.l1_user.map((item) => {
+                                                {ticketretrieve?.l1_users != undefined &&
+                                                    ticketretrieve?.l1_users != null &&
+                                                    ticketretrieve?.l1_users.map((item) => {
 
                                                         return (
 
@@ -978,7 +1111,7 @@ const TicketViews = () => {
                                                                     </div>
 
                                                                     <div className='Contactednames'>
-                                                                        <span>{capitalizeEachWord(item.first_name.toLowerCase())}</span>
+                                                                        <span>{capitalizeEachWord(ticketretrieve?.l1_users[0].first_name.toLowerCase())}</span>
                                                                         <p>Site Supervisor</p>
                                                                     </div>
                                                                 </div>
@@ -1109,7 +1242,9 @@ const TicketViews = () => {
                                                 {feedbackOptions.map((option) => (
                                                     <div
                                                         key={option.id}
-                                                        className={`feedback-option ${activeFeedback === option.id ? "active" : FeedbackDatas != undefined && FeedbackDatas?.id ? "disabledthefiled" : ""}`}
+                                                        className={`feedback-option ${activeFeedback === option.id ? "active"
+                                                             : FeedbackDatas != undefined && FeedbackDatas?.id ? "disabledthefiled " 
+                                                            : ""}`}
                                                         onClick={() => {
                                                             if (FeedbackDatas != undefined && FeedbackDatas?.id) {
 
@@ -1121,7 +1256,8 @@ const TicketViews = () => {
                                                         }}
                                                     >
                                                         <img src={option.imgSrc} alt={option.label} />
-                                                        <span>{option.label}</span>
+                                                        <span>{option.label}
+                                                        </span>
                                                     </div>
                                                 ))}
                                             </div>
@@ -1249,7 +1385,7 @@ const TicketViews = () => {
 
                                                 }}
                                             >
-                                                <div className="d-flex flex-wrap align-items-center gap-3">
+                                                <div className="d-flex flex-wrap align-items-center justify-content-center gap-3">
                                                     {PresentUrls.map((file, index) => {
 
                                                         let displayImg;
@@ -1295,7 +1431,7 @@ const TicketViews = () => {
                                                         )
                                                     })}
 
-                                                    {uploadedFiles.length == 0 && (
+                                                    {PresentUrls.length == 0 && (
                                                         <div className='InnerImages d-flex flex-wrap align-items-center  justify-content-center' >
                                                             <img src={backimg} />
                                                         </div>
@@ -1308,6 +1444,7 @@ const TicketViews = () => {
                                                     Drag your files here to upload or{" "}
                                                     <label className='Droplabel'
                                                         htmlFor="fileUploadInput"
+                                                        style={{ cursor: "pointer" }}
                                                     >
                                                         Browse file
                                                     </label>

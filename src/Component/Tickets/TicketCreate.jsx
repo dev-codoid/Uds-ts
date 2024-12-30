@@ -32,7 +32,8 @@ const TicketCreate = () => {
         settheThankpopup,
         thanksContent,
         setTicketResponse,
-        TicketCreateREsponse
+        TicketCreateREsponse,
+        setIsLoadingtwo
 
     } = useStore();
     //---creating ticket 
@@ -41,12 +42,12 @@ const TicketCreate = () => {
     const normaldata = {
         documents: [],
         // sub_category_id: "",
-        clientsub_category_id:"",
+        clientsub_category_id: "",
         client_id: ownerDetails?.client_id,
         remarks: "",
         issue_category_id: "",
         priority: "",
-        client_subcategory:true,
+        client_subcategory: true,
 
     }
 
@@ -103,19 +104,28 @@ const TicketCreate = () => {
         const files = Array.from(event.target.files);
 
         // Filter files based on type and size
+        // const validFiles = files.filter((file) => {
+        //     const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
+        //     const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
+
+        //     if (!isPhotoOrVideo) {
+        //         toast.error(`Invalid file type: ${file.name}`);
+        //     }
+        //     if (!isUnderSizeLimit && isPhotoOrVideo) {
+        //         toast.error(`File too large: ${file.name} exceeds 5 MB`);
+        //     }
+
+        //     return isPhotoOrVideo && isUnderSizeLimit;
+        // });
+
         const validFiles = files.filter((file) => {
             const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
-            const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
-
-            if (!isPhotoOrVideo) {
-                toast.error(`Invalid file type: ${file.name}`);
-            }
-            if (!isUnderSizeLimit && isPhotoOrVideo) {
-                toast.error(`File too large: ${file.name} exceeds 5 MB`);
-            }
-
-            return isPhotoOrVideo && isUnderSizeLimit;
+            const isExcel = file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "application/vnd.ms-excel";
+            const isPdf = file.type === "application/pdf";
+            const isEmail = file.type === "message/rfc822"; // MIME type for email files
+            return isPhotoOrVideo || isExcel || isPdf || isEmail;
         });
+
 
         if (validFiles.length === 0) {
             return; // Exit if no valid files
@@ -168,19 +178,28 @@ const TicketCreate = () => {
         const droppedFiles = Array.from(event.dataTransfer.files);
 
         // Filter files based on type and size
+        // const validFiles = droppedFiles.filter((file) => {
+        //     const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
+        //     const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
+
+        //     if (!isPhotoOrVideo) {
+        //         toast.error(`Invalid file type: ${file.name}`);
+        //     }
+        //     if (!isUnderSizeLimit && isPhotoOrVideo) {
+        //         toast.error(`File too large: ${file.name} exceeds 5 MB`);
+        //     }
+
+        //     return isPhotoOrVideo && isUnderSizeLimit;
+        // });
+
         const validFiles = droppedFiles.filter((file) => {
             const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
-            const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
-
-            if (!isPhotoOrVideo) {
-                toast.error(`Invalid file type: ${file.name}`);
-            }
-            if (!isUnderSizeLimit && isPhotoOrVideo) {
-                toast.error(`File too large: ${file.name} exceeds 5 MB`);
-            }
-
-            return isPhotoOrVideo && isUnderSizeLimit;
+            const isExcel = file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "application/vnd.ms-excel";
+            const isPdf = file.type === "application/pdf";
+            const isEmail = file.type === "message/rfc822"; // MIME type for email files
+            return isPhotoOrVideo || isExcel || isPdf || isEmail;
         });
+
 
         if (validFiles.length === 0) {
             return; // Exit if no valid files
@@ -260,26 +279,25 @@ const TicketCreate = () => {
         // mutationFn: async (responsedatas) => { // Accepts data passed via mutate
         // mutationFn: async ({ filepart, responsedatas }) => { // Destructure the object
         mutationFn: async ({ filepart, responsedatas }) => {  // Destructure the object
+            setIsLoadingtwo(true);
 
             console.log(filepart, responsedatas, "filepart, responsedatas");
 
-            setIsLoading(true);
 
 
             const response = await postAPICallFunction({
                 url: Presenturlapi,
                 data: responsedatas, // Use the data passed in mutate
             });
-            setIsLoading(false);
+            // setIsLoadingtwo(false)
 
             return { ...response, responsedatas, filepart };
         },
         onSuccess: (data) => {
-            setIsLoading(false);
 
             const responsedatas = data.responsedatas; // Extract responsedatas
             const filepart = data.filepart
-
+            setIsLoadingtwo(false);
 
             const uploadedFiles = data.data.data; // Adjust based on actual response structure
             const newUrls = uploadedFiles.map(url => ({
@@ -296,10 +314,13 @@ const TicketCreate = () => {
                 seturlandfile(prevUrls => [...prevUrls, SendUrl]); // Add the URL to the array
             }
 
+
+
+
+
         },
         onError: (error) => {
-            setIsLoading(false);
-            console.log(error, "error");
+            setIsLoadingtwo(false);
 
         },
     });
@@ -318,6 +339,7 @@ const TicketCreate = () => {
                         },
                         body: item.putfiles,
                     });
+                    setIsLoadingtwo(true)
                     if (PresentUrls.length == index + 1) {
 
                         setPresentUrls([]); // Clear the URLs on success
@@ -328,6 +350,8 @@ const TicketCreate = () => {
                     if (!response.ok) {
                         throw new Error(`Failed to upload file to ${item.url}, Status: ${response.status}`);
                     }
+                    setIsLoadingtwo(false)
+
                     return { url: item.url, status: 'success' };
                 })
             );
@@ -393,27 +417,73 @@ const TicketCreate = () => {
         active: true
     };
 
-    const { data: SubCategorydetails } = useQuery({
-        queryKey: ["SubCategorycall", Ticketdata.issue_category_id, subcategorysearch],
-        queryFn: async () => {
-            if (Ticketdata.issue_category_id === "") {
-                return [];
-            }
+    // const { data: SubCategorydetails } = useQuery({
+    //     queryKey: ["SubCategorycall", Ticketdata.issue_category_id, subcategorysearch],
+    //     queryFn: async () => {
+    //         if (Ticketdata.issue_category_id === "") {
+    //             return [];
+    //         }
 
+    //         setIsLoading(true);
+
+    //         try {
+    //             const response = await getAPICallFunction({
+    //                 url: clientsubcategoryapi,
+    //                 payload: subpayload
+    //             });
+    //             return response;
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     },
+    //     enabled: Ticketdata.issue_category_id !== "",
+    // });
+
+
+    // const { data: SubCategorydetails } = useQuery({
+    //     queryKey: ["SubCategorycall", Ticketdata.issue_category_id.trim(), subcategorysearch],
+    //     queryFn: async () => {
+    //         if (Ticketdata.issue_category_id.trim() === "") {
+    //             return [];
+    //         }
+
+    //         setIsLoading(true);
+
+    //         try {
+    //             const response = await getAPICallFunction({
+    //                 url: clientsubcategoryapi,
+    //                 payload: subpayload,
+    //             });
+    //             return response;
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     },
+    //     enabled: Ticketdata.issue_category_id.trim() !== "",
+    // });
+
+    const { data: SubCategorydetails, } = useQuery({
+        queryKey: [
+            "SubCategorycall",
+            Ticketdata.issue_category_id,
+            subcategorysearch,
+
+        ],
+        queryFn: async () => {
             setIsLoading(true);
 
-            try {
-                const response = await getAPICallFunction({
-                    url: clientsubcategoryapi,
-                    payload: subpayload
-                });
-                return response;
-            } finally {
-                setIsLoading(false);
-            }
+            const response = await getAPICallFunction({
+                url: clientsubcategoryapi,
+                payload: subpayload,
+            });
+            setIsLoading(false);
+
+            return response;
         },
-        enabled: Ticketdata.issue_category_id !== "",
+        enabled: Ticketdata.issue_category_id !==  ""&& Ticketdata.issue_category_id != undefined ,
     });
+     
+
 
     useEffect(() => {
         if (SubCategorydetails) {
@@ -463,7 +533,7 @@ const TicketCreate = () => {
         if (Ticketdata.remarks != "" && Ticketdata.issue_category_id !== "" &&
             Ticketdata.clientsub_category_id !== ""
         ) {
-                delete Ticketdata.issue_category_id;
+            delete Ticketdata.issue_category_id;
 
             if (documentnotuploads) {
                 setticketdata(prevState => ({
@@ -738,7 +808,7 @@ const TicketCreate = () => {
 
                                                 <p className="mt-3 " >
                                                     Drag your files here to upload or{" "}
-                                                    <label className='Droplabel'
+                                                    <label className='Droplabel Droplabel2'
                                                         htmlFor="fileUploadInput"
                                                     >
                                                         Browse file
@@ -812,9 +882,9 @@ const TicketCreate = () => {
                                             </p>
                                             <p>resolving your issue as quickly as possible and appreciate.</p>
                                             <p>your patience.</p> */}
-                                            <p>Thank you for bringing this to our attention. We’re committed to resolving your issue as quickly as possible and appreciate 
-                                            your patience</p>
-                                            .</label>
+                                            <p>Thank you for bringing this to our attention. We’re committed to resolving your issue as quickly as possible and appreciate
+                                                your patience.</p>
+                                        </label>
 
 
                                     </div>

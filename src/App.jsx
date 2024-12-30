@@ -18,13 +18,18 @@ import TicketViews from "./Component/Tickets/TicketViews";
 
 function App() {
   const isTurfLogin = localStorage.getItem("isTicketsLogin");
-  const { setIsLoading, isLoading, isNewUser, ownerDetails } = useStore(
+  const { setIsLoading, isLoading, isNewUser, ownerDetails, isLoading2 } = useStore(
     (state) => state
   );
+
+   console.log(isLoading2 ,"isLoading2isLoading2",isLoading);
+   
 
   return (
     <>
       {isLoading && <Loader />}
+      {isLoading2 && <Loader />}
+
       {isTurfLogin === "true" ? (
         <>
         <Dashboard/>

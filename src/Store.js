@@ -8,6 +8,8 @@ const useStore = create(
       selectedSideBarTab: "DashBoard",
       isLogin: false,
       isLoading: false,
+      isLoading2: false,
+
       superAdminTurfViewData: {},
       isNewUser: false,
       ownerDetails: {},
@@ -43,6 +45,8 @@ const useStore = create(
       setSelectedSideBarTab: (val) => set(() => ({ selectedSideBarTab: val })),
       setIsLogin: (val) => set(() => ({ isLogin: val })),
       setIsLoading: (val) => set(() => ({ isLoading: val })),
+      setIsLoadingtwo: (val) => set(() => ({ isLoading2: val })),
+
       setSuperAdminTurfViewData: (data) => set(() => ({ superAdminTurfViewData: data })),
       setIsNewUser: (val) => set(() => ({ isNewUser: val })),
       setOwnerDetails: (val) => set(() => ({ ownerDetails: val })),
