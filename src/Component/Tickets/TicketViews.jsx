@@ -1007,9 +1007,12 @@ const TicketViews = () => {
                                                                 if (createdAt && TAT) {
                                                                     const createdDate = new Date(createdAt);
                                                                     const currentDate = new Date();
+                                                                    const timeDifferenceInMs = currentDate - createdDate;
+
+                                                                    const timeDifferenceInDays = Math.ceil(timeDifferenceInMs / (1000 * 60 * 60 * 24));
 
                                                                     // Time difference in days
-                                                                    const timeDifferenceInDays = Math.ceil((currentDate - createdDate));
+                                                                    // const timeDifferenceInDays = Math.ceil((currentDate - createdDate));
 
                                                                     // First scenario: Remaining time
                                                                     const remainingTime = TAT - timeDifferenceInDays;
@@ -1019,14 +1022,27 @@ const TicketViews = () => {
 
 
                                                                     // Determine what to display
+                                                                    // if (remainingTime > 0) {
+                                                                    //     return `${remainingTime} day left`;
+                                                                    // }
+                                                                    // else if (formatDate(currentDate) == formatDate(createdDate)) {
+                                                                    //     return `${ticketretrieve?.clientsub_category_id?.TAT} day left`;
+                                                                    // }
+                                                                    // else {
+                                                                    //     return `${Math.abs(overdueTime)} day left`;
+                                                                    // }
                                                                     if (remainingTime > 0) {
                                                                         return `${remainingTime} day left`;
                                                                     }
                                                                     else if (formatDate(currentDate) == formatDate(createdDate)) {
                                                                         return `${ticketretrieve?.clientsub_category_id?.TAT} day left`;
                                                                     }
+                                                                    else if (remainingTime == 0) {
+                                                                        return `${"overdue"}`;
+                                                                    }
                                                                     else {
-                                                                        return `${Math.abs(overdueTime)} day left`;
+                                                                        // return `${Math.abs(overdueTime)}`;
+                                                                        return `${"overdue"}`;
                                                                     }
                                                                 }
                                                                 return "";
@@ -1243,8 +1259,8 @@ const TicketViews = () => {
                                                     <div
                                                         key={option.id}
                                                         className={`feedback-option ${activeFeedback === option.id ? "active"
-                                                             : FeedbackDatas != undefined && FeedbackDatas?.id ? "disabledthefiled " 
-                                                            : ""}`}
+                                                            : FeedbackDatas != undefined && FeedbackDatas?.id ? "disabledthefiled "
+                                                                : ""}`}
                                                         onClick={() => {
                                                             if (FeedbackDatas != undefined && FeedbackDatas?.id) {
 
@@ -1497,17 +1513,33 @@ const TicketViews = () => {
                                         <img src={closepopup} alt="" onClick={() => { setthankcontent(false) }} />
                                     </div>
 
-                                    <h5 className='pt-4'>Thank you!</h5>
+                                    <h5 className='pt-4'>{
+
+                                        FeedbackDatas == "excellent" || FeedbackDatas == "good" ?
+                                            "Thank you!"
+                                            : "Feedback Received"}
+                                    </h5>
 
 
                                     <div className='FeedbackField'>
-                                        <label className='form-label'>
+                                        {FeedbackDatas == "excellent" || FeedbackDatas == "good" ?
+                                            <label className='form-label'>
 
-                                            We appreciate you taking the time to share your
-                                            <br /> thoughts. Your feedback helps us improve and
-                                            <br />
-                                            ensure better service.
-                                            .</label>
+                                                We appreciate you taking the time to share your
+                                                <br /> thoughts. Your feedback helps us improve and
+                                                <br />
+                                                ensure better service.
+                                                .</label>
+                                            :
+
+                                            <label className='form-label'>
+                                                Thank you for bringing this to our attention
+                                                <br /> Your concerns are important to us,and
+                                                <br />
+                                                we’ll take immediate steps to resolve them.
+                                            </label>
+
+                                        }
 
 
                                     </div>

@@ -529,9 +529,13 @@ const TicketCreate = () => {
             setIsLoading(false);
         }
     });
+     console.log(Ticketdata ,"asdasd Ticketdata");
+     
     const CreateTicket = () => {
         if (Ticketdata.remarks != "" && Ticketdata.issue_category_id !== "" &&
-            Ticketdata.clientsub_category_id !== ""
+            Ticketdata.clientsub_category_id !== "" &&
+            Ticketdata.priority !== ""
+ 
         ) {
             delete Ticketdata.issue_category_id;
 
@@ -641,9 +645,9 @@ const TicketCreate = () => {
                                                     setticketdata({
                                                         ...Ticketdata,
                                                         clientsub_category_id: e.value,
-                                                        priority: e.priorityvalu
+                                                        // priority: e.priorityvalu
                                                     })
-                                                    setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
+                                                    // setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
 
 
 
