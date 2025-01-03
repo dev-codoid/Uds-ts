@@ -21,10 +21,27 @@ table {
         tr {
             th {
                 background-color: #F1F7FA;
-                line-height: 54px;
+                line-height: 54px !important;
                 padding: 0px 11px !important;
                 color: var(--mainColor);
                 font-weight: 600;
+            }
+            @media (max-width: 1480px) {
+
+                th {
+                    line-height: 30px !important;
+
+
+                }
+            }
+
+            @media (max-width: 1233.33px) {
+
+                th {
+                    line-height: 30px !important;
+
+
+                }
             }
 
             th:first-child {
@@ -159,6 +176,7 @@ table {
             align-items: center;
             padding: 1px 9px 11px 10px;
             width: 100%;
+            gap: 12px;
         }
 
         // .Groupbtn {
@@ -233,11 +251,10 @@ table {
                 border: 1px solid hsla(0, 0%, 85%, 1);
 
                 img {
-                    width: 14px;
+                    width: 17px;
                     margin-left: 11px;
-                    margin-top: 11px;
+                    margin-top: 9px;
                     margin-right: 8px;
-
 
                 }
 
@@ -251,7 +268,7 @@ table {
                 }
 
                 ::placeholder {
-                    font-size: 12px;
+                    font-size: 14px;
                     color: #000;
                 }
 
@@ -495,7 +512,7 @@ table {
 
                 }
 
-                .col-5 {
+                .col-4 {
                     height: 100%;
                     background: hsla(0, 0%, 96%, 1);
                     display: flex;
@@ -507,6 +524,7 @@ table {
                     padding: 0 !important;
                     display: flex;
                     flex-direction: column;
+                    justify-content: center;
 
                     .Popupcreatetickets {
                         display: flex;
@@ -547,30 +565,142 @@ table {
                     .CreatedBy {
                         position: absolute;
                         bottom: 0;
-                        width: 323px;
-                        height: 67px;
+                        // width: 323px;
+                        // height: 67px;
+                        width: auto;
+                        height: auto;
                         background-color: hsla(15, 88%, 59%, 1);
                         border-radius: 10px 10px 0px 0px;
                         border: 2px solid;
-                        color: #fff;
+                        color: transparent;
 
                         .CreateBodyofcontent {
                             display: flex;
                             justify-content: center;
                             align-items: center;
                             height: 100%;
-                            gap: 20px;
+                            gap: 21px;
 
                             p {
                                 font-weight: 500;
-                                font-size: 15px;
+                                font-size: 18px;
+                                color: #fff;
+                                // padding: 15px 15px 15px 0px;
+                                padding: 21px 15px 15px 0px;
                             }
                         }
 
                         .createrimgs {
-                            width: 37px;
-                            height: 37px;
+                            // width: 37px;
+                            // height: 37px;
+                            // border-radius: 50%;
+                            // margin-left: 12px;
+                            width: 40px;
+                            height: 40px;
                             border-radius: 50%;
+                            margin-left: 12px;
+                            margin-top: 8px;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 50%;
+
+
+                            }
+                        }
+
+                    }
+                }
+
+                .col-5 {
+                    height: 100%;
+                    background: hsla(0, 0%, 96%, 1);
+                    display: flex;
+                    // justify-content: center;
+                    align-items: center;
+                    border-radius: 12px 0px 0px 12px;
+                    position: relative;
+
+                    padding: 0 !important;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    .Popupcreatetickets {
+                        display: flex;
+                        flex-direction: column;
+                        height: 77%;
+                        // justify-content: space-between;
+                        justify-content: center;
+                        width: 100%;
+                        // gap: 40px;
+
+                        h3 {
+                            text-align: center;
+                            color: hsla(15, 88%, 59%, 1);
+                            font-weight: 600;
+                            border-left: 11px solid hsla(15, 88%, 59%, 1);
+                            
+                        }
+
+                        .InnerImages {
+                            // border: 2px solid ;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            /* margin-top: 12px; */
+                            position: relative;
+                            top: 40px;
+
+                            img {
+                                width: 97%;
+                                height: 88%;
+
+                            }
+                        }
+                    }
+
+
+
+                    .CreatedBy {
+                        position: absolute;
+                        bottom: 0;
+                        // width: 323px;
+                        // height: 67px;
+                        width: auto;
+                        height: auto;
+                        background-color: hsla(15, 88%, 59%, 1);
+                        border-radius: 10px 10px 0px 0px;
+                        border: 2px solid;
+                        color: transparent;
+
+                        .CreateBodyofcontent {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100%;
+                            gap: 21px;
+
+                            p {
+                                font-weight: 500;
+                                font-size: 18px;
+                                color: #fff;
+                                // padding: 15px 15px 15px 0px;
+                                padding: 21px 15px 15px 0px;
+                            }
+                        }
+
+                        .createrimgs {
+                            // width: 37px;
+                            // height: 37px;
+                            // border-radius: 50%;
+                            // margin-left: 12px;
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            margin-left: 12px;
+                            margin-top: 8px;
 
                             img {
                                 width: 100%;
@@ -622,7 +752,8 @@ table {
                     width: 58.33333333%;
                     /* max-width: 535px; */
                     height: 100%;
-                    max-height: 725px;
+                    // max-height: 725px;
+                    max-height: 100%;
                     position: relative;
                     right: 0;
                     overflow: auto;
@@ -632,6 +763,10 @@ table {
                         width: 38%;
                         z-index: 3;
                         background: #fff;
+
+                        img {
+                            cursor: pointer;
+                        }
                     }
 
                     .col-12 {
@@ -732,6 +867,7 @@ table {
 
                             p {
                                 font-weight: 500;
+                                 font-size: 14px;
 
                             }
                         }
@@ -756,7 +892,7 @@ table {
 
                             button {
                                 display: inline-block;
-                                padding: 4px 11px;
+                                padding: 8px 31px;
                                 background-color: var(--mainColor);
                                 color: #fff;
                                 border: none;
@@ -822,11 +958,15 @@ table {
     }
 
     .RightSideparts {
-        height: 100% !important;
-        min-height: none !important;
+        // height: 100% !important;
+        // min-height: none !important;
+        // position: relative;
+        // right: 0;
         position: relative;
-        right: 0;
-        overflow: auto;
+    height: 100%;
+    overflow: hidden;
+    // overflow: auto;
+
 
         .col-12 {
             padding: 13px 7px;
@@ -959,8 +1099,9 @@ table {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 11px  17px;
-            .InnercardOflevels{
+            padding: 11px 17px;
+
+            .InnercardOflevels {
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
@@ -978,15 +1119,17 @@ table {
                     border-radius: 50%;
                 }
             }
-            .Contactednames{
-                 span{
-                     color:#000;
+
+            .Contactednames {
+                span {
+                    color: #000;
                     font-size: 15px;
-                     font-weight: 500;
-                     p{
-                         font-size: 13px
-                     }
-                 }
+                    font-weight: 500;
+
+                    p {
+                        font-size: 13px
+                    }
+                }
             }
 
         }
@@ -1005,7 +1148,7 @@ table {
             display: flex;
             justify-content: flex-end;
             align-items: flex-end;
-            margin-top: -11px !important;
+            margin-top: 17px ;
             width: 100%;
             gap: 30px;
 
@@ -1016,7 +1159,7 @@ table {
 
             button {
                 display: inline-block;
-                padding: 4px 11px;
+                padding:4px 23px;
                 border: none;
                 border-radius: 4px;
                 cursor: pointer;
@@ -1034,8 +1177,8 @@ table {
 
             button:nth-child(1) {
                 border: 1px solid var(--mainColor);
-                background-color: var(--mainColor) !important;
-                color: #fff !important;
+                background-color: #fff !important;
+                color:var(--mainColor) !important;
             }
 
             button:nth-child(2) {
@@ -1053,7 +1196,8 @@ table {
         position: relative;
         top: 43px !important;
         height: auto !important;
-
+        display: flex;
+        justify-content: center;
         .card {
             border: none;
             border-radius: 8px;
@@ -1097,12 +1241,12 @@ table {
             }
 
             .ticketheader {
-                font-weight: 600;
+                font-weight: 500;
                 color: #000 !important;
             }
 
             .heaerspara {
-                color: gray;
+                color: #5d5656;
             }
 
             //   h5,
@@ -1254,6 +1398,9 @@ table {
                     content: "* ";
                     color: rgb(255, 81, 0);
                     margin-left: 4px;
+                }
+                .labelstart{
+                    color: #5d5656;
                 }
 
 
@@ -1489,7 +1636,7 @@ input[type=number] {
         width: 13px;
         height: 13px;
         cursor: pointer;
-        
+
     }
 }
 
@@ -1586,6 +1733,7 @@ $text-color: #aaa; // Text color for inactive
         border: 1px solid hsla(0, 0%, 85%, 1);
         padding: 12px;
         box-shadow: none !important;
+        color: #5d5656;
     }
 
     textarea:focus {
@@ -1658,7 +1806,8 @@ $text-color: #aaa; // Text color for inactive
 }
 
 .NotactiveInBars {
-    margin-top: -21px;
+    // margin-top: -18px;
+    top:-9px;
 }
 
 .timeline-circle.active {
@@ -1716,7 +1865,8 @@ $text-color: #aaa; // Text color for inactive
     gap: 8px;
     padding-left: 13px;
     // padding-bottom: 9px;
-    width: 100%;
+    width: 100%;margin-bottom: 7px;
+
 
 
 }
@@ -1735,6 +1885,14 @@ $text-color: #aaa; // Text color for inactive
         width: 90%;
         padding-top: 6px;
         padding-left: 5px;
+        display: flex;
+        justify-content: space-between;
+
+        span {
+            color: #F26639;
+             font-weight: 500;
+
+        }
     }
 }
 
@@ -1752,7 +1910,7 @@ $text-color: #aaa; // Text color for inactive
 
 /* Active Dot */
 .timeline-item.active .dot {
-    background-color: #007bff;
+    background-color: hsla(212, 56%, 47%, 1);
 }
 
 /* Text */
@@ -1792,7 +1950,7 @@ $text-color: #aaa; // Text color for inactive
 /* Connecting Line */
 .timeline-line {
     flex-grow: 1;
-    height: 11px;
+    height: 5px;
     background-color: #d9d9d9;
     margin: 0 8px;
     position: relative;
@@ -1827,19 +1985,29 @@ $text-color: #aaa; // Text color for inactive
 }
 
 .TimelineButtons {
+    // border: none;
+    // margin: 7px 0px;
+    // padding: 2px 16px;
+    // color: #000;
+    // font-weight: 500;
+    // cursor: pointer;
+    // transition: none !important;
+    // border: none;
+    // box-shadow: none !important;
+    // background: hsla(11, 85%, 54%, 1);
+    // color: #fff;
+    // border-radius: 5px;
+    background-color: #FC000033;
+    color: #ED4C28;
+    padding: 5px 9px;
     border: none;
-    margin: 7px 0px;
-    padding: 2px 16px;
-    color: #000;
-    font-weight: 500;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
     cursor: pointer;
-    transition: none !important;
-    border: none;
-    box-shadow: none !important;
-    background: hsla(11, 85%, 54%, 1);
-    color: #fff;
-    border-radius: 5px;
+    font-weight: 600;
 
+    margin-top: 2px;
 
 }
 
@@ -1875,16 +2043,124 @@ $text-color: #aaa; // Text color for inactive
         }
     }
 
+
 }
 
+.Ticketscreatedsuccessfully{
+    font-weight: 600 !important;
+    color: #000 !important;
+
+
+}
+.createdLabels{
+    padding: 41px 0px;
+}
 .disabledthefiled {
     cursor: not-allowed !important;
 }
+
 .labelstart::after {
     content: "* ";
     color: rgb(255, 81, 0);
     margin-left: 4px;
 }
-.Droplabel2{
-     cursor: pointer;
+
+.Droplabel2 {
+    cursor: pointer;
+}
+
+
+.ForLogoutDesignClosed {
+    width: 471px !important;
+    height: 272px !important;
+
+    .feedbacksubmition {
+        padding: 38px !important;
+        display: flex !important;
+        justify-content: center !important;
+        gap: 52px !important;
+    }
+
+    button:nth-child(1) {
+        background-color: transparent !important;
+        color: hsl(207, 61%, 33%) !important;
+        border: 1px solid hsl(207, 61%, 33%) !important;
+    }
+
+
+
+
+}
+.btn-link{
+     text-decoration: none !important;
+}
+.TicketDetailsRecorded{
+    display: flex;
+    justify-content: flex-start;
+    gap: 32px;
+}
+.Nodataavaliable{ 
+    padding: 12px;
+}
+.InnerRecentTicketIndetails{
+    height: 573px;
+    overflow-y: scroll;
+}
+
+.Createticketsviewed{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 37px !important;
+    // width: 46% !important;
+    gap: 30px;
+    // padding: 47px 31px;
+    width: 95% !important;
+    // position: absolute;
+    // bottom: 20px;
+    button{
+        display: inline-block;
+    padding: 8px 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 12px;
+    }
+
+    button {
+        display: inline-block;
+        padding:4px 23px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        font-weight: 400;
+    }
+
+    .OpenButtons {
+        border: 1px solid var(--mainColor);
+        color: #fff;
+        // background-color: #ffff;
+        background-color: var(--mainColor) !important;
+
+    }
+
+    button:nth-child(1) {
+        border: 1px solid var(--mainColor);
+        background-color: #fff !important;
+        color:var(--mainColor) !important;
+    }
+
+    button:nth-child(2) {
+        background-color: #ffff;
+        border: 1px solid var(--mainColor);
+    }
+    
+}
+
+
+.Inner_ticketID_deatils{
+     width: 97%;
 }

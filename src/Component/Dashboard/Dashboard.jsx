@@ -11,6 +11,7 @@ import personimg from "../../assets/Dashboard/Union (1).svg"
 import Dashboardwhiteimg from "../../assets/Dashboard/Vector (13).svg"
 import Tciketingwhiteimg from "../../assets/Dashboard/Vector (14).svg"
 import LogoutIcon from '@mui/icons-material/Logout';
+import closepopup from "../../assets/Dashboard/Group 442.svg";
 
 const Dashboard = () => {
   const {
@@ -24,7 +25,6 @@ const Dashboard = () => {
     setToggleBars
 
   } = useStore();
-  const [dropdown, setDropdown] = useState(false)
 
 
   const navList = [
@@ -71,7 +71,7 @@ const Dashboard = () => {
             {/* {"InnerContent"} */}
             <div className='BarMainList'>
               <section className='MenuMains'>
-                {navList.map((item, ind) => {                   
+                {navList.map((item, ind) => {
 
                   return (
 
@@ -110,33 +110,23 @@ const Dashboard = () => {
 
             </div>
 
-
+            {/* 
             <div className='LogoOut' onClick={() => { setDropdown(!dropdown) }}  >
               <img src={personimg} />
-            </div>
+            </div> */}
 
-            {dropdown && (
-              <div class="dropdown-menuLogout" >
 
-                <a class="dropdown-item" href="#" onClick={() => {
-                  setDropdown(false);
-
-                  localStorage.removeItem("TicketsToken");
-                  localStorage.removeItem("isTicketsLogin");
-                  localStorage.removeItem("Ticking-store");
-                  window.location.href = "/login";
-                  window.reload();
-                }}>
-                     <LogoutIcon/>
-                </a>
-             
-              </div>
-            )}
 
           </div>
         </div>
 
       </div>
+
+
+
+
+
+
     </>
   )
 }

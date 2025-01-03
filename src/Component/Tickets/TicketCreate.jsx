@@ -9,6 +9,8 @@ import high from "../../assets/Dashboard/Group 427319195.svg";
 import low from "../../assets/Dashboard/Group 427319197.svg";
 import medimum from "../../assets/Dashboard/Group 427319196.svg";
 import creationimg from "../../assets/Dashboard/Group 427319979 (1).svg";
+import Userim from "../../assets/Dashboard/Layer_1 (2).svg";
+
 import closepopup from "../../assets/Dashboard/Group 442.svg";
 import arrowdrop from "../../assets/Dashboard/Vector (5).svg";
 import fileuploads from "../../assets/Dashboard/Vector (6).svg";
@@ -33,8 +35,8 @@ const TicketCreate = () => {
         thanksContent,
         setTicketResponse,
         TicketCreateREsponse,
-        setIsLoadingtwo
-
+        setIsLoadingtwo,
+        settheTicketIDs
     } = useStore();
     //---creating ticket 
     const [TicketCreate, setTicketCreate] = useState(false)
@@ -43,7 +45,7 @@ const TicketCreate = () => {
         documents: [],
         // sub_category_id: "",
         clientsub_category_id: "",
-        client_id: ownerDetails?.client_id,
+        client_id: ownerDetails?.client_id?.id,
         remarks: "",
         issue_category_id: "",
         priority: "",
@@ -103,32 +105,54 @@ const TicketCreate = () => {
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
 
-        // Filter files based on type and size
-        // const validFiles = files.filter((file) => {
-        //     const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
-        //     const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
-
-        //     if (!isPhotoOrVideo) {
-        //         toast.error(`Invalid file type: ${file.name}`);
-        //     }
-        //     if (!isUnderSizeLimit && isPhotoOrVideo) {
-        //         toast.error(`File too large: ${file.name} exceeds 5 MB`);
-        //     }
-
-        //     return isPhotoOrVideo && isUnderSizeLimit;
-        // });
 
         const validFiles = files.filter((file) => {
             const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
             const isExcel = file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "application/vnd.ms-excel";
             const isPdf = file.type === "application/pdf";
             const isEmail = file.type === "message/rfc822"; // MIME type for email files
-            return isPhotoOrVideo || isExcel || isPdf || isEmail;
+            const isUnder5MB = file.size <= 5 * 1024 * 1024; // 5 MB size limit
+
+            return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
         });
 
 
+        const invalidFiles = files.filter((file) => {
+            const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
+            const isExcel = file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "application/vnd.ms-excel";
+            const isPdf = file.type === "application/pdf";
+            const isEmail = file.type === "message/rfc822";
+            const isUnder5MB = file.size <= 5 * 1024 * 1024;
+
+            // Check if the file fails size validation
+            if ((isPhotoOrVideo || isExcel || isPdf || isEmail) && !isUnder5MB) {
+                toast.error(`${file.name} exceeds the 5 MB size limit.`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+
+            // Check if the file fails type validation
+            if (!(isPhotoOrVideo || isExcel || isPdf || isEmail)) {
+                toast.error(`${file.name} is not a valid file type.`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+
+            return !(isPhotoOrVideo || isExcel || isPdf || isEmail) || !isUnder5MB;
+        });
+        // Exit if no valid files
         if (validFiles.length === 0) {
-            return; // Exit if no valid files
+            return;
         }
 
         const newFiles = validFiles.map((file) => URL.createObjectURL(file));
@@ -197,13 +221,50 @@ const TicketCreate = () => {
             const isExcel = file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "application/vnd.ms-excel";
             const isPdf = file.type === "application/pdf";
             const isEmail = file.type === "message/rfc822"; // MIME type for email files
-            return isPhotoOrVideo || isExcel || isPdf || isEmail;
+            const isUnder5MB = file.size <= 5 * 1024 * 1024; // 5 MB size limit
+
+            return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
         });
 
 
+        const invalidFiles = droppedFiles.filter((file) => {
+            const isPhotoOrVideo = file.type.startsWith("image/") || file.type.startsWith("video/");
+            const isExcel = file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "application/vnd.ms-excel";
+            const isPdf = file.type === "application/pdf";
+            const isEmail = file.type === "message/rfc822";
+            const isUnder5MB = file.size <= 5 * 1024 * 1024;
+
+            // Check if the file fails size validation
+            if ((isPhotoOrVideo || isExcel || isPdf || isEmail) && !isUnder5MB) {
+                toast.error(`${file.name} exceeds the 5 MB size limit.`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+
+            // Check if the file fails type validation
+            if (!(isPhotoOrVideo || isExcel || isPdf || isEmail)) {
+                toast.error(`${file.name} is not a valid file type.`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            }
+
+            return !(isPhotoOrVideo || isExcel || isPdf || isEmail) || !isUnder5MB;
+        });
+        // Exit if no valid files
         if (validFiles.length === 0) {
-            return; // Exit if no valid files
+            return;
         }
+
 
         validFiles.forEach((file) => {
             const reader = new FileReader();
@@ -480,9 +541,9 @@ const TicketCreate = () => {
 
             return response;
         },
-        enabled: Ticketdata.issue_category_id !==  ""&& Ticketdata.issue_category_id != undefined ,
+        enabled: Ticketdata.issue_category_id !== "" && Ticketdata.issue_category_id != undefined,
     });
-     
+
 
 
     useEffect(() => {
@@ -514,9 +575,13 @@ const TicketCreate = () => {
             toast.success(response.data.message);
             // Navigate("/tickets")
             setTicketResponse(response.data.data)
-            setthankcontent(true);
+            console.log(response?.data?.data, "response?.data?.data");
+
             settheThankpopup(true);
+            setthankcontent(true);
+
             setIsLoading(false);
+
             setticketdata(normaldata);
             setsubcategoryvalues([]);
             setCategoryvalues([]);
@@ -529,13 +594,14 @@ const TicketCreate = () => {
             setIsLoading(false);
         }
     });
-     console.log(Ticketdata ,"asdasd Ticketdata");
-     
+
+
+
     const CreateTicket = () => {
         if (Ticketdata.remarks != "" && Ticketdata.issue_category_id !== "" &&
             Ticketdata.clientsub_category_id !== "" &&
             Ticketdata.priority !== ""
- 
+
         ) {
             delete Ticketdata.issue_category_id;
 
@@ -577,7 +643,7 @@ const TicketCreate = () => {
                                     {ownerDetails.first_name ?
                                         <div className='CreatedBy'>
                                             <div className='CreateBodyofcontent'>
-                                                <div className='createrimgs'><img src={creationimg} alt="" />
+                                                <div className='createrimgs'><img src={Userim} alt="" />
                                                 </div>
                                                 <div><p>Created by {capitalizeEachWord(ownerDetails.first_name)} </p></div>
 
@@ -702,18 +768,20 @@ const TicketCreate = () => {
                                             </label>
                                             <textarea className='form-control'
                                                 onChange={(e) => {
+                                                    const inputValue = e.target.value;
 
                                                     setticketdata({
                                                         ...Ticketdata,
-                                                        remarks: e.target.value
+                                                        remarks: inputValue.charAt(0).toUpperCase() + inputValue.slice(1),
                                                     })
                                                 }}
+                                                value={Ticketdata.remarks}
                                             />
                                         </div>
 
                                         <div className="col-12 mt-3 DocumentsUpload">
                                             <label className="form-label LabelRemove" >
-                                                Documents Upload
+                                                Attachments Upload
                                             </label>
                                             <div
                                                 className="form-control InnerControls"
@@ -824,16 +892,21 @@ const TicketCreate = () => {
                                                         onChange={handleFileChange} // Handles file selection
                                                         multiple // Allows multiple file selection
                                                     />
+
+
+                                                    <br />
+                                                    Maximum file size 5 MB and File supported in JPG or PDF
                                                 </p>
 
                                             </div>
                                         </div>
 
 
-                                        <div className='col-6 Createtickets'>
+                                        <div className='col-12 Createtickets'>
                                             <button onClick={() => CreateTicket()}>Create Ticket</button>
                                         </div>
                                     </div>
+
 
 
 
@@ -859,10 +932,13 @@ const TicketCreate = () => {
                                         <img src={thumbsup} />
                                     </div>
                                     <div className='closecontent CloseIcons'>
-                                        <img src={closepopup} alt="" onClick={() => {
-                                            Navigate("/tickets");
+                                        <img src={closepopup} alt="" onClick={(e) => {
                                             setthankcontent(false);
                                             settheThankpopup(false)
+
+                                            Navigate("/tickets");
+
+
                                         }} />
                                     </div>
 
@@ -878,7 +954,7 @@ const TicketCreate = () => {
 
 
                                     <div className='FeedbackField'>
-                                        <label className='form-label'>
+                                        <label className='form-label createdLabels'>
 
                                             {/* <p>
                                                 Thank you for bringing this to our attention. We’re committed to
@@ -886,19 +962,25 @@ const TicketCreate = () => {
                                             </p>
                                             <p>resolving your issue as quickly as possible and appreciate.</p>
                                             <p>your patience.</p> */}
-                                            <p>Thank you for bringing this to our attention. We’re committed to resolving your issue as quickly as possible and appreciate
-                                                your patience.</p>
+                                            {/* <p>Thank you for bringing this to our attention. We’re committed to resolving your issue as quickly as possible and appreciate
+                                                your patience.</p> */}
+                                            <p  className='Ticketscreatedsuccessfully'>
+                                                {/* Thank you for bringing this to our attention. We're committed to resolving this issue in the next 48 hours and appreciate
+                                                your patience. */}
+                                                Thank you for bringing this to our attention.
+                                            </p>
                                         </label>
 
 
                                     </div>
                                     <div className='feedbacksubmition'>
-                                        <button onClick={() => {
+                                        <button onClick={(e) => {
 
                                             setthankcontent(false);
                                             settheThankpopup(false)
-                                            Navigate("/tickets")
-                                        }}>Close</button>
+                                            settheTicketIDs(TicketCreateREsponse?.id)
+                                            Navigate("/tickets/ticketview")
+                                        }}>View Ticket</button>
                                     </div>
                                 </div>
                             </div>

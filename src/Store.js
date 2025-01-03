@@ -26,6 +26,8 @@ const useStore = create(
       ToggleBars: false,
       TicketIDS: "",
       thanksContent: false,
+      thanksContentticketview: false,
+
       ActiveBars: "All",
       PrioritValues: { value: "", label: "ALL" },
       TicketCreateREsponse:[],
@@ -33,6 +35,8 @@ const useStore = create(
       setPriorityValuesstore: (newData) => set({ PrioritValues: newData }),
       SetActiveBars: (newData) => set({ ActiveBars: newData }),
       settheThankpopup: (newData) => set({ thanksContent: newData }),
+      settheThankpopupticketview: (newData) => set({ thanksContentticketview: newData }),
+
       settheTicketIDs: (newData) => set({ TicketIDS: newData }),
       setToggleBars: (newData) => set({ ToggleBars: newData }),
       setOrganizationIDS: (newData) => set({ OrganizationID: newData }),

@@ -11,6 +11,16 @@ import personimg from "../../assets/Dashboard/Union (1).svg"
 import Cardimgs from "../../assets/Dashboard/Group 425.svg"
 
 
+import totalticketimg from "../../assets/Dashboard/Union (18).svg"
+
+
+import Inprogressticket from "../../assets/Dashboard/Union (19).svg"
+import reviewticker from "../../assets/Dashboard/Union (21).svg"
+
+import reopenticketslist from "../../assets/Dashboard/Union (22).svg"
+import resolvedticket from "../../assets/Dashboard/Union (20).svg"
+
+
 import ApprovedTickets from "../../assets/Dashboard/Group 418.svg"
 import cancelTickets from "../../assets/Dashboard/Group 419.svg"
 import arrivingTickets from "../../assets/Dashboard/Group 420.svg"
@@ -23,10 +33,23 @@ import { useNavigate } from 'react-router-dom';
 import { Tooltip } from "react-tooltip";
 import { ShimmerTitle } from "react-shimmer-effects";
 import Select from "react-select";
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaSignOutAlt } from 'react-icons/fa';
 
 
 
+import ticketreviewsticker from "../../assets/Dashboard/Group 427320007 (1).svg"
+import ticketinprogressticker from "../../assets/Dashboard/Group 427319997.svg"
 
+import ticketresolvedticker from "../../assets/Dashboard/Group 427320008.svg"
+
+import correction from "../../assets/Dashboard/Group 427320033.svg"
+
+import PhoneImga from "../../assets/Dashboard/Union (30).svg"
+import emaailImg from "../../assets/Dashboard/Union (32).svg"
+import branchimg from "../../assets/Dashboard/Union (24).svg"
+import locationimg from "../../assets/Dashboard/Union (29).svg"
+import Profileimg from "../../assets/Dashboard/profile2.png"
+import Logoutimg from "../../assets/Dashboard/Union (23).svg"
 
 
 const HomeScreen = () => {
@@ -49,6 +72,8 @@ const HomeScreen = () => {
     const [activeButton, setActiveButton] = useState(ActiveBars);
     const [TicketDatas, setTicketDatas] = useState([])
     const [LevelOfuser, setLevelOfusers] = useState([])
+    const [dropdown, setDropdown] = useState(false)
+
     let Priorityoptions = [
         {
             value: "",
@@ -71,6 +96,7 @@ const HomeScreen = () => {
     ]
     const [PriorityValues, setPriorityValues] = useState(PrioritValues?.value)
     const [prioritySelect, setpriorityselect] = useState(PrioritValues)
+    const [remainingTime, setremainingTime] = useState(null);
 
 
     const Ticketsdash = {
@@ -219,13 +245,145 @@ const HomeScreen = () => {
         },
     });
 
-
-
     const HandleTheExports = () => {
         exporttheticketrecords.mutate()
-
-
     }
+
+
+
+    // function overdueFunctions(ticketretrieve) {
+    //     const convertToMinutes = (days, hours, minutes) => (days * 24 * 60) + (hours * 60) + minutes;
+
+    //     const convertToTimeFormat = (totalMinutes) => {
+    //         const days = Math.floor(totalMinutes / (24 * 60));
+    //         totalMinutes -= days * (24 * 60);
+    //         const hours = Math.floor(totalMinutes / 60);
+    //         const minutes = totalMinutes - (hours * 60);
+    //         return { days, hours, minutes };
+    //     };
+
+    //     const formatTime = (ms) => {
+    //         const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+    //         const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //         const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    //         return { days, hours, minutes };
+    //     };
+
+    //     const formatTimeLevel = (ms, Levelonbetypes) => {
+    //         return {
+    //             days: Levelonbetypes === "2" ? ms : 0,
+    //             hours: Levelonbetypes === "1" ? ms : 0,
+    //             minutes: Levelonbetypes === "0" ? ms : 0,
+    //         };
+    //     };
+
+    //     if (ticketretrieve?.created_at && ticketretrieve?.client_id?.l1_user_TAT) {
+    //         const createdDate = new Date(ticketretrieve.created_at);
+    //         const currentDate = new Date();
+    //         const differenceInMs = currentDate - createdDate;
+
+    //         const timeDifference = formatTime(differenceInMs);
+
+    //         const LevelonbeTAT = Number(ticketretrieve.client_id.l1_user_TAT);
+    //         const Levelonbetypes = ticketretrieve.client_id.l1_time_type;
+
+    //         const period1Minutes = convertToMinutes(
+    //             timeDifference.days,
+    //             timeDifference.hours,
+    //             timeDifference.minutes
+    //         );
+
+    //         const period2Minutes = convertToMinutes(
+    //             Levelonbetypes === "2" ? LevelonbeTAT : 0,
+    //             Levelonbetypes === "1" ? LevelonbeTAT : 0,
+    //             Levelonbetypes === "0" ? LevelonbeTAT : 0
+    //         );
+
+    //         const differenceInMinutes = period1Minutes - period2Minutes;
+    //         const remainingTimevalues = convertToTimeFormat(differenceInMinutes);
+    //         console.log(differenceInMinutes, "differenceInMinutes");
+
+    //         setremainingTime(differenceInMinutes);
+    //         return differenceInMinutes;
+    //     }
+    //     return null;
+    // }
+
+    const overdueFunctions = (ticketretrieve) => {
+        const convertToMinutes = (days, hours, minutes) => (days * 24 * 60) + (hours * 60) + minutes;
+        let differenceInMinutes
+        const convertToTimeFormat = (totalMinutes) => {
+            const days = Math.floor(totalMinutes / (24 * 60));
+            totalMinutes -= days * (24 * 60);
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes - (hours * 60);
+            return { days, hours, minutes };
+        };
+
+        const formatTime = (ms) => {
+            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+            return { days, hours, minutes };
+        };
+
+        const formatTimeLevel = (ms, Levelonbetypes) => {
+            return {
+                days: Levelonbetypes === "2" ? ms : 0,
+                hours: Levelonbetypes === "1" ? ms : 0,
+                minutes: Levelonbetypes === "0" ? ms : 0,
+            };
+        };
+
+        if (ticketretrieve?.created_at && ticketretrieve?.client_id?.l1_user_TAT) {
+            const createdDate = new Date(ticketretrieve.created_at);
+            const currentDate = new Date();
+            const differenceInMs = currentDate - createdDate;
+
+            const timeDifference = formatTime(differenceInMs);
+
+            const LevelonbeTAT = Number(ticketretrieve.client_id.l1_user_TAT);
+            const Levelonbetypes = ticketretrieve.client_id.l1_time_type;
+
+            const period1Minutes = convertToMinutes(
+                timeDifference.days,
+                timeDifference.hours,
+                timeDifference.minutes
+            );
+
+            const period2Minutes = convertToMinutes(
+                Levelonbetypes === "2" ? LevelonbeTAT : 0,
+                Levelonbetypes === "1" ? LevelonbeTAT : 0,
+                Levelonbetypes === "0" ? LevelonbeTAT : 0
+            );
+
+            differenceInMinutes = period1Minutes - period2Minutes;
+            const remainingTimevalues = convertToTimeFormat(differenceInMinutes);
+            console.log(differenceInMinutes, "differenceInMnutes", remainingTimevalues);
+
+
+            return `${differenceInMinutes > 0 ?
+
+                "Overdue" :
+                `Minutes left ${differenceInMinutes * -1}`}`;
+        }
+        return `${differenceInMinutes > 0 || isNaN(differenceInMinutes) ?
+
+            "Overdue" :
+            `Minutes left ${differenceInMinutes * -1}`}`;
+    };
+
+
+
+    const truncateText = (text, maxLength) => {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        console.log(text, "auaOPUS APSOA Stext");
+
+        return text.substring(0, maxLength) + "...";
+    };
+
     return (
         <>
             <div className={!ToggleBars ? "HomeScreen" : "MainHomeScreen"}>
@@ -235,58 +393,122 @@ const HomeScreen = () => {
                         <div className='col'>
                             <div className='card'>
                                 <div className='card-body'>
-                                    <h5>Dashbord</h5>
-                                    {/* <img src={Notify} alt="" className='Nofiyimages' /> */}
-                                    <div className='row ExportForms' style={{ display:'none'}}>
-                                <div
-                                    class=" field-div col-sm-2"
-                                    style={{ zIndex: "20", marginTop: "-19px" ,display:"none"}}
+                                    <h5 className='DashboardHaders'>Dashboard</h5>
+                                    <div className='DashboardContents'>
+                                        {/* <img src={Notify} alt="" className='Nofiyimages' /> */}
+                                        <p className='InerBranchNames'
 
-                                >
-                                    <label
-                                        class="form-label"
+                                            onClick={() => { setDropdown(!dropdown) }}>
 
-                                    >
-                                        Priority
-                                    </label>
+                                            <span className='BranchNames'>
+                                                <span
+                                                >{ownerDetails.client_id?.client_name ? ownerDetails.client_id?.client_name.charAt(0) : ""}</span>
+                                            </span>
+                                            <span
+                                                data-tooltip-id="my-tooltip" data-tooltip-content={ownerDetails.client_id?.client_name ? ownerDetails.client_id?.client_name : ""}
+                                                className='branchFullName'>
+                                                {ownerDetails.client_id?.client_name ? truncateText(capitalizeEachWord(ownerDetails.client_id?.client_name), 35) : "-"}
+                                            </span>
+                                        </p>
 
-                                    <Select
-                                        className="Selects"
-                                        styles={{ position: "relative", top: "60px" }}
+                                    </div>
 
-                                        placeholder="search"
-                                        options={Priorityoptions}
-                                        onChange={(e) => {
-                                            setpriorityselect(e)
-                                            setPriorityValues(e.value)
-                                            setPriorityValuesstore(e)
-                                        }}
-                                        value={prioritySelect}
-                                    />
-                                </div>
+                                    {dropdown && (
+                                        <div class="dropdown-menuLogout" >
+
+                                            <div className="profile-card">
+                                                <div className="user-profile">
+                                                    <h4>User Profile</h4>
+                                                    <div className="user-info">
+                                                        <img
+                                                            src={Profileimg}
+                                                            alt="User"
+                                                            className="profile-image"
+                                                        />
+                                                        <div className="details">
+                                                            <p className='NameOfLogins'>{ownerDetails?.first_name ? truncateText(capitalizeEachWord(ownerDetails?.first_name.toLowerCase()), 20) : "-"}</p>
+                                                            <p><img src={PhoneImga} /> {ownerDetails.phone_number ? ownerDetails?.phone_number : "-"}</p>
+                                                            <p><img src={emaailImg} />{ownerDetails.email ? truncateText(capitalizeEachWord(ownerDetails.email.toLowerCase()), 20) : "-"}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="organization-info">
+                                                    <h4>Your Organisation</h4>
+                                                    <p> <img src={branchimg} />   {ownerDetails.client_id?.client_name ? truncateText(capitalizeEachWord(ownerDetails.client_id?.client_name.toLowerCase()), 19) : "-"}</p>
+                                                    <p>
+                                                        <img src={locationimg} />
+                                                        {ownerDetails.client_id?.address ? truncateText(capitalizeEachWord(ownerDetails.client_id?.address.toLowerCase()), 20) : "-"}
+                                                    </p>
+                                                </div>
+                                                <div className="logout"
+                                                    onClick={() => {
+
+                                                        localStorage.removeItem("TicketsToken");
+                                                        localStorage.removeItem("isTicketsLogin");
+                                                        localStorage.removeItem("Ticking-store");
+                                                        window.location.href = "/login";
+                                                        window.reload();
+
+                                                    }}>
+                                                    <img src={Logoutimg} /> Logout
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    )}
 
 
 
-                                <div className="col-sm-2" style={{ paddingTop: "4px" }}>
-                                    <button
-                                        align="center"
-                                        type="button"
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "flex-end",
-                                            background: "transparent",
-                                            border: "none",
-                                            outline: "none"
-                                        }}
-                                        className="DownloadBTNS"
-                                        onClick={(e) => {
-                                            HandleTheExports()
-                                        }}
-                                    >
-                                        <a class="dnbtn"></a>
-                                    </button>
-                                </div>
-                            </div>
+                                    <div className='row ExportForms' style={{ display: 'none' }}>
+                                        <div
+                                            class=" field-div col-sm-2"
+                                            style={{ zIndex: "20", marginTop: "-19px", display: "none" }}
+
+                                        >
+                                            <label
+                                                class="form-label"
+
+                                            >
+                                                Priority
+                                            </label>
+
+                                            <Select
+                                                className="Selects"
+                                                styles={{ position: "relative", top: "60px" }}
+
+                                                placeholder="search"
+                                                options={Priorityoptions}
+                                                onChange={(e) => {
+                                                    setpriorityselect(e)
+                                                    setPriorityValues(e.value)
+                                                    setPriorityValuesstore(e)
+                                                }}
+                                                value={prioritySelect}
+                                            />
+                                        </div>
+
+
+
+                                        <div className="col-sm-2" style={{ paddingTop: "4px" }}>
+                                            <button
+                                                align="center"
+                                                type="button"
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "flex-end",
+                                                    background: "transparent",
+                                                    border: "none",
+                                                    outline: "none"
+                                                }}
+                                                className="DownloadBTNS"
+                                                onClick={(e) => {
+                                                    HandleTheExports()
+                                                }}
+                                            >
+                                                <a class="dnbtn"></a>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -297,8 +519,13 @@ const HomeScreen = () => {
                             <div className='row  ticketingdashboardcreates'>
                                 <div className='row mt-1 ticket-dashboard_newcreate'>
                                     <div className='WelcomeCards'>
-                                        <div className='Welcomecontents'>
+                                        <div className='Welcomecontents mt-4'>
                                             <h2>Welcome New User</h2>
+                                            <span className='BranchDetailsNames'>
+                                                <span data-tooltip-id="my-tooltip" data-tooltip-content={ownerDetails.client_id?.client_name ? ownerDetails.client_id?.client_name : ""}>
+                                                    {ownerDetails.client_id?.client_name ? truncateText(capitalizeEachWord(ownerDetails.client_id?.client_name.toLowerCase()), 34) : "-"}
+                                                </span>
+                                            </span>
                                             <span>
                                                 "How can we assist you with your issue or request to
                                                 <br />ensure a swift and satisfactory resolution?"
@@ -313,7 +540,7 @@ const HomeScreen = () => {
                                     <div className="col-5 Recentcard2">
                                         <div className="card ">
                                             <h5>UDS Contact People</h5>
-                                            <div className="d-flex Recentcard2contact  gap-3">
+                                            <div className="d-flex Recentcard2contact Recentcard2contactWithouttickets  gap-3">
                                                 {LevelOfuser != undefined && LevelOfuser.map((item, index) => {
                                                     return (
                                                         <>
@@ -329,7 +556,7 @@ const HomeScreen = () => {
 
                                                                         </div>
 
-                                                                        <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}>
+                                                                        <div className='Phoneimg' data-tooltip-id="my-tooltip" data-tooltip-content={item.phone_number}>
                                                                             <img src={PhoneCall} />
                                                                         </div>
                                                                     </div>
@@ -356,7 +583,7 @@ const HomeScreen = () => {
 
                         <div className="row mt-3 ticket-dashboard">
 
-                            <div className='row ExportForms' style={{display:"none"}}>
+                            <div className='row ExportForms' style={{ display: "none" }}>
                                 <div
                                     class=" field-div col-sm-2"
                                     style={{ zIndex: "20", marginTop: "-19px" }}
@@ -417,9 +644,10 @@ const HomeScreen = () => {
                                         <div className="card p-3">
                                             <div className="InnercardImgData InnercardImgDataTicketcreate">
                                                 <span className="FrstCard">
-                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                    <img src={totalticketimg} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.total_count}</h2>
+                                                <h2
+                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.total_count ? Dashboarddata.total_count : "0"}>{Dashboarddata.total_count}</h2>
                                             </div>
                                             <h5>Total Tickets</h5>
                                         </div>
@@ -434,7 +662,10 @@ const HomeScreen = () => {
                                                 <span className="FrstCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.open_ticketing_count}</h2>
+                                                <h2
+                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.open_ticketing_count ? Dashboarddata.open_ticketing_count : "0"}
+
+                                                >{Dashboarddata.open_ticketing_count}</h2>
                                             </div>
                                             <h5>Open Tickets</h5>
                                         </div>
@@ -447,9 +678,12 @@ const HomeScreen = () => {
                                         <div className="card p-3">
                                             <div className="InnercardImgData">
                                                 <span className="secondCard">
-                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                    <img src={Inprogressticket} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.inprocess_ticketing_count}</h2>
+                                                <h2
+                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.inprocess_ticketing_count ? Dashboarddata.inprocess_ticketing_count : "0"}
+
+                                                >{Dashboarddata.inprocess_ticketing_count}</h2>
                                             </div>
                                             <h5>In progress Tickets</h5>
                                         </div>
@@ -463,9 +697,12 @@ const HomeScreen = () => {
                                         <div className="card p-3">
                                             <div className="InnercardImgData">
                                                 <span className="threeCard">
-                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                    <img src={reviewticker} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.completed_ticketing_count}</h2>
+                                                <h2
+                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.review_ticketing_count ? Dashboarddata.review_ticketing_count : "0"}
+
+                                                >{Dashboarddata.review_ticketing_count}</h2>
                                             </div>
                                             <h5>Review Tickets</h5>
                                         </div>
@@ -479,9 +716,12 @@ const HomeScreen = () => {
                                         <div className="card p-3">
                                             <div className="InnercardImgData">
                                                 <span className="FrstCard">
-                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                    <img src={reopenticketslist} alt="Card Icon" />
                                                 </span>
-                                                <h2>{Dashboarddata.reopen_ticketing_count}</h2>
+                                                <h2
+                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.reopen_ticketing_count ? Dashboarddata.reopen_ticketing_count : "0"}
+
+                                                >{Dashboarddata.reopen_ticketing_count}</h2>
                                             </div>
                                             <h5>Reopen Tickets</h5>
                                         </div>
@@ -497,7 +737,7 @@ const HomeScreen = () => {
                                         <div className="card p-3">
                                             <div className="InnercardImgData">
                                                 <span className="fourCard">
-                                                    <img src={Cardimgs} alt="Card Icon" />
+                                                    <img src={resolvedticket} alt="Card Icon" />
                                                 </span>
                                                 <h2>{Dashboarddata.close_ticketing_count}</h2>
                                             </div>
@@ -527,147 +767,262 @@ const HomeScreen = () => {
                             <div className="row RecentTicket mt-4">
 
                                 <div className="col RecentcardTickets mb-3">
-                                        <div className="card p-3">
+                                    <div className="card ">
 
-                                            <div className='TickerSTatementHeaders'>
-                                                <h5>Ticket Statement</h5>
-                                                <button onClick={() => MoveTotheNextTab()}>View all</button>
-                                            </div>
+                                        <div className='TickerSTatementHeaders'>
+                                            <h5>Ticket Statement</h5>
+                                            <button onClick={() => MoveTotheNextTab()}>View all</button>
+                                        </div>
 
-                                            <p className='Borderpara'></p>
-                                            <div className="Groupbtn mb-3">
-                                                <button
-                                                    className={`btn ${ActiveBars === "All" ? "active" : ""}`}
-                                                    onClick={() => handleButtonClick("All")}
-                                                >
-                                                    All
-                                                </button>
-                                                <button
-                                                    className={`btn ${ActiveBars === "Open" ? "active" : ""}`}
-                                                    onClick={() => handleButtonClick("Open")}
-                                                >
-                                                    Open
-                                                </button>
-                                                <button
-                                                    className={`btn ${ActiveBars === "Inprocess" ? "active" : ""}`}
-                                                    onClick={() => handleButtonClick("Inprocess")}
-                                                >
-                                                    In progress
-                                                </button>
+                                        <p className='Borderpara'></p>
+                                        <div className="Groupbtn mb-3">
+                                            <button
+                                                className={`btn ${ActiveBars === "All" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("All")}
+                                            >
+                                                All
+                                            </button>
+                                            <button
+                                                className={`btn ${ActiveBars === "Open" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Open")}
+                                            >
+                                                Open
+                                            </button>
+                                            <button
+                                                className={`btn ${ActiveBars === "Inprocess" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Inprocess")}
+                                            >
+                                                In progress
+                                            </button>
 
 
 
-                                                <button
-                                                    className={`btn ${ActiveBars === "Completed" ? "active" : ""}`}
-                                                    onClick={() => handleButtonClick("Completed")}
-                                                >
-                                                    Review
-                                                </button>
-                                                <button
-                                                    className={`btn ${ActiveBars === "Reopen" ? "active" : ""}`}
-                                                    onClick={() => handleButtonClick("Reopen")}
-                                                >
-                                                    Reopened
-                                                </button>
+                                            <button
+                                                className={`btn ${ActiveBars === "Completed" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Completed")}
+                                            >
+                                                Review
+                                            </button>
+                                            <button
+                                                className={`btn ${ActiveBars === "Reopen" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Reopen")}
+                                            >
+                                                Reopened
+                                            </button>
 
-                                                <button
-                                                    className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
-                                                    onClick={() => handleButtonClick("Close")}
-                                                >
-                                                    Resolved
-                                                </button>
-                                                {/* <button
+                                            <button
+                                                className={`btn ${ActiveBars === "Close" ? "active" : ""}`}
+                                                onClick={() => handleButtonClick("Close")}
+                                            >
+                                                Resolved
+                                            </button>
+                                            {/* <button
                                                     className={`btn ${ActiveBars === "Resolved" ? "active" : ""}`}
                                                     onClick={() => handleButtonClick("Resolved")}
                                                 >
                                                     Resolved
                                                 </button> */}
-                                            </div>
+                                        </div>
 
 
 
-                                            <div className='ContainsTickets'>
+                                        <div className='ContainsTickets'>
 
-                                                {TicketDatas.length != 0 ?
-                                                    <>
-                                                        {TicketDatas != undefined && TicketDatas.map((item, index) => {
-                                                            return (
-                                                                <>
-                                                                    <div className='containsticketprocess mt-3' key={index}
-                                                                        onClick={() => { ticketOverViewFunc(item) }}                                                                >
-                                                                        <span className="priority-label inprocess"
+                                            {TicketDatas.length != 0 ?
+                                                <>
+                                                    {TicketDatas != undefined && TicketDatas.map((item, index) => {
+                                                        return (
+                                                            <>
+                                                                <div className='containsticketprocess mt-3' key={index}
+                                                                    onClick={() => { ticketOverViewFunc(item) }}                                                                >
+                                                                    <span className="priority-label inprocess"
 
-                                                                            style={{
-                                                                                background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
-                                                                                    item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
-                                                                                        item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
-                                                                                            item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
-                                                                                                "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
-                                                                                color: "#fff",
-                                                                            }}
+                                                                        style={{
+                                                                            background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
+                                                                                item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
+                                                                                    item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
+                                                                                        item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
+                                                                                            "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
+                                                                            color: "#fff",
+                                                                        }}
 
-                                                                        >
+                                                                    >
 
-                                                                            {item.status == 0 ? "Open" :
-                                                                                item.status == 1 ? "In progress" :
-                                                                                    item.status == 2 ? "Review" :
-                                                                                        item.status == 3 ? "Resolved" : "Reopen"}</span>
+                                                                        {item.status == 0 ? "Open" :
+                                                                            item.status == 1 ? "In progress" :
+                                                                                item.status == 2 ? "Review" :
+                                                                                    item.status == 3 ? "Resolved" : "Reopen"}</span>
+                                                                    <div className="ticket-item mb-2">
 
-                                                                        <div className="ticket-item mb-2">
-
-                                                                            <div >
-                                                                                <img src={
-                                                                                    item.status == 0 ? cancelTickets :
-                                                                                        item.status == 1 ? arrivingTickets :
-                                                                                            item.status == 2 ? ApprovedTickets :
-                                                                                                item.status == 3 ? ApprovedTickets : arrivingTickets
+                                                                        <div >
+                                                                            {/* <img src={
+                                                                                item.status == 0 ? cancelTickets :
+                                                                                    item.status == 1 ? arrivingTickets :
+                                                                                        item.status == 2 ? ApprovedTickets :
+                                                                                            item.status == 3 ? ApprovedTickets : arrivingTickets
 
 
-                                                                                } />
+                                                                            } /> */}
+                                                                            <img src={
+                                                                                item.priority == 0 ? ticketresolvedticker :
+                                                                                    item.priority == 1 ? ticketreviewsticker :
+                                                                                        item.priority == 2 ? ticketinprogressticker :ticketinprogressticker
+                                                                                            // item.status == 3 ? ticketresolvedticker : ticketinprogressticker
+
+
+                                                                            } />
+
+
+
+
+
+                                                                        </div>
+                                                                        <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
+                                                                            <div className='ticket-itemCols'>
+
+                                                                                <h6>{item?.clientsub_category_id?.name ? capitalizeEachWord(item?.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                                <p className="text-muted DateFields ticketsummarypara mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span>
+
+
+                                                                                    <span className='inTicketsummarybuttonTickets'>
+
+
+                                                                                        <button> {overdueFunctions(item)}</button>
+
+
+                                                                                    </span></p>
+
                                                                             </div>
-                                                                            <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
-                                                                                <div className='ticket-itemCols'>
 
-                                                                                    <h6>{item?.clientsub_category_id?.name ? capitalizeEachWord(item?.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
-                                                                                    <p className="text-muted DateFields mb-0">Created Date <span>{formatDate(item.created_at)}</span></p>
-                                                                                </div>
-
-                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </>
-                                                            )
-                                                        })}
-                                                    </>
-                                                    : <ShimmerTitle line={2} gap={10} variant="primary" />}
+
+                                                                    {/* <div className='createddateticketed'>
+                                                                        <p className="text-muted DateFields inTicketsummary mb-0"> <span> <span className='Createddatefileds'>Created Date</span>{formatDate(item.created_at)}</span>
+
+                                                                            <span>{overdueFunctions(item)}
+
+                                                                                {remainingTime !== null ? (
+                                                                                    <button>Remaining time: {remainingTime} minutes</button>
+                                                                                ) : (
+                                                                                    <button>Loading...</button>
+                                                                                )}
+
+                                                                            </span>
+                                                                        </p>
+                                                                    </div> */}
+                                                                </div>
+                                                            </>
+                                                        )
+                                                    })}
+                                                </>
+                                                : <p className='text-center'>{"No data available"}</p>
+
+                                                // <ShimmerTitle line={2} gap={10} variant="primary" />
+
+                                            }
 
 
 
 
-                                            </div>
                                         </div>
+                                    </div>
                                 </div>
 
 
                                 <div className='col-5 FirstCards'>
                                     <div className="col-5 Recentcard mb-3">
                                         {data != undefined && data.map((item) => {
+
+                                             console.log(item ,"AISUAS item");
+                                             
+                                             
                                             return (
 
                                                 <>
-                                                    <div className="card p-3">
-                                                        <h5>Recent Ticket Statement</h5>
-                                                        <div className="d-flex Statement  align-items-center   mt-3">
-                                                            <div className='Tcketingimglist'>
-                                                                <img src={Tickets} />
-                                                            </div>
-                                                            <div className='TicketingCardSecuritys'>
-                                                                <div>
-                                                                    <h6>{item.clientsub_category_id?.name ? capitalizeEachWord(item.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
-                                                                    <p className="text-muted DateFields mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span></p>
+                                                    <div className="card ">
+                                                        <h5>Recent Ticket Status</h5>
+                                                        <div className="d-flex Statement Ticket_Statement  align-items-center   mt-3">
+                                                            <div className='d-flex Recentticketdetils   align-items-center'>
+
+                                                                <div className='Tcketingimglist'>
+                                                                    {/* <img src={Tickets} /> */}
+
+                                                                    <img src={
+                                                                        item.status == 0 ? cancelTickets :
+                                                                            item.status == 1 ? ticketreviewsticker :
+                                                                                item.status == 2 ? ticketinprogressticker :
+                                                                                    item.status == 3 ? ticketresolvedticker : ticketinprogressticker
+                                                                    } />
+
                                                                 </div>
-                                                                <button className="btn track-btn" onClick={() => { ticketOverViewFunc(item) }}>Track Now</button>
+                                                                <div className='TicketingCardSecuritys'>
+                                                                    <div>
+                                                                        <h6>{item.clientsub_category_id?.name ? capitalizeEachWord(item.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                        <p className="text-muted DateFields mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span>
+
+
+                                                                            <span className='inTicketsummarybutton'>
+                                                                                {/* {overdueFunctions(item)} */}
+
+                                                                                <button> {overdueFunctions(item)}</button>
+
+
+                                                                            </span></p>
+
+
+
+
+                                                                    </div>
+                                                                    <button className="btn track-btn priority-label inprocess " onClick={() => { ticketOverViewFunc(item) }}
+
+
+
+                                                                        style={{
+                                                                            background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
+                                                                                item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
+                                                                                    item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
+                                                                                        item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
+                                                                                            "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
+                                                                            color: "#fff",
+                                                                        }}>
+
+                                                                        {item.status == 0 ? "Open" :
+                                                                            item.status == 1 ? "In progress" :
+                                                                                item.status == 2 ? "Review" :
+                                                                                    item.status == 3 ? "Resolved" : "Reopen"}
+                                                                    </button>
+                                                                </div>
+
+
+
+
                                                             </div>
+                                                            {item.status != 3 ?
+                                                                <div className=' Recentticketdetils Recentticketdetilscorrections  '>
+
+                                                                    <div className='TicketingCardSecuritys'>
+
+                                                                        <div className='Tcketingimglist'>
+                                                                            {/* <img src={correction} /> */}
+                                                                        </div>
+                                                                        {/* <h6>Your ticket has been successfully completed</h6> */}
+                                                                        <h6>View ticket details</h6>
+                                                                    </div>
+                                                                </div>
+                                                                :
+
+                                                                <div className=' Recentticketdetils Recentticketdetilscorrections  '>
+
+                                                                    <div className='TicketingCardSecuritys'>
+
+                                                                        <div className='Tcketingimglist'>
+                                                                            <img src={correction} />
+                                                                        </div>
+                                                                        <h6>Your ticket has been successfully completed</h6>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </>
@@ -696,7 +1051,7 @@ const HomeScreen = () => {
 
                                                                         </div>
 
-                                                                        <div className='Phoneimg' data-tooltip-id="hover-tooltip" data-tooltip-content={item.phone_number}>
+                                                                        <div className='Phoneimg' data-tooltip-id="my-tooltip" data-tooltip-content={item.phone_number}>
                                                                             <img src={PhoneCall} />
                                                                         </div>
                                                                     </div>
@@ -727,8 +1082,8 @@ const HomeScreen = () => {
 
                 </div>
             </div>
-            <Tooltip id="submit-tooltip" place="top" />
-            <Tooltip id="hover-tooltip" place="top" />
+            {/* <Tooltip id="submit-tooltip" place="top" /> */}
+            <Tooltip id="my-tooltip" place="top" effect="solid" />
 
 
         </>

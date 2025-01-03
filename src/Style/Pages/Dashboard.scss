@@ -38,7 +38,8 @@
 
 .InnerBar {
     height: 100%;
-    background-color: var(--mainColor);
+    // background-color: var(--mainColor);
+    background-image: linear-gradient(353deg, #215988, #3473BA, #215988);
     border-radius: 12px; //0 25px 25px 0
     width: 260px;
     transition: width .3s ease-in-out;

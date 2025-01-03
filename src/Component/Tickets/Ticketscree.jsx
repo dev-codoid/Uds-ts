@@ -18,6 +18,8 @@ import Select from "react-select";
 import _, { values } from "lodash";
 import backimg from "../../assets/Dashboard/Union (3).svg";
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
+
 
 
 
@@ -39,7 +41,7 @@ const Ticketscreen = () => {
     const totalItems = total_count;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const [page, setpage] = useState(1);
-    const [ticketcreatepopup  , setticketcreatepopup] = useState(false)
+    const [ticketcreatepopup, setticketcreatepopup] = useState(false)
 
 
     const handleClick = (pageNumber) => {
@@ -110,12 +112,18 @@ const Ticketscreen = () => {
         };
     }, [debouncedSearch]);
 
+    const truncateText = (text, maxLength) => {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        return text.substring(0, maxLength) + "...";
+    };
     const columns = useMemo(
         () => [
 
 
             {
-                Header: "Ticket number",
+                Header: "Ticket Number",
                 accessor: "",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
@@ -129,7 +137,7 @@ const Ticketscreen = () => {
 
 
             {
-                Header: "Created date",
+                Header: "Created Date",
                 accessor: "created_at",
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
@@ -161,7 +169,7 @@ const Ticketscreen = () => {
                             <p> {data.clientsub_category_id?.issue_id?.name ?
                                 capitalizeEachWord(data.clientsub_category_id?.issue_id?.name.toLowerCase()) :
                                 "-"
-    
+
                             }</p>
                         </div>
                     );
@@ -187,8 +195,11 @@ const Ticketscreen = () => {
                 Cell: ({ cell }) => {
                     let data = cell.row.original;
                     return (
-                        <div className="listTurfImgCell">
-                            <p> {data.remarks ? capitalizeEachWord(data.remarks.toLowerCase()) : "-"}</p>
+                        <div className="listTurfImgCell"
+                        >
+                            <p
+                            //  data-tooltip-id="my-tooltip" data-tooltip-content={data.remarks} 
+                            >{data.remarks ? truncateText(capitalizeEachWord(data.remarks.toLowerCase()), 32) : "-"}</p>
                         </div>
                     );
                 },
@@ -249,7 +260,19 @@ const Ticketscreen = () => {
                                         : data?.priority === "2"
                                             ? high
                                             : "---"}
-                                alt="" />
+                                alt=""
+
+                                data-tooltip-id="my-tooltip" data-tooltip-content=
+                                    {data?.priority === "0"
+                                        ? "Low"
+                                        : data?.priority === "1"
+                                            ? "Medium"
+                                            : data?.priority === "2"
+                                                ? "High"
+                                                : "---"}
+                                
+
+                            />
                         </span>
                     );
                 },
@@ -267,7 +290,7 @@ const Ticketscreen = () => {
         settheTicketIDs(data.id)
         Navigate("/tickets/ticketview");
     };
-     
+
 
     return (
         <>
@@ -277,7 +300,7 @@ const Ticketscreen = () => {
                         <div className='col'>
                             <div className='card'>
                                 <div className='card-body'>
-                                    <h5>Tickets</h5>
+                                    <h5 className='DashboardHaders'>Tickets</h5>
                                     {/* <img src={Notify} alt="" /> */}
                                     <button className="btn raise-ticket-button" onClick={() => Navigate("/tickets/raiseticket")}> Raise a Ticket ?</button>
 
@@ -303,33 +326,33 @@ const Ticketscreen = () => {
                                                         className={`btn ${status === 0 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(0)}
                                                     >
-                                                        Open 
+                                                        Open
                                                     </button>
                                                     <button
                                                         className={`btn ${status === 1 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(1)}
                                                     >
-                                                            In progress 
+                                                        In progress
                                                     </button>
                                                     <button
                                                         className={`btn ${status === 2 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(2)}
                                                     >
-                                                        Review 
+                                                        Review
                                                     </button>
 
                                                     <button
                                                         className={`btn ${status === 3 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(3)}
                                                     >
-                                                        Resolved 
+                                                        Resolved
                                                     </button>
 
                                                     <button
                                                         className={`btn ${status === 4 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(4)}
                                                     >
-                                                        Reopen 
+                                                        Reopen
                                                     </button>
 
 
@@ -398,7 +421,7 @@ const Ticketscreen = () => {
                                         </button>
 
                                         <button
-                                            className={`page-number ${page === 1  ?"active":""}`}
+                                            className={`page-number ${page === 1 ? "active" : ""}`}
                                             onClick={() => handleClick(1)}
                                             style={{
                                                 // backgroundColor: page === 1 ? "hsla(207, 61%, 33%, 1)" : "#fff",
@@ -511,6 +534,9 @@ const Ticketscreen = () => {
                 </div>
 
             </div>
+
+            <Tooltip id="my-tooltip" place="top" effect="solid" />
+
         </>
     )
 }
