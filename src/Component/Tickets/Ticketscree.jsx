@@ -85,6 +85,8 @@ const Ticketscreen = () => {
             settotalpagecount(ticketRefeshing.total_count)
         }
     }, [ticketRefeshing])
+
+    
     const data = useMemo(() => ticketdatas, [ticketdatas]);
     const formatDate = (dateString) => {
         const dateObject = new Date(dateString);
@@ -96,12 +98,15 @@ const Ticketscreen = () => {
         return `${day} / ${month} / ${year}`;
     };
     const searchFunction = (e) => {
+        
         debouncedSearch(e.target.value);
+
     };
 
     const debouncedSearch = useMemo(
         () =>
             _.debounce((e) => {
+                setpage(1)
                 setsearch(e)
             }, 500),
         []
@@ -332,7 +337,7 @@ const Ticketscreen = () => {
                                                         className={`btn ${status === 1 ? "active" : ""}`}
                                                         onClick={() => handlestatusClick(1)}
                                                     >
-                                                        In progress
+                                                        In Progress
                                                     </button>
                                                     <button
                                                         className={`btn ${status === 2 ? "active" : ""}`}

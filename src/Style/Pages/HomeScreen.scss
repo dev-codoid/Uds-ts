@@ -11,7 +11,8 @@
     padding: 20px;
     transition: all .3s ease-in-out;
 }
-.DashboardHaders{
+
+.DashboardHaders {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,25 +72,47 @@
         //  border: 2px solid ;
         // height: 63%;
         height: 100%;
-        min-height: 63vh;
-        max-height: 65vh;
+        // min-height: 63vh;
+        // max-height: 65vh;
+        min-height: 58vh;
+        max-height: 58vh;
         flex: 1;
 
         background-repeat: no-repeat;
         background-size: cover;
-        background-image: url("../../assets/Dashboard/Group 427320040.svg");
+        background-image: url("../../assets/Dashboard/Group 427320040 (1).svg");
         border-radius: 16px;
         margin: 0 !important;
         margin-top: 14px !important;
 
-
-        .WelcomeCards {
-            //  border: 1px solid ;
+        .TicketCreateimg {
             width: 50%;
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
             padding: 2.875rem;
+            background-image: url("../../assets/Dashboard/Group 427320044.svg");
+            background-repeat: no-repeat;
+            background-size: contain;
+
+        }
+
+
+        .WelcomeCards {
+            //  border: 1px solid ;
+            // width: 50%;
+            // display: flex;
+            // justify-content: flex-start;
+            // align-items: flex-start;
+            // padding: 2.875rem;
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2.875rem;
+            position: relative;
+            left: 2%;
+            top: -54px;
 
             .Welcomecontents {
                 // margin-top: 93px;
@@ -100,11 +123,11 @@
                 gap: 27px;
 
                 .BranchDetailsNames {
-                    span{ 
-                    color: #215988;
-                    font-size: 26px;
-                    font-weight: 500;
-                    margin-top: -20px;
+                    span {
+                        color: #215988;
+                        font-size: 26px;
+                        font-weight: 500;
+                        margin-top: -20px;
                     }
 
                 }
@@ -190,7 +213,7 @@
 
             }
 
-            .Recentcard2contactWithouttickets{
+            .Recentcard2contactWithouttickets {
                 padding: 16px 13px !important;
             }
 
@@ -290,7 +313,39 @@
                 }
 
                 h2 {
-                    font-size: 2.5rem !important;
+                    // font-size: 2.5rem !important;
+                    font-size: 2rem !important;
+                }
+
+                button {
+                    padding: 0.515rem 1.4001rem !important;
+                    font-size: 11px !important;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 1057.14px) {
+        .ticket-dashboard_newcreate {
+            min-height: 54vh;
+            max-height: 47vh;
+        }
+
+        .WelcomeCards {
+            width: 100%;
+            padding: 1.443rem !important;
+
+            .Welcomecontents {
+                gap: 1rem !important;
+
+                span {
+                    font-size: 0.8rem !important;
+                    /* Smaller font size for mobile */
+                }
+
+                h2 {
+                    // font-size: 2.5rem !important;
+                    font-size: 1.5rem !important;
                 }
 
                 button {
@@ -310,16 +365,16 @@
                 gap: 1rem !important;
 
                 span {
-                    font-size: 1.0rem !important;
+                    font-size: 0.7rem !important;
                     /* Smaller font size for mobile */
                 }
 
                 h2 {
-                    font-size: 2.5rem !important;
+                    font-size: 1.2rem !important;
                 }
 
                 button {
-                    padding: 0.515rem 1.4001rem !important;
+                    padding: 0.415rem 0.3001rem !important;
                     font-size: 11px !important;
                 }
             }
@@ -406,13 +461,14 @@
                 }
 
                 h2 {
-                    text-align: left;
+                    text-align: right;
                     color: #000;
                     font-size: 45px;
                     // padding-left: 90px;
                     width: 91px;
                     // overflow: auto;
                     display: flex;
+                    justify-content: flex-end;
                 }
 
                 .CardDesigns {
@@ -420,7 +476,7 @@
                     margin-top: 9px;
                 }
 
-                 .InnercardImgData {
+                .InnercardImgData {
                     display: flex;
                     gap: 27px;
                     justify-content: space-between;
@@ -490,7 +546,8 @@
                     background-image: url("../../assets/Dashboard/abstract-blue-geometric-shapes-background (1).svg");
                     height: 139px;
                     // width: 275px;
-                    width: 228px;
+                    // width: 228px;
+                    width: 237px;
                     padding: 0px 12px;
                     border-radius: 13px;
                     // box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
@@ -568,7 +625,7 @@
                 justify-content: center;
                 align-items: center;
                 border: none;
-                width: 57.3%;
+                width: 75.3%;
             }
 
             .card-body {
@@ -751,6 +808,7 @@
                     margin-top: 12px;
                     border-radius: 5px;
                     margin-left: 22px;
+                    margin-right: 22px;
 
                     .but:focus {
                         border: none;
@@ -830,8 +888,8 @@
                     .ticket-itemCols {
                         // border: 1px solid #000;
                         width: 100%;
-                         padding: 13px 0px 0px 0px;
-                       
+                        padding: 13px 0px 0px 0px;
+
 
                         .ticket-itemStatus {
                             // border: 1px solid #000;
@@ -1072,12 +1130,16 @@
 }
 
 .FormPartsticketslist {
-    width: 578px !important;
-    height: 383px !important;
+    // width: 578px !important;
+    // height: 383px !important;
+    width: 487.8px !important;
+    height: 317px !important;
 
     .Notifyimgsthumbs {
-        top: -14% !important;
-        left: 38% !important;
+        // top: -14% !important;
+        // left: 38% !important;\
+        top: -15% !important;
+    left: 36% !important;
     }
 
     h5 {
@@ -1197,14 +1259,14 @@
             gap: 17px !important;
 
             .col-md-4 {
-                width: 244px !important;
-
+                // width: 209.8px !important;
+                // width: 204.8px !important;
+                width: 195.8px !important;
             }
         }
 
         .CardDesigns {
             // flex: 1 1 100%; // Full width for cards
-            border-right: none !important; // Remove border
         }
 
         .requestToday {
@@ -1214,10 +1276,54 @@
     }
 }
 
+@media (max-width: 1434px)  {
+    .Recentticketdetils{
+        .TicketingCardSecuritys{
+            padding: 4px 0px 0px 0px !important;
+            h6{
+                font-size: 12px !important;
+                
+                    
+                
+            }
+        }
+    }
+    .ticket-dashboard
+    {
+
+        .RecentTicket {
+            .Recentcard {
+                .Statement{
+                    gap:0px !important;
+                    // margin: 15px 30px -5px 10px !important;
+                    // margin: 15px 30px -3px 19px !important;
+                    width: 94% !important;
+                    /* margin-top: -14px !important; */
+                    // position: relative;
+                    // top: -10px;
+                    display: flex;
+        justify-content: center;
+        align-items: center;
+                }
+            }
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
 @media (max-width: 1233.33px) {
     .Ticketdetails {
         height: auto !important;
         gap: 20px;
+
+
 
         .Innerticket-dashboard {
             flex-direction: row !important;
@@ -1226,8 +1332,18 @@
             justify-content: flex-start !important;
 
             .col-md-4 {
-                width: 310px !important;
+                // width: 310px !important;
+                // width: 426px !important;
+                width: 159.8px !important ;
                 flex: none !important;
+                 height: 107px !important;
+
+                 h5{
+                    font-size: 12px !important;
+               }
+               h2{
+                    font-size: 29px !important;
+               }
             }
         }
 
@@ -1238,12 +1354,34 @@
             display: flex;
             justify-content: center;
             align-items: center;
+
         }
 
         .requestToday {
             height: auto !important;
             flex: 1 1 100%; // Full width for the requestToday section
         }
+    }
+    .HomeConatiners .ticket-dashboard .Ticketdetails .Innerticket-dashboard .InnercardImgData span{
+
+        width: 54px;
+        height: 39px;
+    }
+
+    .TicketingCardSecuritys{
+        h6{
+
+            font-size: 12px !important;
+        }
+        p{
+            font-size: 8px !important;
+        }
+    }
+    .Recentticketdetils{
+        padding: 6px !important;
+    }
+    .TicketingCardSecuritys{
+        padding: 4px 0px 0px 0px !important;
     }
 }
 
@@ -1253,15 +1391,15 @@
         gap: 15px;
 
         .Innerticket-dashboard {
-            flex-direction: column; // Stack cards
+            flex-direction: row; // Stack cards
             width: 100% !important;
             height: auto !important;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
 
             .col-md-4 {
-                flex: 1 1 100%; // Full width for cards
-                border-right: none !important; // Remove border
+                flex: none !important; // Full width for cards
+                 width: none !important;
             }
 
         }
@@ -1294,8 +1432,10 @@
                 }
 
                 .card {
-                    padding: 0px !important;
+                    // padding: 0px !important;
+                    padding: 8px !important;
                     padding-top: 18px !important;
+                    padding-bottom: 12px !important;
 
                     img {
                         margin-top: 0 !important;
@@ -1312,6 +1452,20 @@
 
 
 @media (max-width: 1480px) {
+
+    .ticketingdashboardcreates {
+        .ticket-dashboard_newcreate .WelcomeCards {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2.875rem;
+            position: relative;
+            left: 2%;
+            top: -13px
+        }
+    }
+
     .Ticketdetails {
         // height: auto !important;
         // gap: 15px;
@@ -1354,6 +1508,7 @@
 
     }
 }
+
 
 .Nofiyimages {
     cursor: pointer;
@@ -1567,6 +1722,11 @@
     /* top: -1px; */
     float: right;
     right: 44px;
+    position: absolute;
+    top: 129px;
+    /* float: right; */
+    display: block;
+    right: 46px;
 
     button {
         background-color: #FC000033;
@@ -1587,7 +1747,7 @@
     position: relative;
     /* top: 205px; */
     float: right;
-    right: -141px;
+    right: -149px;
 
     button {
         background-color: #FC000033;
@@ -1599,16 +1759,17 @@
         text-align: center;
         cursor: pointer;
         font-weight: 600;
-        width: 100px;
+        width: 117px;
         margin-top: 2px;
     }
 
 
 }
-.inTicketsummarybutton{
-     button{
-         font-size: 11px;
-     }
+
+.inTicketsummarybutton {
+    button {
+        font-size: 11px;
+    }
 }
 
 .ticketsummarypara {
@@ -1623,14 +1784,14 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-     width: 100%;
+    width: 100%;
 }
 
 .DashboardContents {
     display: flex;
     gap: 14px;
     justify-content: flex-end;
-     width: auto;
+    width: auto;
 
     .BranchNames {
         width: 38px;
@@ -1656,9 +1817,9 @@
 }
 
 .dropdown-menuLogout {
-    position: fixed;
-    right: 50px;
-    top: 91px;
+    position: absolute;
+    right: 16px;
+    top: 66px;
     z-index: 99;
     box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.1);
 }
@@ -1753,6 +1914,9 @@
         align-items: center;
         gap: 8px;
         border-top: 1px solid #ddd;
+        img{
+             width: 20px !important;
+        }
 
         // &:hover {
         //     background: #e64a19;
@@ -1765,3 +1929,56 @@
         // }
     }
 }
+
+
+@media (max-width: 1681.82px) and (max-height: 847.27px) {
+
+
+    .Innerticket-dashboard {
+        .col-md-4 {
+            width: 230px !important;
+        }
+
+    }
+}
+
+
+@media (max-width: 1681.82px) and (max-height: 847.27px) {
+
+
+    .Innerticket-dashboard {
+        .col-md-4 {
+            width: 230px !important;
+        }
+
+    }
+}
+
+
+@media (max-width: 1480px) and (max-height: 745.60px) {
+
+
+    .Innerticket-dashboard {
+        .col-md-4 {
+            width: 209.8px !important;
+        }
+
+    }
+}
+
+
+
+@media (max-width: 925px) and (max-height: 466px) {
+
+
+    .Innerticket-dashboard {
+        .col-md-4 {
+            width: 209.8px !important;
+        }
+
+    }
+}
+
+
+
+

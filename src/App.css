@@ -2,6 +2,15 @@
   --themeColor: #215988;
   
 }
+
+.timeline-containers::-webkit-scrollbar {
+  /* height: 1px !important; */
+   display: none !important;
+  
+
+}
+
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 2px; /* Set the height for horizontal scrollbars */
@@ -14,4 +23,15 @@
 }
 p{
   margin-bottom: 0 !important;
+}
+
+
+
+::-webkit-scrollbar-track {
+  background: gray !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #215988 !important;
 }

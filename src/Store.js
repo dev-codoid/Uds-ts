@@ -27,10 +27,12 @@ const useStore = create(
       TicketIDS: "",
       thanksContent: false,
       thanksContentticketview: false,
-
+      Client_idStore:"",
       ActiveBars: "All",
       PrioritValues: { value: "", label: "ALL" },
       TicketCreateREsponse:[],
+      setClientID_store: (newData) => set({ Client_idStore: newData }),
+
       setTicketResponse: (newData) => set({ TicketCreateREsponse: newData }),
       setPriorityValuesstore: (newData) => set({ PrioritValues: newData }),
       SetActiveBars: (newData) => set({ ActiveBars: newData }),

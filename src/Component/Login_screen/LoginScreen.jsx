@@ -23,7 +23,7 @@ import validator from "validator";
 
 
 const LoginScreen = () => {
-    const { setIsNewUser, isNewUser, setOwnerDetails, setIsLoading, setSelectedSideBarTab, setOwnerinnerDetails } = useStore(
+    const { setIsNewUser, isNewUser, setOwnerDetails, setIsLoading, setSelectedSideBarTab, setOwnerinnerDetails, setClientID_store } = useStore(
         (state) => state
     );
 
@@ -51,14 +51,26 @@ const LoginScreen = () => {
         },
         onSuccess: (data) => {
             setIsLoading(false);
-            setOwnerDetails(data.data);
-            setOwnerinnerDetails(data.data)
-            localStorage.setItem("TicketsToken", data.session.token);
-            console.log(data, "asdoiasopdiasd data");
-            setSelectedSideBarTab("Dashboard")
-            localStorage.setItem("isTicketsLogin", true);
-            toast.success("Logged in Successfully");
-            navigate("/");
+
+            setClientID_store(data.data?.id)
+            if (data.data.password_changed == true) {
+
+                setOwnerDetails(data.data);
+                setOwnerinnerDetails(data.data)
+                localStorage.setItem("TicketsToken", data.session.token);
+                console.log(data, "asdoiasopdiasd data");
+                setSelectedSideBarTab("Dashboard")
+                localStorage.setItem("isTicketsLogin", true);
+                toast.success("Logged in Successfully");
+                navigate("/");
+            }
+            else {
+                localStorage.setItem("TicketsToken", data.session.token);
+
+                navigate("/passwordchange");
+
+
+            }
 
 
         },
@@ -89,7 +101,7 @@ const LoginScreen = () => {
                 <div className={styles.MainLeft}>
                     <div className={styles.leftSection}>
 
-                
+
                         <img src={loginstyle} />
                         <img src={upperbackimg} />
                     </div>

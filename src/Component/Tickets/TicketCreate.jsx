@@ -165,7 +165,7 @@ const TicketCreate = () => {
         };
         const createPresentData = (file) => {
             const randomNumber = generateRandomNumber();
-            const formattedFilename = `ticket/${file.name}`; // Adjust the filename as needed
+            const formattedFilename = `ticketing_system/${file.name}`; // Adjust the filename as needed
             return {
                 multiple_files: [
                     {
@@ -297,7 +297,7 @@ const TicketCreate = () => {
 
             const createPresentData = (file) => {
                 const randomNumber = generateRandomNumber();
-                const formattedFilename = `ticket/${file.name}`; // Adjust the filename as needed
+                const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
                 return {
                     multiple_files: [
                         {

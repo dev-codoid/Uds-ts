@@ -404,11 +404,28 @@ const HomeScreen = () => {
                                                 <span
                                                 >{ownerDetails.client_id?.client_name ? ownerDetails.client_id?.client_name.charAt(0) : ""}</span>
                                             </span>
-                                            <span
+                                            {/* <span
                                                 data-tooltip-id="my-tooltip" data-tooltip-content={ownerDetails.client_id?.client_name ? ownerDetails.client_id?.client_name : ""}
                                                 className='branchFullName'>
                                                 {ownerDetails.client_id?.client_name ? truncateText(capitalizeEachWord(ownerDetails.client_id?.client_name), 35) : "-"}
+                                            </span> */}
+
+
+                                            <span
+                                                data-tooltip-id="my-tooltip"
+                                                data-tooltip-content={
+                                                    ownerDetails.client_id?.client_name &&
+                                                        ownerDetails.client_id.client_name.length > 35
+                                                        ? capitalizeEachWord(ownerDetails.client_id.client_name.toLowerCase())
+                                                        : ""
+                                                }
+                                                className="branchFullName"
+                                            >
+                                                {ownerDetails.client_id?.client_name
+                                                    ? truncateText(capitalizeEachWord(ownerDetails.client_id.client_name.toLowerCase()), 35)
+                                                    : "-"}
                                             </span>
+
                                         </p>
 
                                     </div>
@@ -535,6 +552,10 @@ const HomeScreen = () => {
                                         </div>
                                     </div>
 
+                                    <div className='TicketCreateimg'>
+
+                                    </div>
+
                                 </div>
                                 <div className='TicketCreateDashboards '>
                                     <div className="col-5 Recentcard2">
@@ -637,7 +658,7 @@ const HomeScreen = () => {
                             <div className='row Ticketdetails'>
                                 <div className=" Innerticket-dashboard text-center">
 
-                                    <div
+                                    {/* <div
                                         className={`col-md-4 CardDesigns mb-3 ${ActiveBars === "All" ? "active-card" : ""}`}
                                         onClick={() => handleButtonClick("All")}
                                     >
@@ -651,7 +672,7 @@ const HomeScreen = () => {
                                             </div>
                                             <h5>Total Tickets</h5>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div
                                         className={`col-md-4 CardDesigns mb-3 ${ActiveBars === "Open" ? "active-card" : ""}`}
@@ -662,10 +683,7 @@ const HomeScreen = () => {
                                                 <span className="FrstCard">
                                                     <img src={Cardimgs} alt="Card Icon" />
                                                 </span>
-                                                <h2
-                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.open_ticketing_count ? Dashboarddata.open_ticketing_count : "0"}
-
-                                                >{Dashboarddata.open_ticketing_count}</h2>
+                                                <h2>{Dashboarddata.open_ticketing_count}</h2>
                                             </div>
                                             <h5>Open Tickets</h5>
                                         </div>
@@ -680,12 +698,9 @@ const HomeScreen = () => {
                                                 <span className="secondCard">
                                                     <img src={Inprogressticket} alt="Card Icon" />
                                                 </span>
-                                                <h2
-                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.inprocess_ticketing_count ? Dashboarddata.inprocess_ticketing_count : "0"}
-
-                                                >{Dashboarddata.inprocess_ticketing_count}</h2>
+                                                <h2>{Dashboarddata.inprocess_ticketing_count}</h2>
                                             </div>
-                                            <h5>In progress Tickets</h5>
+                                            <h5>In Progress Tickets</h5>
                                         </div>
                                     </div>
 
@@ -699,10 +714,7 @@ const HomeScreen = () => {
                                                 <span className="threeCard">
                                                     <img src={reviewticker} alt="Card Icon" />
                                                 </span>
-                                                <h2
-                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.review_ticketing_count ? Dashboarddata.review_ticketing_count : "0"}
-
-                                                >{Dashboarddata.review_ticketing_count}</h2>
+                                                <h2>{Dashboarddata.review_ticketing_count}</h2>
                                             </div>
                                             <h5>Review Tickets</h5>
                                         </div>
@@ -718,10 +730,7 @@ const HomeScreen = () => {
                                                 <span className="FrstCard">
                                                     <img src={reopenticketslist} alt="Card Icon" />
                                                 </span>
-                                                <h2
-                                                    data-tooltip-id="my-tooltip" data-tooltip-content={Dashboarddata.reopen_ticketing_count ? Dashboarddata.reopen_ticketing_count : "0"}
-
-                                                >{Dashboarddata.reopen_ticketing_count}</h2>
+                                                <h2>{Dashboarddata.reopen_ticketing_count}</h2>
                                             </div>
                                             <h5>Reopen Tickets</h5>
                                         </div>
@@ -764,13 +773,13 @@ const HomeScreen = () => {
 
 
                             {/* Recent Ticket Statement */}
-                            <div className="row RecentTicket mt-4">
+                            <div className="row RecentTicket mt-3">
 
                                 <div className="col RecentcardTickets mb-3">
                                     <div className="card ">
 
                                         <div className='TickerSTatementHeaders'>
-                                            <h5>Ticket Statement</h5>
+                                            <h5>Ticket Summary</h5>
                                             <button onClick={() => MoveTotheNextTab()}>View all</button>
                                         </div>
 
@@ -792,7 +801,7 @@ const HomeScreen = () => {
                                                 className={`btn ${ActiveBars === "Inprocess" ? "active" : ""}`}
                                                 onClick={() => handleButtonClick("Inprocess")}
                                             >
-                                                In progress
+                                                In Progress
                                             </button>
 
 
@@ -866,8 +875,8 @@ const HomeScreen = () => {
                                                                             <img src={
                                                                                 item.priority == 0 ? ticketresolvedticker :
                                                                                     item.priority == 1 ? ticketreviewsticker :
-                                                                                        item.priority == 2 ? ticketinprogressticker :ticketinprogressticker
-                                                                                            // item.status == 3 ? ticketresolvedticker : ticketinprogressticker
+                                                                                        item.priority == 2 ? ticketinprogressticker : ticketinprogressticker
+                                                                                // item.status == 3 ? ticketresolvedticker : ticketinprogressticker
 
 
                                                                             } />
@@ -880,17 +889,37 @@ const HomeScreen = () => {
                                                                         <div className="d-flex ContainsTicketsInner justify-content-between align-items-center">
                                                                             <div className='ticket-itemCols'>
 
-                                                                                <h6>{item?.clientsub_category_id?.name ? capitalizeEachWord(item?.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                                {/* <h6>{item?.clientsub_category_id?.name ? capitalizeEachWord(item?.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                                
+                                                                                
+                                                                                */}
+
+                                                                                <h6>
+                                                                                    {item.clientsub_category_id?.name ? (
+                                                                                        item.clientsub_category_id.name.length > 27 ? (
+                                                                                            <>
+                                                                                                <span
+                                                                                                    data-tooltip-id="my-tooltip"
+                                                                                                    data-tooltip-content={capitalizeEachWord(item.clientsub_category_id.name.toLowerCase())} // Tooltip content
+                                                                                                >
+                                                                                                    {truncateText(capitalizeEachWord(item.clientsub_category_id.name.toLowerCase()), 27)}
+                                                                                                </span>
+                                                                                            </>
+                                                                                        ) : (
+                                                                                            capitalizeEachWord(item.clientsub_category_id.name.toLowerCase())
+                                                                                        )
+                                                                                    ) : (
+                                                                                        ""
+                                                                                    )}
+                                                                                </h6>
                                                                                 <p className="text-muted DateFields ticketsummarypara mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span>
 
-
-                                                                                    <span className='inTicketsummarybuttonTickets'>
-
-
-                                                                                        <button> {overdueFunctions(item)}</button>
-
-
-                                                                                    </span></p>
+                                                                                    {item.status != 3 ?
+                                                                                        <span className='inTicketsummarybuttonTickets'>
+                                                                                            <button> {overdueFunctions(item)}</button>
+                                                                                        </span>
+                                                                                        : null}
+                                                                                </p>
 
                                                                             </div>
 
@@ -934,15 +963,15 @@ const HomeScreen = () => {
                                     <div className="col-5 Recentcard mb-3">
                                         {data != undefined && data.map((item) => {
 
-                                             console.log(item ,"AISUAS item");
-                                             
-                                             
+                                            console.log(item, "AISUAS item");
+
+
                                             return (
 
                                                 <>
                                                     <div className="card ">
                                                         <h5>Recent Ticket Status</h5>
-                                                        <div className="d-flex Statement Ticket_Statement  align-items-center   mt-3">
+                                                        <div className="d-flex Statement Ticket_Statement  align-items-center   mt-2">
                                                             <div className='d-flex Recentticketdetils   align-items-center'>
 
                                                                 <div className='Tcketingimglist'>
@@ -958,17 +987,30 @@ const HomeScreen = () => {
                                                                 </div>
                                                                 <div className='TicketingCardSecuritys'>
                                                                     <div>
-                                                                        <h6>{item.clientsub_category_id?.name ? capitalizeEachWord(item.clientsub_category_id?.name.toLowerCase()) : ""}</h6>
+                                                                        <h6>
+                                                                            {item.clientsub_category_id?.name ? (
+                                                                                item.clientsub_category_id.name.length > 27 ? (
+                                                                                    <>
+                                                                                        <span
+                                                                                            data-tooltip-id="my-tooltip"
+                                                                                            data-tooltip-content={capitalizeEachWord(item.clientsub_category_id.name.toLowerCase())} // Tooltip content
+                                                                                        >
+                                                                                            {truncateText(capitalizeEachWord(item.clientsub_category_id.name.toLowerCase()), 27)}
+                                                                                        </span>
+                                                                                    </>
+                                                                                ) : (
+                                                                                    capitalizeEachWord(item.clientsub_category_id.name.toLowerCase())
+                                                                                )
+                                                                            ) : (
+                                                                                ""
+                                                                            )}
+                                                                            {/* {item.clientsub_category_id?.name ? truncateText(capitalizeEachWord(item.clientsub_category_id?.name.toLowerCase(), 27)) : ""} */}
+
+                                                                        </h6>
                                                                         <p className="text-muted DateFields mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span>
 
 
-                                                                            <span className='inTicketsummarybutton'>
-                                                                                {/* {overdueFunctions(item)} */}
-
-                                                                                <button> {overdueFunctions(item)}</button>
-
-
-                                                                            </span></p>
+                                                                        </p>
 
 
 
@@ -993,7 +1035,14 @@ const HomeScreen = () => {
                                                                                     item.status == 3 ? "Resolved" : "Reopen"}
                                                                     </button>
                                                                 </div>
-
+                                                                <div>
+                                                                    {item.status != 3 ?
+                                                                        <span className='inTicketsummarybutton'>
+                                                                            {/* {overdueFunctions(item)} */}
+                                                                            <button> {overdueFunctions(item)}</button>
+                                                                        </span>
+                                                                        : null}
+                                                                </div>
 
 
 

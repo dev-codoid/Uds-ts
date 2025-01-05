@@ -36,6 +36,7 @@ import backimg from "../../assets/Dashboard/Union (3).svg";
 import downloadimg2 from "../../assets/Dashboard/Group 427320153.svg"
 import high from "../../assets/Dashboard/Group 427319195.svg";
 import Userim from "../../assets/Dashboard/Layer_1 (2).svg";
+import { Tooltip } from "react-tooltip";
 
 
 
@@ -151,7 +152,7 @@ const TicketViews = () => {
         };
         const createPresentData = (file) => {
             const randomNumber = generateRandomNumber();
-            const formattedFilename = `ticket/${file.name}`; // Adjust the filename as needed
+            const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
             return {
                 multiple_files: [
                     {
@@ -226,7 +227,7 @@ const TicketViews = () => {
 
             const createPresentData = (file) => {
                 const randomNumber = generateRandomNumber();
-                const formattedFilename = `ticket/${file.name}`; // Adjust the filename as needed
+                const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
                 return {
                     multiple_files: [
                         {
@@ -248,6 +249,11 @@ const TicketViews = () => {
             });
         }
     }, []);
+
+
+
+    console.log(activeFeedback, "activeFeedback");
+
 
 
     const handleDragOver = (event) => {
@@ -620,6 +626,14 @@ const TicketViews = () => {
             setActiveFeedback(FeedbackDatas?.satisfaction)
 
         }
+        else {
+            setcommentpart({
+                ...CommentPart,
+                feedbacks: "",
+                satisfaction: "excellent",
+            })
+            setActiveFeedback("excellent")
+        }
     }, [FeedbackDatas])
     console.log(FeedbackRetrieveedata, CommentPart, "FeedbackRetrieveedata", FeedbackDatas);
 
@@ -942,7 +956,7 @@ const TicketViews = () => {
                 <div className='InnerPopup' >
                     <div className='PopupContent PopupContentviews'>
                         <div className='row PopupRows'>
-                            <div className='col-5 PopupRowsinnerleft'>
+                            <div className='col-5 PopupRowsinnerleft PopupRowsinnerleftviews'>
                                 <div className='Popupcreatetickets'>
                                     <h3>Ticket Details</h3>
 
@@ -964,7 +978,7 @@ const TicketViews = () => {
 
 
                             </div>
-                            <div className='col-7 RightSideparts'>
+                            <div className=' col-7 RightSideparts RightSidepartsViews'>
                                 <div className='col-12 ClosePopupDesigns ClosePopupDesignsviews'>
                                     <div
                                         onClick={() => {
@@ -979,457 +993,458 @@ const TicketViews = () => {
                                 </div>
 
 
-                                <div className='row InnerFormsDetails InnerFormsDetailsviews'>
+                                <div className='BeforeInnerdTicketviews'>
+                                    <div className='row InnerFormsDetails InnerFormsDetailsviews'>
 
 
 
-                                    <div className="card   Inner_ticketID_deatils  shadow-sm p-3 mb-3">
-                                        <div className="row align-items-center TicketDetailsRecorded">
-                                            <div className="col-md-1 text-center">
-                                                <div className="icon-container  text-white rounded-circle p-3">
-                                                    <img src={ticketimg} />
+                                        <div className="card   Inner_ticketID_deatils  shadow-sm p-3 mb-3">
+                                            <div className="row align-items-center TicketDetailsRecorded">
+                                                <div className="col-md-1 text-center">
+                                                    <div className="icon-container  text-white rounded-circle p-3">
+                                                        <img src={ticketimg} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-md-10 Ticketingrecords">
+                                                <div className="col-md-10 Ticketingrecords">
 
-                                                <p className="mb-1 heaerspara">
-                                                    <p className='ticketheader Headerticket'>Ticket Number</p> {ticketretrieve?.ticket_number} <br />
-                                                </p>
+                                                    <p className="mb-1 heaerspara">
+                                                        <p className='ticketheader Headerticket'>Ticket Number</p> {ticketretrieve?.ticket_number} <br />
+                                                    </p>
 
-                                                <p className="mb-1 heaerspara">
-                                                    <p className='ticketheader Headerticket'>Created Date</p> {ticketretrieve?.created_at ? formatDate(ticketretrieve?.created_at) : "--"} <br />
-                                                </p>
-                                                <p className="mb-1 heaerspara">
-                                                    <p className='ticketheader Headerticket'>Resolved Date</p> {ticketretrieve?.client_closing_at ? formatDate(ticketretrieve?.client_closing_at) : "--"}
-                                                </p>
-                                                <div className="d-flex justify-content-between">
-                                                    <span>
-                                                        <p className='ticketheader Headerticket'>Status</p>{" "}
-                                                        <span className="text-success">{ticketretrieve.status == 0 ? "Open" : ticketretrieve.status == 1 ? "In progress" : ticketretrieve.status == 2 ? "Review" : ticketretrieve.status == 3 ? "Resolved" : "Reopen"}</span>
-                                                    </span>
+                                                    <p className="mb-1 heaerspara">
+                                                        <p className='ticketheader Headerticket'>Created Date</p> {ticketretrieve?.created_at ? formatDate(ticketretrieve?.created_at) : "--"} <br />
+                                                    </p>
+                                                    <p className="mb-1 heaerspara">
+                                                        <p className='ticketheader Headerticket'>Resolved Date</p> {ticketretrieve?.client_closing_at ? formatDate(ticketretrieve?.client_closing_at) : "--"}
+                                                    </p>
+                                                    <div className="d-flex justify-content-between">
+                                                        <span>
+                                                            <p className='ticketheader Headerticket'>Status</p>{" "}
+                                                            <span className="text-success">{ticketretrieve.status == 0 ? "Open" : ticketretrieve.status == 1 ? "In progress" : ticketretrieve.status == 2 ? "Review" : ticketretrieve.status == 3 ? "Resolved" : "Reopen"}</span>
+                                                        </span>
+
+                                                    </div>
+
+                                                    <div className="d-flex justify-content-between">
+                                                        <span>
+                                                            <p className='ticketheader Headerticket' >Priority</p>
+                                                            <span
+                                                                style={{
+                                                                    color: ticketretrieve.priority == 0 ? "green" : ticketretrieve.priority == 1 ? "#e4e42e" : ticketretrieve.priority == 2 && "red"
+                                                                }} >{ticketretrieve.priority == 0 ? "Low" : ticketretrieve.priority == 1 ? "Medium" : ticketretrieve.priority == 2 && "High"}</span>
+                                                        </span>
+
+                                                    </div>
 
                                                 </div>
-
-                                                <div className="d-flex justify-content-between">
-                                                    <span>
-                                                        <p className='ticketheader Headerticket' style={{
-                                                            color: ticketretrieve.priority == 0 ? "green" : ticketretrieve.priority == 1 ? "yellow" : "red"
-                                                        }}>Priority</p>
-                                                        <span className="text-success">{ticketretrieve.priority == 0 ? "Low" : ticketretrieve.priority == 1 ? "Medium" : ticketretrieve.priority == 2 && "High"}</span>
-                                                    </span>
-
-                                                </div>
-
                                             </div>
                                         </div>
-                                    </div>
 
 
-                                    <div className='InnerRecentTicketIndetails'>
-                                        <div class="accordion" id="accordionExample">
-                                            <div class="card  ">
-                                                <div class="card-header HeaderCardsticketdetails" id="headingOne"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne"
-                                                    aria-expanded="true"
-                                                    aria-controls="collapseOne"
-                                                >
-                                                    <h5 class="mb-0">
+                                        <div className='Innerscrollabledesigns'>
+                                            <div className='InnerRecentTicketIndetails'>
+                                                <div class="accordion" id="accordionExample">
+                                                    <div class="card  ">
+                                                        <div class="card-header HeaderCardsticketdetails" id="headingOne"
+                                                            data-bs-toggle="collapse"
+                                                            data-bs-target="#collapseOne"
+                                                            aria-expanded="true"
+                                                            aria-controls="collapseOne"
+                                                        >
+                                                            <h5 class="mb-0">
 
-                                                        <button class="btn btn-link d-flex justify-content-between align-items-center"
-                                                            type="button">
-                                                            Ticket Details
-                                                            <span class="icon">
-                                                                <img src={downarrow} className='rotate-icon' />
-                                                            </span>
-                                                        </button>
-                                                    </h5>
-                                                </div>
+                                                                <button class="btn btn-link d-flex justify-content-between align-items-center"
+                                                                    type="button">
+                                                                    Ticket Details
+                                                                    <span class="icon">
+                                                                        <img src={downarrow} className='rotate-icon' />
+                                                                    </span>
+                                                                </button>
+                                                            </h5>
+                                                        </div>
 
-                                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                    <div class="card-body">
+                                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                            <div class="card-body">
 
-                                                        <div className="card shadow-sm p-3 mb-3">
-
-
-                                                            <p className="mb-1 cardpara heaerspara">
-                                                                <span className="ticketheader ticketheadercards">Issue Category</span>
-                                                                {ticketretrieve?.clientsub_category_id?.issue_id?.name
-                                                                    ? capitalizeEachWord(ticketretrieve?.clientsub_category_id?.issue_id?.name.toLowerCase())
-                                                                    : "--"}
-                                                            </p>
-                                                            <p className="mb-1 cardpara heaerspara">
-                                                                <span className="ticketheader ticketheadercards">Sub Category</span>
-                                                                {ticketretrieve?.clientsub_category_id?.name
-                                                                    ? capitalizeEachWord(ticketretrieve?.clientsub_category_id?.name.toLowerCase())
-                                                                    : "---"}
-                                                            </p>
-                                                            <p className="mb-1 cardpara">
-                                                                <span className="ticketheader ticketheadercards">Description</span>
-                                                                <span className="ticketsinners">{ticketretrieve?.remarks || "No description available"}</span>
-                                                            </p>
+                                                                <div className="card shadow-sm p-3 ">
 
 
-                                                            <p className="mb-1 cardpara">
-                                                                {ticketretrieve?.documents?.length > 0 ?
-                                                                    <>
-                                                                        <span className='ticketheader ticketheadercards '>Attachment</span>
-                                                                        <p className='FileAttachments'>
-                                                                            <span className="Attachmentslist">
-                                                                                <img src={images} /> {ticketretrieve?.documents?.length} File Attached
-                                                                                {/* <span className='Downloadimgoptions' onClick={() => {
-                                                                                window.open(item)
-                                                                            }}>
-                                                                                <img src={downloadimg2} />
+                                                                    <p className=" cardpara heaerspara">
+                                                                        <span className="ticketheader ticketheadercards">Issue Category</span>
+                                                                        {ticketretrieve?.clientsub_category_id?.issue_id?.name
+                                                                            ? capitalizeEachWord(ticketretrieve?.clientsub_category_id?.issue_id?.name.toLowerCase())
+                                                                            : "--"}
+                                                                    </p>
+                                                                    <p className=" cardpara heaerspara">
+                                                                        <span className="ticketheader ticketheadercards">Sub Category</span>
+                                                                        {ticketretrieve?.clientsub_category_id?.name
+                                                                            ? capitalizeEachWord(ticketretrieve?.clientsub_category_id?.name.toLowerCase())
+                                                                            : "---"}
+                                                                    </p>
+                                                                    <p className=" cardpara">
+                                                                        <span className="ticketheader ticketheadercards">Description</span>
+                                                                        <span className="ticketsinners">{ticketretrieve?.remarks || "No description available"}</span>
+                                                                    </p>
 
-                                                                            </span> */}
+                                                                    {ticketretrieve?.documents?.length > 0 ?
+                                                                    <p className=" cardpara">
+                                                                      
+                                                                            <>
+                                                                                <span className='ticketheader ticketheadercards '>Attachment</span>
+                                                                                <p className='FileAttachments'>
+                                                                                    <span className="Attachmentslist">
+                                                                                        <img src={images} /> {ticketretrieve?.documents?.length} File Attached
 
-                                                                            </span>
-                                                                        </p>
-                                                                    </>
+                                                                                    </span>
+                                                                                </p>
+                                                                            </>
+                                                                         
+                                                                    </p>
                                                                     : null}
 
-                                                            </p>
-                                                            {ticketretrieve?.status == 3 || ticketretrieve?.status == 4  ? (
-                                                                <p className="mb-1 cardpara">
-                                                                    <span className='ticketheader ticketheadercards '>Assignee</span>
-                                                                    <p className='FileAttachments'>
-                                                                        {ticketretrieve?.client_id != undefined &&
-                                                                            ticketretrieve?.client_id != null &&
-                                                                            ticketretrieve?.client_id?.l1_user.map((item) => {
+                                                                    {ticketretrieve?.status == 3 || ticketretrieve?.status == 4 ? (
+                                                                        <p className=" cardpara">
+                                                                            <span className='ticketheader ticketheadercards '>Assignee</span>
+                                                                            <p className='FileAttachments'>
+                                                                                {ticketretrieve?.l1_users != undefined &&
+                                                                                    ticketretrieve?.l1_users != null &&
+                                                                                    ticketretrieve?.l1_users?.map((item) => {
 
-                                                                                return (
-                                                                                    <span className="Attachmentslist">{capitalizeEachWord(item.first_name.toLowerCase())}</span>
-                                                                                )
-                                                                            })}
-                                                                    </p>
-                                                                </p>
-                                                            ): null}
-                                                        </div>
+                                                                                        return (
+                                                                                            <span className="Attachmentslist">
+                                                                                                {capitalizeEachWord(ticketretrieve?.l1_users[0].first_name.toLowerCase())}
+                                                                                                {capitalizeEachWord(ticketretrieve?.l1_users[0].last_name.toLowerCase())}
+                                                                                            </span>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        {ticketretrieve?.status != 4 && ticketretrieve?.status != 3 && TIckettimelinerecordDetails != undefined ?
-                                            <div className='issueAssigner' style={{ marginTop: "7px" }}>
-                                                <div className='Issues'>
-                                                    <p>Assignee</p>
-                                                </div>
-                                                <div className="card shadow-sm p-2 phonecallcard">
-                                                    {ticketretrieve?.l1_users != undefined &&
-                                                        ticketretrieve?.l1_users != null &&
-                                                        ticketretrieve?.l1_users.map((item) => {
-
-                                                            return (
-
-                                                                <div className='LeveluserCards'>
-
-                                                                    <div className='InnercardOflevels'>
-                                                                        <div className='LevelUserImg'>
-                                                                            <img src={personimg} />
-                                                                        </div>
-
-                                                                        <div className='Contactednames'>
-                                                                            <span>{capitalizeEachWord(ticketretrieve?.l1_users[0].first_name.toLowerCase())}</span>
-                                                                            {/* <p>Site Supervisor</p> */}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div>
-                                                                            <img src={PhoneCallevel} />
-                                                                        </div>
-                                                                    </div>
-
+                                                                                        )
+                                                                                    })}
+                                                                            </p>
+                                                                        </p>
+                                                                    ) : null}
                                                                 </div>
 
-
-                                                            )
-                                                        })}
-
-
-                                                </div>
-                                            </div>
-                                            : null}
-
-                                        {TIckettimelinerecordDetails != undefined ?
-                                            <div className='issueAssigner' style={{ marginTop: "7px" }}>
-                                                <div className='Issues'>
-                                                    <p>Tracking</p>
-                                                </div>
-                                                <div className="card shadow-sm p-2 phonecallcard">
-                                                    <div className='TimeLIneDayLeft'>
-                                                        {ticketretrieve?.status != 3 ?
-                                                            <button className='TimelineButtons'>
-
-                                                                <>
-                                                                    {/* {remainingTime > 0 ?
-
-                                                                    "Overdue" :
-                                                                    `Minutes left ${remainingTime * -1}`
-
-                                                                } */}
-
-                                                                    {overdueFunctions(ticketretrieve)}
-
-                                                                </>
-                                                            </button>
-                                                            : null}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="timeline-containers">
+                                                </div>
 
 
-                                                        {TIckettimelinerecordDetails && Object.keys(TIckettimelinerecordDetails).map((key, index) => {
-                                                            const item = TIckettimelinerecordDetails[key]; // Get the status object (e.g., open, inprogress, etc.)
-                                                            const getStatusText = (statusObj, statusKey) => {
-                                                                if (statusObj) {
+                                                {ticketretrieve?.status != 4 && ticketretrieve?.status != 3 && TIckettimelinerecordDetails != undefined ?
+                                                    <div className='issueAssigner' style={{ marginTop: "7px" }}>
+                                                        <div className='Issues'>
+                                                            <p>Assignee</p>
+                                                        </div>
+                                                        <div className="card shadow-sm p-2 phonecallcard">
+                                                            {ticketretrieve?.l1_users != undefined &&
+                                                                ticketretrieve?.l1_users != null &&
+                                                                ticketretrieve?.l1_users.map((item) => {
+
+                                                                    return (
+
+                                                                        <div className='LeveluserCards'>
+
+                                                                            <div className='InnercardOflevels'>
+                                                                                <div className='LevelUserImg'>
+                                                                                    <img src={personimg} />
+                                                                                </div>
+
+                                                                                <div className='Contactednames'>
+                                                                                    <span>
+                                                                                        {capitalizeEachWord(ticketretrieve?.l1_users[0].first_name.toLowerCase())}
+                                                                                        {capitalizeEachWord(ticketretrieve?.l1_users[0].last_name.toLowerCase())}
+                                                                                    </span>
+                                                                                    {/* <p>Site Supervisor</p> */}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div>
+                                                                                <div className='PhoneNumberShow'>
+                                                                                    <img src={PhoneCallevel}
+                                                                                        data-tooltip-id="my-tooltip" data-tooltip-content={ticketretrieve?.l1_users[0].phone_number ? ticketretrieve?.l1_users[0].phone_number : ""}
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+
+                                                                    )
+                                                                })}
+
+
+                                                        </div>
+                                                    </div>
+                                                    : null}
+
+                                                {TIckettimelinerecordDetails != undefined ?
+                                                    <div className='issueAssigner' style={{ marginTop: "7px" }}>
+                                                        <div className='Issues'>
+                                                            <p>Tracking</p>
+                                                        </div>
+                                                        <div className="card shadow-sm p-2 phonecallcard">
+                                                            <div className='TimeLIneDayLeft'>
+                                                                {ticketretrieve?.status != 3 ?
+                                                                    <button className='TimelineButtons'>
+                                                                        <>
+                                                                            {overdueFunctions(ticketretrieve)}
+                                                                        </>
+                                                                    </button>
+                                                                    : null}
+                                                            </div>
+                                                            <div className="timeline-containers">
+
+
+                                                                {TIckettimelinerecordDetails && Object.keys(TIckettimelinerecordDetails).map((key, index) => {
+                                                                    const item = TIckettimelinerecordDetails[key]; // Get the status object (e.g., open, inprogress, etc.)
+                                                                    const getStatusText = (statusObj, statusKey) => {
+                                                                        if (statusObj) {
+                                                                            return (
+                                                                                <>
+                                                                                    <span>
+                                                                                        {statusObj.created_date
+                                                                                            ? `${new Date(statusObj.created_date).toLocaleDateString("en-GB", {
+                                                                                                day: "2-digit",
+                                                                                                month: "short",
+                                                                                                year: "numeric",
+                                                                                            }).replace(",", "")}`
+                                                                                            : " "}
+                                                                                    </span>
+                                                                                </>
+                                                                            );
+                                                                        }
+
+                                                                    };
+
+
+                                                                    return (
+
+                                                                        <React.Fragment key={index}>
+                                                                            <div className={`timeline-item ${item?.created_date ? "active" : "NotactiveInBars"}`}>
+                                                                                <div className={`InnerTimelines ${item?.created_date ? "active" : ""}`}>
+                                                                                    <div className="dot"></div>
+                                                                                    <span>
+                                                                                        {/* {key == "completed" ? "Review" : key == "close" ? "Resolved" : capitalizeEachWord(key)} */}
+                                                                                        {item?.status != null &&
+                                                                                            capitalizeEachWord(item?.status)}
+
+
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div className={`timeline-line ${item?.created_date ? "active" : ""}`}></div>
+
+                                                                                <p className='CreatedDateList'>
+                                                                                    <span>{getStatusText(item, key)}</span>
+
+                                                                                    <span>{item.created_date ? extractTimeFromDate(item.created_date) : ""}</span>
+                                                                                </p>
+                                                                            </div>
+                                                                        </React.Fragment>
+
+                                                                    );
+                                                                })}
+
+
+
+
+
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    : null}
+
+
+                                                <div className="card RemarksCards shadow-sm p-3 mb-3">
+                                                    <h6>
+                                                        <span className='ticketheader RemarksHeaders' >Remarks </span>
+                                                    </h6>
+                                                    {remarksdatastate.length > 0 ?
+                                                        <>
+                                                            <p className='Remarkspara'>
+                                                                {remarksdatastate.map((item, index) => {
+
                                                                     return (
                                                                         <>
-                                                                            <span>
-                                                                                {statusObj.created_date
-                                                                                    ? `${new Date(statusObj.created_date).toLocaleDateString("en-GB", {
-                                                                                        day: "2-digit",
-                                                                                        month: "short",
-                                                                                        year: "numeric",
-                                                                                    }).replace(",", "")}`
-                                                                                    : " "}
-                                                                            </span>
+
+                                                                            <div key={index} style={{
+                                                                                display: "flex",
+                                                                                flexDirection: "column"
+                                                                                , gap: "5px"
+                                                                            }}>
+
+                                                                                <p className="Commentslist">  <span>{capitalizeEachWord(item.name)}</span> <span>{formatDatefeed(item.created_at)}</span> </p>
+
+                                                                                {remarksdatastate[index]?.documents.length > 0 ?
+                                                                                    <p className='FileAttachments'
+                                                                                        style={{ width: "100%" }}>
+                                                                                        <span className="Attachmentslist">     <img src={images} /> {remarksdatastate[index]?.documents.length} File Attached</span>
+                                                                                        <span className='Downloadimgoptions'>Download <img src={downloadimg}
+
+
+                                                                                            onClick={() => downloadAll(remarksdatastate[index]?.documents)}
+
+                                                                                        /></span>
+                                                                                    </p>
+
+                                                                                    : null}
+
+                                                                            </div>
                                                                         </>
-                                                                    );
-                                                                }
-
-                                                            };
-
-
-                                                            return (
-
-                                                                <React.Fragment key={index}>
-                                                                    <div className={`timeline-item ${item?.created_date ? "active" : "NotactiveInBars"}`}>
-                                                                        <div className={`InnerTimelines ${item?.created_date ? "active" : ""}`}>
-                                                                            <div className="dot"></div>
-                                                                            <span>
-                                                                                {/* {key == "completed" ? "Review" : key == "close" ? "Resolved" : capitalizeEachWord(key)} */}
-                                                                                {item?.status != null &&
-                                                                                    capitalizeEachWord(item?.status)}
-
-
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className={`timeline-line ${item?.created_date ? "active" : ""}`}></div>
-
-                                                                        <p className='CreatedDateList'>
-                                                                            <span>{getStatusText(item, key)}</span>
-
-                                                                            <span>{item.created_date ? extractTimeFromDate(item.created_date) : ""}</span>
-                                                                        </p>
-                                                                    </div>
-                                                                </React.Fragment>
-
-                                                            );
-                                                        })}
+                                                                    )
+                                                                })}
 
 
 
+                                                            </p>
+                                                        </>
+                                                        : <>--</>}
+                                                </div>
+
+                                                {/* {clientRemarks != undefined && clientRemarks != null && clientRemarks.length > 0 ?
+<div className="card RemarksCards shadow-sm p-3 mb-3">
+    <h6>
+        <span className='ticketheader RemarksHeaders' >Client Remarks </span>
+    </h6>
+    {clientRemarks.length > 0 ?
+        <>
+            <p className='Remarkspara'>
+                {clientRemarks.map((item, index) => {
+
+                    return (
+                        <>
+
+                            <div key={index} style={{
+                                display: "flex",
+                                flexDirection: "column"
+                                , gap: "5px"
+                            }}>
+
+                                <p className="Commentslist">  <span>{item.name}</span> <span>{formatDatefeed(item.created_at)}</span> </p>
+
+                                {clientRemarks[index]?.documents.length > 0 ?
+                                    <p className='FileAttachments'
+                                        style={{ width: "100%" }}>
+                                        <span className="Attachmentslist">     <img src={images} /> {clientRemarks[index]?.documents.length} File Attached</span>
+                                        <span className='Downloadimgoptions'>Download <img src={downloadimg}
+
+                                            onClick={() => downloadAll(clientRemarks[index]?.documents)}
+
+                                        /></span>
+                                    </p>
+
+                                    : null}
+
+                            </div>
+                        </>
+                    )
+                })}
 
 
+
+            </p>
+        </>
+        : <>--</>}
+</div>
+: null } */}
+
+
+
+                                                {ticketretrieve?.status == 2 || ticketretrieve?.status == 3 ?
+                                                    <div className="card Satisfactioncard shadow-sm p-3 mb-3">
+                                                        <p className="mb-1 cardpara heaerspara">
+                                                            <span className='ticketheader ticketheadercards'>Satisfaction</span>
+                                                        </p>
+
+                                                        <p className="mb-1 cardpara heaerspara">
+                                                            Your feedback brings us great satisfaction and inspires us to improve further!
+                                                        </p>
+
+                                                        <div className="feedback">
+                                                            {feedbackOptions.map((option) => (
+                                                                <div
+                                                                    key={option.id}
+                                                                    className={`feedback-option ${activeFeedback === option.id ? "active"
+                                                                        : FeedbackDatas != undefined && FeedbackDatas?.id ? "disabledthefiled "
+                                                                            : ""}`}
+                                                                    onClick={() => {
+                                                                        if (FeedbackDatas != undefined && FeedbackDatas?.id) {
+
+                                                                        }
+                                                                        else {
+                                                                            handleFeedbackClick(option.id)
+                                                                        }
+
+                                                                    }}
+                                                                >
+                                                                    <img src={option.imgSrc} alt={option.label} />
+                                                                    <span>{option.label}
+                                                                    </span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+
+
+                                                        <div className='FeedbackField FeedbackFieldstatifications'>
+                                                            <label className='form-label labelstart'>Please submit your feedback on it.</label>
+                                                            <textarea value={CommentPart.feedbacks}
+                                                                className={`${FeedbackDatas?.id ? "disabledthefiled" : ""}`}
+                                                                disabled={FeedbackDatas?.id ? true : false}
+                                                                onChange={(e) => {
+                                                                    const inputValue = e.target.value;
+
+                                                                    setcommentpart({
+                                                                        ...CommentPart,
+                                                                        feedbacks: inputValue.charAt(0).toUpperCase() + inputValue.slice(1),
+
+                                                                    })
+                                                                }}>
+
+                                                            </textarea>
+                                                        </div>
 
 
 
                                                     </div>
-                                                </div>
+                                                    : ""}
+
+
                                             </div>
-                                            : null}
 
+                                            {ticketretrieve?.status != 3 ?
 
-                                        <div className="card RemarksCards shadow-sm p-3 mb-3">
-                                            <h6>
-                                                <span className='ticketheader RemarksHeaders' >Remarks </span>
-                                            </h6>
-                                            {remarksdatastate.length > 0 ?
                                                 <>
-                                                    <p className='Remarkspara'>
-                                                        {remarksdatastate.map((item, index) => {
+                                                    {ticketretrieve?.status == 2 || ticketretrieve?.status == 3 ?
 
-                                                            return (
-                                                                <>
-
-                                                                    <div key={index} style={{
-                                                                        display: "flex",
-                                                                        flexDirection: "column"
-                                                                        , gap: "5px"
-                                                                    }}>
-
-                                                                        <p className="Commentslist">  <span>{capitalizeEachWord(item.name)}</span> <span>{formatDatefeed(item.created_at)}</span> </p>
-
-                                                                        {remarksdatastate[index]?.documents.length > 0 ?
-                                                                            <p className='FileAttachments'
-                                                                                style={{ width: "100%" }}>
-                                                                                <span className="Attachmentslist">     <img src={images} /> {remarksdatastate[index]?.documents.length} File Attached</span>
-                                                                                <span className='Downloadimgoptions'>Download <img src={downloadimg}
-
-
-                                                                                    onClick={() => downloadAll(remarksdatastate[index]?.documents)}
-
-                                                                                /></span>
-                                                                            </p>
-
-                                                                            : null}
-
-                                                                    </div>
-                                                                </>
-                                                            )
-                                                        })}
-
-
-
-                                                    </p>
-                                                </>
-                                                : <>--</>}
-                                        </div>
-
-                                        {/* {clientRemarks != undefined && clientRemarks != null && clientRemarks.length > 0 ?
-                                    <div className="card RemarksCards shadow-sm p-3 mb-3">
-                                        <h6>
-                                            <span className='ticketheader RemarksHeaders' >Client Remarks </span>
-                                        </h6>
-                                        {clientRemarks.length > 0 ?
-                                            <>
-                                                <p className='Remarkspara'>
-                                                    {clientRemarks.map((item, index) => {
-
-                                                        return (
-                                                            <>
-
-                                                                <div key={index} style={{
-                                                                    display: "flex",
-                                                                    flexDirection: "column"
-                                                                    , gap: "5px"
-                                                                }}>
-
-                                                                    <p className="Commentslist">  <span>{item.name}</span> <span>{formatDatefeed(item.created_at)}</span> </p>
-
-                                                                    {clientRemarks[index]?.documents.length > 0 ?
-                                                                        <p className='FileAttachments'
-                                                                            style={{ width: "100%" }}>
-                                                                            <span className="Attachmentslist">     <img src={images} /> {clientRemarks[index]?.documents.length} File Attached</span>
-                                                                            <span className='Downloadimgoptions'>Download <img src={downloadimg}
-
-                                                                                onClick={() => downloadAll(clientRemarks[index]?.documents)}
-
-                                                                            /></span>
-                                                                        </p>
-
-                                                                        : null}
-
-                                                                </div>
-                                                            </>
-                                                        )
-                                                    })}
-
-
-
-                                                </p>
-                                            </>
-                                            : <>--</>}
-                                    </div>
-                                    : null } */}
-
-
-
-                                        {ticketretrieve?.status == 2 || ticketretrieve?.status == 3 ?
-                                            <div className="card Satisfactioncard shadow-sm p-3 mb-3">
-                                                <p className="mb-1 cardpara heaerspara">
-                                                    <span className='ticketheader ticketheadercards'>Satisfaction</span>
-                                                </p>
-
-                                                <p className="mb-1 cardpara heaerspara">
-                                                    Your feedback brings us great satisfaction and inspires us to improve further!
-                                                </p>
-
-                                                <div className="feedback">
-                                                    {feedbackOptions.map((option) => (
-                                                        <div
-                                                            key={option.id}
-                                                            className={`feedback-option ${activeFeedback === option.id ? "active"
-                                                                : FeedbackDatas != undefined && FeedbackDatas?.id ? "disabledthefiled "
-                                                                    : ""}`}
-                                                            onClick={() => {
-                                                                if (FeedbackDatas != undefined && FeedbackDatas?.id) {
-
-                                                                }
-                                                                else {
-                                                                    handleFeedbackClick(option.id)
-                                                                }
-
-                                                            }}
-                                                        >
-                                                            <img src={option.imgSrc} alt={option.label} />
-                                                            <span>{option.label}
-                                                            </span>
+                                                        <div className='col-6   Createticketsviewed' style={{ marginTop: "41px !important" }}>
+                                                            <button
+                                                                className='OpenButtons'
+                                                                onClick={() => {
+                                                                    HandleFeedbackpopup("Reopen")
+                                                                    // HandletheComments();
+                                                                }}
+                                                            >Reopen</button>
+                                                            <button
+                                                                className='OpenButtons'
+                                                                onClick={() => {
+                                                                    if (CommentPart.feedbacks == "") {
+                                                                        toast.info("Please enter the valid details");
+                                                                    }
+                                                                    else {
+                                                                        HandleFeedbackpopup("close")
+                                                                        HandletheComments();
+                                                                    }
+                                                                }}
+                                                            >Submit</button>
                                                         </div>
-                                                    ))}
-                                                </div>
-
-
-                                                <div className='FeedbackField FeedbackFieldstatifications'>
-                                                    <label className='form-label labelstart'>Please submit your feedback on it.</label>
-                                                    <textarea value={CommentPart.feedbacks}
-                                                        className={`${FeedbackDatas?.id ? "disabledthefiled" : ""}`}
-                                                        disabled={FeedbackDatas?.id ? true : false}
-                                                        onChange={(e) => {
-                                                            const inputValue = e.target.value;
-
-                                                            setcommentpart({
-                                                                ...CommentPart,
-                                                                feedbacks: inputValue.charAt(0).toUpperCase() + inputValue.slice(1),
-
-                                                            })
-                                                        }}>
-
-                                                    </textarea>
-                                                </div>
-
-
-
-                                            </div>
-                                            : ""}
-
-
+                                                        : null}
+                                                </>
+                                                : null}
+                                        </div>
                                     </div>
+
+
                                 </div>
-
-
-                                {ticketretrieve?.status != 3 ?
-
-                                    <>
-                                        {ticketretrieve?.status == 2 || ticketretrieve?.status == 3 ?
-
-                                            <div className='col-6   Createticketsviewed' style={{ marginTop: "41px !important" }}>
-                                                <button
-                                                    className='OpenButtons'
-                                                    onClick={() => {
-                                                        HandleFeedbackpopup("Reopen")
-                                                        // HandletheComments();
-                                                    }}
-                                                >Reopen</button>
-                                                <button
-                                                    className='OpenButtons'
-                                                    onClick={() => {
-                                                        if (CommentPart.feedbacks == "") {
-                                                            toast.info("Please enter the valid details");
-                                                        }
-                                                        else {
-                                                            HandleFeedbackpopup("close")
-                                                            HandletheComments();
-                                                        }
-                                                    }}
-                                                >Submit</button>
-                                            </div>
-                                            : null}
-                                    </>
-                                    : null}
                             </div>
                         </div>
 
@@ -1605,11 +1620,11 @@ const TicketViews = () => {
 
             {thankcontent && (
                 <>
-                    <div className='CommentPopup'>
+                    <div className='CommentPopup CommentPopupthanks'>
                         <div className='innercommentpopup'>
 
 
-                            <div className='FormPartsthanks'>
+                            <div className={`FormPartsthanks ${activeFeedback == "good" || activeFeedback == "excellent" ? "FormPartsthankspopthanksdesigs" : "FormPartsthankspopupTicketingview"} `} >
                                 <div className='innerformscomentpart'>
                                     <div className='Notifyimgsthumbs'>
                                         <img src={thumbsup} />
@@ -1625,28 +1640,23 @@ const TicketViews = () => {
 
                                     <h5 className='pt-4'>{
 
-                                        FeedbackDatas == "excellent" || FeedbackDatas == "good" ?
+                                        activeFeedback == "excellent" || activeFeedback == "good" ?
                                             "Thank you!"
                                             : "Feedback Received"}
                                     </h5>
 
 
                                     <div className='FeedbackField'>
-                                        {FeedbackDatas == "excellent" || FeedbackDatas == "good" ?
+                                        {activeFeedback == "excellent" || activeFeedback == "good" ?
                                             <label className='form-label'>
 
-                                                We appreciate you taking the time to share your
-                                                <br /> thoughts. Your feedback helps us improve and
-                                                <br />
-                                                ensure better service.
-                                                .</label>
+                                                We appreciate you taking the time to share your feedback.</label>
                                             :
 
                                             <label className='form-label'>
                                                 Thank you for bringing this to our attention
-                                                <br /> Your concerns are important to us,and
                                                 <br />
-                                                we’ll take immediate steps to resolve them.
+
                                             </label>
 
                                         }
@@ -1669,6 +1679,9 @@ const TicketViews = () => {
 
                 </>
             )}
+
+            <Tooltip id="my-tooltip" place="top" effect="solid" />
+
 
         </>
 

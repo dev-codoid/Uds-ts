@@ -15,11 +15,12 @@ import Ticketscreen from "./Component/Tickets/Ticketscree";
 import TicketCreate from "./Component/Tickets/TicketCreate";
 import TicketViews from "./Component/Tickets/TicketViews";
 import LowWidthPopup from "./Component/Dashboard/LowithComPopup";
+import PasswordChange from "./Component/Login_screen/Passordchange";
 
 
 function App() {
   const isTurfLogin = localStorage.getItem("isTicketsLogin");
-  const { setIsLoading, isLoading, isNewUser, ownerDetails, isLoading2 } = useStore(
+  const { setIsLoading, isLoading, isNewUser, ownerDetails, isLoading2 , } = useStore(
     (state) => state
   );
 
@@ -87,7 +88,9 @@ function App() {
               <Routes>
                 <Route path="/" index element={<PageAuthentication />} />
                 <Route path="/login" element={<LoginScreen />} />
-                <Route path="/forgotpassword" index element={<Forgotscreen />} />            <Route path="/forgotpassword" index element={<Forgotscreen />} />
+                <Route path="/passwordchange" element={<PasswordChange />} />
+                <Route path="/forgotpassword" index element={<Forgotscreen />} />
+                <Route path="/forgotpassword" index element={<Forgotscreen />} />
                 <Route path="/otpverify" index element={<OtpVerifiy />} />
                 <Route path="/newpassword" index element={<PasswordCompo />} />
 
