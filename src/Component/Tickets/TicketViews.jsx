@@ -1083,12 +1083,13 @@ const TicketViews = () => {
                                                                     </p>
                                                                     <p className=" cardpara">
                                                                         <span className="ticketheader ticketheadercards">Description</span>
-                                                                        <span className="ticketsinners">{ticketretrieve?.remarks || "No description available"}</span>
+                                                                        {ticketretrieve?.remarks || "No description available"}
+                                                                        {/* <span className="ticketsinners">{ticketretrieve?.remarks || "No description available"}</span> */}
                                                                     </p>
 
                                                                     {ticketretrieve?.documents?.length > 0 ?
-                                                                    <p className=" cardpara">
-                                                                      
+                                                                        <p className=" cardpara">
+
                                                                             <>
                                                                                 <span className='ticketheader ticketheadercards '>Attachment</span>
                                                                                 <p className='FileAttachments'>
@@ -1098,27 +1099,32 @@ const TicketViews = () => {
                                                                                     </span>
                                                                                 </p>
                                                                             </>
-                                                                         
-                                                                    </p>
-                                                                    : null}
+
+                                                                        </p>
+                                                                        : null}
 
                                                                     {ticketretrieve?.status == 3 || ticketretrieve?.status == 4 ? (
                                                                         <p className=" cardpara">
                                                                             <span className='ticketheader ticketheadercards '>Assignee</span>
-                                                                            <p className='FileAttachments'>
+                                                                            {/* <p className='FileAttachments'> */}
+                                                                            <>
                                                                                 {ticketretrieve?.l1_users != undefined &&
                                                                                     ticketretrieve?.l1_users != null &&
                                                                                     ticketretrieve?.l1_users?.map((item) => {
 
                                                                                         return (
-                                                                                            <span className="Attachmentslist">
+                                                                                            // <span className="Attachmentslist">
+                                                                                            //     {capitalizeEachWord(ticketretrieve?.l1_users[0].first_name.toLowerCase())}
+                                                                                            //     {capitalizeEachWord(ticketretrieve?.l1_users[0].last_name.toLowerCase())}
+                                                                                            // </span>
+                                                                                            <>
                                                                                                 {capitalizeEachWord(ticketretrieve?.l1_users[0].first_name.toLowerCase())}
                                                                                                 {capitalizeEachWord(ticketretrieve?.l1_users[0].last_name.toLowerCase())}
-                                                                                            </span>
+                                                                                            </>
 
                                                                                         )
                                                                                     })}
-                                                                            </p>
+                                                                            </>
                                                                         </p>
                                                                     ) : null}
                                                                 </div>

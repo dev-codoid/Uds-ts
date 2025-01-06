@@ -31,7 +31,7 @@ import { getAPICallFunction, getexportdatas } from "../../ReactQuery/reactQuery"
 import { dashboardTicketapis, Leveluserapi, Ticketapis, ticketexportapi } from "../../Api/Api";
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from "react-tooltip";
-import { ShimmerTitle } from "react-shimmer-effects";
+import { ShimmerTitle, ShimmerCategoryItem } from "react-shimmer-effects";
 import Select from "react-select";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaSignOutAlt } from 'react-icons/fa';
 
@@ -70,7 +70,11 @@ const HomeScreen = () => {
     const [data, setdata] = useState([]);
     const Navigate = useNavigate()
     const [activeButton, setActiveButton] = useState(ActiveBars);
-    const [TicketDatas, setTicketDatas] = useState([])
+    const [TicketDatas, setTicketDatas] = useState([]);
+
+    const [TicketDatasshimmer, setTicketDatasshimmer] = useState(false);
+    const [LevelUserShimmer, setLevelUserShimmers] = useState(false);
+
     const [LevelOfuser, setLevelOfusers] = useState([])
     const [dropdown, setDropdown] = useState(false)
 
@@ -129,11 +133,13 @@ const HomeScreen = () => {
         queryKey: ["TicketDataCalled", ActiveBars],
         queryFn: async () => {
             setIsLoading(true);
+            setTicketDatasshimmer(true)
             const response = await getAPICallFunction({
                 url: Ticketapis,
                 payload: TicketPayloadsPass,
             });
             setIsLoading(false);
+            setTicketDatasshimmer(false)
             return response;
         },
     });
@@ -143,10 +149,12 @@ const HomeScreen = () => {
         queryKey: ["TicketDataCalled"],
         queryFn: async () => {
             setIsLoading(true);
+            setLevelUserShimmers(true)
             const response = await getAPICallFunction({
                 url: Leveluserapi,
             });
             setIsLoading(false);
+            setLevelUserShimmers(false)
             return response;
         },
     });
@@ -945,10 +953,17 @@ const HomeScreen = () => {
                                                         )
                                                     })}
                                                 </>
-                                                : <p className='text-center'>{"No data available"}</p>
-
-                                                // <ShimmerTitle line={2} gap={10} variant="primary" />
-
+                                                :
+                                                <>
+                                                    {TicketDatasshimmer == true ?
+                                                        <div className='shimmer-container'>
+                                                            {[...Array(5)].map((_, index) => (
+                                                                <ShimmerTitle key={index} line={2} gap={10} variant="primary" />
+                                                            ))}
+                                                        </div>
+                                                        :
+                                                        <p className='text-center'>{"No data available"}</p>}
+                                                </>
                                             }
 
 
@@ -963,7 +978,6 @@ const HomeScreen = () => {
                                     <div className="col-5 Recentcard mb-3">
                                         {data != undefined && data.map((item) => {
 
-                                            console.log(item, "AISUAS item");
 
 
                                             return (
@@ -975,8 +989,6 @@ const HomeScreen = () => {
                                                             <div className='d-flex Recentticketdetils   align-items-center'>
 
                                                                 <div className='Tcketingimglist'>
-                                                                    {/* <img src={Tickets} /> */}
-
                                                                     <img src={
                                                                         item.status == 0 ? cancelTickets :
                                                                             item.status == 1 ? ticketreviewsticker :
@@ -1004,8 +1016,6 @@ const HomeScreen = () => {
                                                                             ) : (
                                                                                 ""
                                                                             )}
-                                                                            {/* {item.clientsub_category_id?.name ? truncateText(capitalizeEachWord(item.clientsub_category_id?.name.toLowerCase(), 27)) : ""} */}
-
                                                                         </h6>
                                                                         <p className="text-muted DateFields mb-0">Created Date <span>{item.created_at ? formatDate(item.created_at) : ""}</span>
 
@@ -1016,37 +1026,41 @@ const HomeScreen = () => {
 
 
                                                                     </div>
-                                                                    <button className="btn track-btn priority-label inprocess " onClick={() => { ticketOverViewFunc(item) }}
+                                                                    <div className='TicketStatusoperations'>
+                                                                        <button className="btn track-btn priority-label inprocess " onClick={() => { ticketOverViewFunc(item) }}
 
 
 
-                                                                        style={{
-                                                                            background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
-                                                                                item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
-                                                                                    item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
-                                                                                        item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
-                                                                                            "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
-                                                                            color: "#fff",
-                                                                        }}>
+                                                                            style={{
+                                                                                background: item.status == 0 ? "hsla(170, 75%, 41%, 1)" : // Open - light background
+                                                                                    item.status == 1 ? "hsla(32, 92%, 59%, 1)" : // In Progress - yellow background
+                                                                                        item.status == 2 ? "hsla(170, 75%, 41%, 1)" : // Completed - light green background
+                                                                                            item.status == 3 ? "hsla(140, 82%, 39%, 1)" : // Close - light green background for Close
+                                                                                                "hsla(11, 85%, 54%, 1)", // Default for Reopen - light red background
+                                                                                color: "#fff",
+                                                                            }}>
 
-                                                                        {item.status == 0 ? "Open" :
-                                                                            item.status == 1 ? "In progress" :
-                                                                                item.status == 2 ? "Review" :
-                                                                                    item.status == 3 ? "Resolved" : "Reopen"}
-                                                                    </button>
+                                                                            {item.status == 0 ? "Open" :
+                                                                                item.status == 1 ? "In progress" :
+                                                                                    item.status == 2 ? "Review" :
+                                                                                        item.status == 3 ? "Resolved" : "Reopen"}
+                                                                        </button>
+                                                                            {item.status != 3 ?
+                                                                                <span className='inTicketsummarybutton'>
+                                                                                    <button> {overdueFunctions(item)}</button>
+                                                                                </span>
+                                                                                : null}
+
+
+                                                                    </div>
+
                                                                 </div>
-                                                                <div>
-                                                                    {item.status != 3 ?
-                                                                        <span className='inTicketsummarybutton'>
-                                                                            {/* {overdueFunctions(item)} */}
-                                                                            <button> {overdueFunctions(item)}</button>
-                                                                        </span>
-                                                                        : null}
-                                                                </div>
+
 
 
 
                                                             </div>
+
                                                             {item.status != 3 ?
                                                                 <div className=' Recentticketdetils Recentticketdetilscorrections  '>
 
@@ -1055,7 +1069,6 @@ const HomeScreen = () => {
                                                                         <div className='Tcketingimglist'>
                                                                             {/* <img src={correction} /> */}
                                                                         </div>
-                                                                        {/* <h6>Your ticket has been successfully completed</h6> */}
                                                                         <h6>View ticket details</h6>
                                                                     </div>
                                                                 </div>
@@ -1085,35 +1098,62 @@ const HomeScreen = () => {
                                         <div className="card ">
                                             <h5>UDS Contact People</h5>
                                             <div className="d-flex Recentcard2contact flex-column gap-3">
-                                                {LevelOfuser != undefined && LevelOfuser.map((item, index) => {
-                                                    return (
-                                                        <>
-                                                            <div className="contact-card d-flex justify-content-between align-items-center">
-                                                                <div className='ContactCards' >
-                                                                    <div className={index % 2 === 0 ? 'Contactimg' : 'Contactimg2'} >
-                                                                        <img src={personimg} />
-                                                                    </div>
-                                                                    <div className='InnerPhoneContact'>
-                                                                        <div>
-                                                                            <h6>{capitalizeEachWord(item.first_name.toLowerCase())}</h6>
-                                                                            <p className="text-muted mb-0">{capitalizeEachWord(item?.user_role?.role.toLowerCase())}</p>
 
+                                                {LevelOfuser.length > 0 ?
+                                                    <>
+                                                        {LevelOfuser != undefined && LevelOfuser.map((item, index) => {
+                                                            return (
+                                                                <>
+                                                                    <div className="contact-card d-flex justify-content-between align-items-center">
+                                                                        <div className='ContactCards' >
+                                                                            <div className={index % 2 === 0 ? 'Contactimg' : 'Contactimg2'} >
+                                                                                <img src={personimg} />
+                                                                            </div>
+                                                                            <div className='InnerPhoneContact'>
+                                                                                <div>
+                                                                                    <h6>{capitalizeEachWord(item.first_name.toLowerCase())}</h6>
+                                                                                    <p className="text-muted mb-0">{capitalizeEachWord(item?.user_role?.role.toLowerCase())}</p>
+
+                                                                                </div>
+
+                                                                                <div className='Phoneimg' data-tooltip-id="my-tooltip" data-tooltip-content={item.phone_number}>
+                                                                                    <img src={PhoneCall} />
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
 
-                                                                        <div className='Phoneimg' data-tooltip-id="my-tooltip" data-tooltip-content={item.phone_number}>
-                                                                            <img src={PhoneCall} />
-                                                                        </div>
                                                                     </div>
-                                                                </div>
 
+
+                                                                </>
+
+
+                                                            )
+                                                        })}
+                                                    </>
+
+                                                    :
+                                                    <>
+                                                        {LevelUserShimmer == true ?
+                                                            <div className="shimmer-container">
+                                                                <ShimmerCategoryItem hasImage imageType="circular" imageWidth={50} imageHeight={50} title />
+                                                                <ShimmerCategoryItem hasImage imageType="circular" imageWidth={50} imageHeight={50} title />
+                                                                <ShimmerCategoryItem hasImage imageType="circular" imageWidth={50} imageHeight={50} title />
                                                             </div>
 
 
-                                                        </>
 
+                                                            :
+                                                            <>
 
-                                                    )
-                                                })}
+                                                                {LevelOfuser.length == 0 && LevelUserShimmer == false && (
+                                                                    <p className='text-center'>{"No data available"}</p>
+                                                                )}
+                                                            </>
+                                                        }
+
+                                                    </>
+                                                }
 
 
 
