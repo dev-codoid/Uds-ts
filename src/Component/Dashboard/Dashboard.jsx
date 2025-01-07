@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
-import "../../Style/Pages/Dashboard.scss"
-import logo from "../../assets/Login/Group 131.svg"
+import React, { useState } from "react";
+import "../../Style/Pages/Dashboard.scss";
+import logo from "../../assets/Login/Group 1322.svg";
 import useStore from "../../Store";
 import { NavLink } from "react-router-dom";
-import Dashboardimg from "../../assets/Dashboard/Group 424 (2).svg"
-import Tciketingimg from "../../assets/Dashboard/Group 401.svg"
-import personimg from "../../assets/Dashboard/Union (1).svg"
+import Dashboardimg from "../../assets/Dashboard/Group 424 (2).svg";
+import Tciketingimg from "../../assets/Dashboard/Group 401.svg";
+import personimg from "../../assets/Dashboard/Union (1).svg";
 
-
-import Dashboardwhiteimg from "../../assets/Dashboard/Vector (13).svg"
-import Tciketingwhiteimg from "../../assets/Dashboard/Vector (14).svg"
-import LogoutIcon from '@mui/icons-material/Logout';
+import Dashboardwhiteimg from "../../assets/Dashboard/Vector (13).svg";
+import Tciketingwhiteimg from "../../assets/Dashboard/Vector (14).svg";
+import LogoutIcon from "@mui/icons-material/Logout";
 import closepopup from "../../assets/Dashboard/Group 442.svg";
 
 const Dashboard = () => {
@@ -22,10 +21,8 @@ const Dashboard = () => {
     setSelectedLocationData,
     selectedLocationData,
     ToggleBars,
-    setToggleBars
-
+    setToggleBars,
   } = useStore();
-
 
   const navList = [
     {
@@ -44,21 +41,22 @@ const Dashboard = () => {
       selecteBbackgroundImage: Tciketingwhiteimg,
       class: "page-dash",
     },
-
   ];
-
 
   return (
     <>
       <div>
         <div className={!ToggleBars ? "SidebarDesign" : "SidebarDesignClose"}>
-          <div className='InnerBar'>
+          <div className="InnerBar">
             {/* {"Logo"} */}
 
-            <div className='InnerBarLogo'>
-              <img src={logo} onClick={() => {
-                setToggleBars(!ToggleBars);
-              }} />
+            <div className="InnerBarLogo">
+              <img
+                src={logo}
+                onClick={() => {
+                  setToggleBars(!ToggleBars);
+                }}
+              />
 
               {/* ----Toggle--img */}
               {/* <img
@@ -69,18 +67,19 @@ const Dashboard = () => {
             </div>
 
             {/* {"InnerContent"} */}
-            <div className='BarMainList'>
-              <section className='MenuMains'>
+            <div className="BarMainList">
+              <section className="MenuMains">
                 {navList.map((item, ind) => {
-
                   return (
-
                     <>
-                      {item.name ?
+                      {item.name ? (
                         <NavLink
                           key={ind}
-                          className={`MenusNavlink ${selectedSideBarTab == item.name ? "activenav" : "notactive"}`}
-
+                          className={`MenusNavlink ${
+                            selectedSideBarTab == item.name
+                              ? "activenav"
+                              : "notactive"
+                          }`}
                           to={item.path}
                           onClick={() => setSelectedSideBarTab(item.name)}
                         >
@@ -99,36 +98,23 @@ const Dashboard = () => {
                             />
                             <p>{item.name}</p>
                           </div>
-                        </NavLink> :
-                        null}
+                        </NavLink>
+                      ) : null}
                     </>
-
                   );
                 })}
-
               </section>
-
             </div>
 
             {/* 
             <div className='LogoOut' onClick={() => { setDropdown(!dropdown) }}  >
               <img src={personimg} />
             </div> */}
-
-
-
           </div>
         </div>
-
       </div>
-
-
-
-
-
-
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
