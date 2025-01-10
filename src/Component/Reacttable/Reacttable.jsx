@@ -34,7 +34,7 @@ const ReactTable = ({ columns, data, MakeCreate, ViewParts }) => {
                   {...column.getHeaderProps(
                     // Apply sorting props only to the specified columns
                     column.Header == "Ticket Number" ||
-                      column.Header === "Created Date" ||
+                      column.Header === "Created" ||
                       column.Header === "Status" ||
                       column.Header === "Priority"
                       ? column.getSortByToggleProps()
@@ -43,7 +43,7 @@ const ReactTable = ({ columns, data, MakeCreate, ViewParts }) => {
                   style={{
                     cursor:
                       column.Header == "Ticket Number" ||
-                      column.Header === "Created Date" ||
+                      column.Header === "Created" ||
                       column.Header === "Status" ||
                       column.Header === "Priority"
                         ? "pointer"
@@ -54,7 +54,7 @@ const ReactTable = ({ columns, data, MakeCreate, ViewParts }) => {
 
                   {/* Always display the sorting indicator */}
                   {(column.Header == "Ticket Number" ||
-                    column.Header === "Created Date" ||
+                    column.Header === "Created" ||
                     column.Header === "Status" ||
                     column.Header === "Priority") && (
                     <span>

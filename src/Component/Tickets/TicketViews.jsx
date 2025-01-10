@@ -3,6 +3,8 @@ import useStore from "../../Store";
 import creationimg from "../../assets/Dashboard/Group 427319994.svg";
 import closepopup from "../../assets/Dashboard/Group 442.svg";
 import ticketimg from "../../assets/Dashboard/Group 427319997.svg";
+import Attachment from "../../assets/Dashboard/attachment.svg";
+
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getAPICallFunction,
@@ -49,6 +51,7 @@ import downloadimg2 from "../../assets/Dashboard/Group 427320153.svg";
 import high from "../../assets/Dashboard/Group 427319195.svg";
 import Userim from "../../assets/Dashboard/Layer_1 (2).svg";
 import { Tooltip } from "react-tooltip";
+import FileAttachementPopup from "./FileAttachementPopup";
 
 const TicketViews = () => {
   const {
@@ -65,6 +68,7 @@ const TicketViews = () => {
   const [ticketretrieve, setticketretrieve] = useState([]);
   const [Commentpopup, setcommetpoup] = useState(false);
   const [reviewPopup, setReviewPopup] = useState(false);
+  const [filePopup, setFilePopup] = useState(false);
   const [thankcontent, setthankcontent] = useState(thanksContentticketview);
   const progressWidth = "67%"; // Adjust progress dynamically
   const timelineBackground = "#e0e8f0"; // Background color
@@ -138,27 +142,122 @@ const TicketViews = () => {
 
   const [remainingTime, setremainingTime] = useState(1);
 
+  //   const handleFileChange = (event) => {
+  //     const files = Array.from(event.target.files);
+
+  //     // Filter files based on type and size
+  //     const validFiles = files.filter((file) => {
+  //       const isPhotoOrVideo =
+  //         file.type.startsWith("image/") || file.type.startsWith("video/");
+  //       const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
+
+  //       if (!isPhotoOrVideo) {
+  //         toast.error(`Invalid file type: ${file.name}`);
+  //       }
+  //       if (!isUnderSizeLimit && isPhotoOrVideo) {
+  //         toast.error(`File too large: ${file.name} exceeds 5 MB`);
+  //       }
+
+  //       return isPhotoOrVideo && isUnderSizeLimit;
+  //     });
+
+  //     if (validFiles.length === 0) {
+  //       return; // Exit if no valid files
+  //     }
+
+  //     const newFiles = validFiles.map((file) => URL.createObjectURL(file));
+  //     setUploadedFiles((prev) => [...prev, ...newFiles]);
+  //     setdosumentuploads(true);
+  //     setcroppedFilestatet((prev) => [...prev, ...validFiles]);
+
+  //     const generateRandomNumber = () => {
+  //       return Math.floor(Math.random() * 100000);
+  //     };
+  //     const createPresentData = (file) => {
+  //       const randomNumber = generateRandomNumber();
+  //       const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
+  //       return {
+  //         multiple_files: [
+  //           {
+  //             filename: formattedFilename,
+  //             file_type: file.type,
+  //           },
+  //         ],
+  //       };
+  //     };
+
+  //     validFiles.forEach((file) => {
+  //       const presentData = createPresentData(file);
+  //       createPresntUrlMutation.mutate(
+  //         { filepart: file, responsedatas: presentData },
+  //         {
+  //           onSuccess: (response) => {
+  //             console.log(`Successfully uploaded: ${file.name}`, response);
+  //           },
+  //           onError: (error) => {
+  //             console.error(`Error uploading: ${file.name}`, error);
+  //           },
+  //         }
+  //       );
+  //     });
+  //   };
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
 
-    // Filter files based on type and size
     const validFiles = files.filter((file) => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
-      const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
+      const isExcel =
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        file.type === "application/vnd.ms-excel";
+      const isPdf = file.type === "application/pdf";
+      const isEmail = file.type === "message/rfc822"; // MIME type for email files
+      const isUnder5MB = file.size <= 5 * 1024 * 1024; // 5 MB size limit
 
-      if (!isPhotoOrVideo) {
-        toast.error(`Invalid file type: ${file.name}`);
-      }
-      if (!isUnderSizeLimit && isPhotoOrVideo) {
-        toast.error(`File too large: ${file.name} exceeds 5 MB`);
-      }
-
-      return isPhotoOrVideo && isUnderSizeLimit;
+      return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
     });
 
+    const invalidFiles = files.filter((file) => {
+      const isPhotoOrVideo =
+        file.type.startsWith("image/") || file.type.startsWith("video/");
+      const isExcel =
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        file.type === "application/vnd.ms-excel";
+      const isPdf = file.type === "application/pdf";
+      const isEmail = file.type === "message/rfc822";
+      const isUnder5MB = file.size <= 5 * 1024 * 1024;
+
+      // Check if the file fails size validation
+      if ((isPhotoOrVideo || isExcel || isPdf || isEmail) && !isUnder5MB) {
+        toast.error(`${file.name} exceeds the 5 MB size limit.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+
+      // Check if the file fails type validation
+      if (!(isPhotoOrVideo || isExcel || isPdf || isEmail)) {
+        toast.error(`${file.name} is not a valid file type.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+
+      return !(isPhotoOrVideo || isExcel || isPdf || isEmail) || !isUnder5MB;
+    });
+    // Exit if no valid files
     if (validFiles.length === 0) {
-      return; // Exit if no valid files
+      return;
     }
 
     const newFiles = validFiles.map((file) => URL.createObjectURL(file));
@@ -1109,12 +1208,32 @@ const TicketViews = () => {
                                           Attachment
                                         </span>
                                         <p className="FileAttachments">
-                                          <span className="Attachmentslist">
-                                            <img src={images} />{" "}
+                                          <span
+                                            className="Attachmentslist"
+                                            onClick={() => {
+                                              setFilePopup(true);
+                                            }}
+                                            style={{ cursor: "pointer" }}
+                                          >
+                                            <img src={Attachment} />{" "}
+                                            {console.log(
+                                              ticketretrieve,
+                                              "ajksdjkljksdajkkjlda"
+                                            )}
                                             {ticketretrieve?.documents?.length}{" "}
                                             File(s) Attached
                                           </span>
+                                          {filePopup && (
+                                            <FileAttachementPopup
+                                              setFilePopup={setFilePopup}
+                                              filePopup={filePopup}
+                                              Attchment={
+                                                ticketretrieve?.documents
+                                              }
+                                            />
+                                          )}
                                         </p>
+                                        {}
                                       </>
                                     </p>
                                   ) : null}
@@ -1358,7 +1477,7 @@ const TicketViews = () => {
                                           >
                                             <span className="Attachmentslist">
                                               {" "}
-                                              <img src={images} />{" "}
+                                              <img src={Attachment} />{" "}
                                               {
                                                 remarksdatastate[index]
                                                   ?.documents.length
@@ -1481,7 +1600,7 @@ const TicketViews = () => {
 
                             <div className="FeedbackField FeedbackFieldstatifications">
                               <label className="form-label labelstart">
-                                Please submit your feedback on it.
+                                Please submit your feedback.
                               </label>
                               <textarea
                                 value={CommentPart.feedbacks}
@@ -1588,7 +1707,7 @@ const TicketViews = () => {
                       <label className="form-label labelstart">{`${
                         ticketStatus.status == 3
                           ? `Enter your reason for closing.`
-                          : `Please submit your feedback on it.`
+                          : `Please submit your feedback.`
                       }`}</label>
 
                       <textarea
@@ -1617,6 +1736,8 @@ const TicketViews = () => {
                         onDragLeave={handleDragLeave}
                         style={{
                           borderRadius: "10px",
+                          padding: "10px",
+
                           textAlign: "center",
                           backgroundColor: isDragging
                             ? "hsla(203, 49%, 81%, 0.25)"
@@ -1631,17 +1752,17 @@ const TicketViews = () => {
                               file.type === "image/png" ||
                               file.type === "image/jpeg"
                             ) {
-                              displayImg = high; // Replace with your gallery image variable
+                              displayImg = Attachment; // Replace with your gallery image variable
                             } else if (file.type === "application/pdf") {
-                              displayImg = thumbsup; // Replace with your PDF icon variable
+                              displayImg = Attachment; // Replace with your PDF icon variable
                             } else if (
                               file.type === "application/vnd.ms-excel" ||
                               file.type ===
                                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                             ) {
-                              displayImg = notifyimg; // Replace with your Excel icon variable
+                              displayImg = Attachment; // Replace with your Excel icon variable
                             } else {
-                              displayImg = thumbsup; // Replace with a default image/icon if none match
+                              displayImg = Attachment; // Replace with a default image/icon if none match
                             }
                             return (
                               <>
@@ -1650,7 +1771,7 @@ const TicketViews = () => {
                                   style={{
                                     position: "relative",
                                     width: "38px",
-                                    height: "38px",
+                                    height: "48px",
                                     borderRadius: "8px",
                                   }}
                                 >
@@ -1665,6 +1786,17 @@ const TicketViews = () => {
                                       border: "1px solid #ddd",
                                     }}
                                   />
+                                  <span
+                                    style={{
+                                      fontSize: "12px",
+                                      textTransform: "capitalize",
+                                    }}
+                                  >
+                                    {console.log(file, "sdklaklsdlkklaslkd")}
+                                    {file?.putfiles?.name?.length > 3
+                                      ? `${file?.putfiles.name.slice(0, 3)}...`
+                                      : file?.putfiles?.name}
+                                  </span>
                                   <button
                                     type="button"
                                     className=" btn-danger btn-sm DeleteImages"
@@ -1685,21 +1817,37 @@ const TicketViews = () => {
                         </div>
 
                         <p className="mt-3 ">
-                          Drag your files here to upload or{" "}
-                          <label
-                            className="Droplabel"
-                            htmlFor="fileUploadInput"
-                            style={{ cursor: "pointer" }}
+                          <span
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: "5px",
+                              marginBottom: "20px",
+                            }}
                           >
-                            Browse file
-                          </label>
-                          <input
-                            id="fileUploadInput"
-                            type="file"
-                            style={{ display: "none" }} // Hidden input
-                            onChange={handleFileChange} // Handles file selection
-                            multiple // Allows multiple file selection
-                          />
+                            <span style={{ textWrap: "nowrap" }}>
+                              Drag your files here to upload or{" "}
+                            </span>
+                            <label
+                              className="Droplabel"
+                              htmlFor="fileUploadInput"
+                              style={{
+                                cursor: "pointer",
+                                color: "blue",
+                                width: "10%",
+                                textWrap: "nowrap",
+                              }}
+                            >
+                              Browse file
+                            </label>
+                            <input
+                              id="fileUploadInput"
+                              type="file"
+                              style={{ display: "none" }} // Hidden input
+                              onChange={handleFileChange} // Handles file selection
+                              multiple // Allows multiple file selection
+                            />
+                          </span>
                         </p>
                       </div>
                     </div>

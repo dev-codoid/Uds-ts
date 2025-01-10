@@ -23,6 +23,7 @@ import creationimg from "../../assets/Dashboard/Group 427319979 (1).svg";
 import Userim from "../../assets/Dashboard/Layer_1 (2).svg";
 import TicketCreation from "../../assets/Dashboard/Creation.svg";
 import images from "../../assets/Dashboard/Union (4).svg";
+import Attachment from "../../assets/Dashboard/attachment.svg";
 
 import closepopup from "../../assets/Dashboard/Group 442.svg";
 import arrowdrop from "../../assets/Dashboard/Vector (5).svg";
@@ -822,17 +823,17 @@ const TicketCreate = () => {
                                 file.type === "image/png" ||
                                 file.type === "image/jpeg"
                               ) {
-                                displayImg = images; // Replace with your gallery image variable
+                                displayImg = Attachment; // Replace with your gallery image variable
                               } else if (file.type === "application/pdf") {
-                                displayImg = images; // Replace with your PDF icon variable
+                                displayImg = Attachment; // Replace with your PDF icon variable
                               } else if (
                                 file.type === "application/vnd.ms-excel" ||
                                 file.type ===
                                   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                               ) {
-                                displayImg = notifyimg; // Replace with your Excel icon variable
+                                displayImg = Attachment; // Replace with your Excel icon variable
                               } else {
-                                displayImg = images; // Replace with a default image/icon if none match
+                                displayImg = Attachment; // Replace with a default image/icon if none match
                               }
                               return (
                                 <>
@@ -845,6 +846,10 @@ const TicketCreate = () => {
                                       borderRadius: "8px",
                                     }}
                                   >
+                                    {console.log(
+                                      PresentUrls?.[0]?.putfiles,
+                                      "ajsdjashkdjasdjkslkjdas"
+                                    )}
                                     <img
                                       src={displayImg}
                                       alt={`Uploaded File ${index + 1}`}
@@ -856,6 +861,20 @@ const TicketCreate = () => {
                                         border: "1px solid #ddd",
                                       }}
                                     />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        textTransform: "capitalize",
+                                      }}
+                                    >
+                                      {console.log(file, "sdklaklsdlkklaslkd")}
+                                      {file?.putfiles?.name?.length > 5
+                                        ? `${file?.putfiles.name.slice(
+                                            0,
+                                            5
+                                          )}...`
+                                        : file?.putfiles?.name}
+                                    </span>
                                     <button
                                       type="button"
                                       className=" btn-danger btn-sm DeleteImages"

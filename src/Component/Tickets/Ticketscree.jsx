@@ -138,7 +138,7 @@ const Ticketscreen = () => {
       },
 
       {
-        Header: "Created Date",
+        Header: "Created",
         accessor: "created_at",
         Cell: ({ cell }) => {
           let data = cell.row.original;

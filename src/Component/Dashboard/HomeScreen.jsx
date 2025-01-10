@@ -187,10 +187,25 @@ const HomeScreen = () => {
     const dateObject = new Date(dateString);
 
     const day = String(dateObject.getDate()).padStart(2, "0");
-    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[dateObject.getMonth()]; // Get the string month from the array
+
     const year = dateObject.getFullYear();
 
-    return `${day}-${month}-${year}`;
+    return `${month} ${day},${year}`;
   };
 
   const HandleTicketraise = () => {
@@ -1045,7 +1060,7 @@ const HomeScreen = () => {
                                             )}
                                           </h6>
                                           <p className="text-muted DateFields ticketsummarypara mb-0">
-                                            Created Date{" "}
+                                            Created:{" "}
                                             <span>
                                               {item.created_at
                                                 ? formatDate(item.created_at)
@@ -1178,7 +1193,7 @@ const HomeScreen = () => {
                                         )}
                                       </h6>
                                       <p className="text-muted DateFields mb-0">
-                                        Created Date{" "}
+                                        Created:{" "}
                                         <span>
                                           {item.created_at
                                             ? formatDate(item.created_at)
