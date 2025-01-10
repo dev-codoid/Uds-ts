@@ -64,6 +64,7 @@ const TicketViews = () => {
   const [remarksdatastate, setremarksdata] = useState([]);
   const [ticketretrieve, setticketretrieve] = useState([]);
   const [Commentpopup, setcommetpoup] = useState(false);
+  const [reviewPopup, setReviewPopup] = useState(false);
   const [thankcontent, setthankcontent] = useState(thanksContentticketview);
   const progressWidth = "67%"; // Adjust progress dynamically
   const timelineBackground = "#e0e8f0"; // Background color
@@ -1068,29 +1069,36 @@ const TicketViews = () => {
                                     <span className="ticketheader ticketheadercards">
                                       Issue Category
                                     </span>
-                                    {ticketretrieve?.clientsub_category_id
-                                      ?.issue_id?.name
-                                      ? capitalizeEachWord(
-                                          ticketretrieve?.clientsub_category_id?.issue_id?.name.toLowerCase()
-                                        )
-                                      : "--"}
+                                    <span className="TicketDetailsContent">
+                                      {ticketretrieve?.clientsub_category_id
+                                        ?.issue_id?.name
+                                        ? capitalizeEachWord(
+                                            ticketretrieve?.clientsub_category_id?.issue_id?.name.toLowerCase()
+                                          )
+                                        : "--"}
+                                    </span>
                                   </p>
                                   <p className=" cardpara heaerspara">
                                     <span className="ticketheader ticketheadercards">
                                       Sub Category
                                     </span>
-                                    {ticketretrieve?.clientsub_category_id?.name
-                                      ? capitalizeEachWord(
-                                          ticketretrieve?.clientsub_category_id?.name.toLowerCase()
-                                        )
-                                      : "---"}
+                                    <span className="TicketDetailsContent">
+                                      {ticketretrieve?.clientsub_category_id
+                                        ?.name
+                                        ? capitalizeEachWord(
+                                            ticketretrieve?.clientsub_category_id?.name.toLowerCase()
+                                          )
+                                        : "---"}
+                                    </span>
                                   </p>
                                   <p className=" cardpara">
                                     <span className="ticketheader ticketheadercards">
                                       Description
                                     </span>
-                                    {ticketretrieve?.remarks ||
-                                      "No description available"}
+                                    <span className="TicketDetailsContent">
+                                      {ticketretrieve?.remarks ||
+                                        "No description available"}
+                                    </span>
                                     {/* <span className="ticketsinners">{ticketretrieve?.remarks || "No description available"}</span> */}
                                   </p>
 
@@ -1524,12 +1532,11 @@ const TicketViews = () => {
                                       "Please Enter the Valid Details"
                                     );
                                   } else {
-                                    HandleFeedbackpopup("close");
-                                    HandletheComments();
+                                    setReviewPopup(true);
                                   }
                                 }}
                               >
-                                Submit
+                                Close
                               </button>
                             </div>
                           ) : null}
@@ -1713,6 +1720,62 @@ const TicketViews = () => {
           </div>
         </>
       )}
+      {reviewPopup && (
+        <div className="CommentPopup CommentPopupthanks">
+          <div className="innercommentpopup">
+            <div
+              className={`FormPartsthanks ${
+                activeFeedback == "good" || activeFeedback == "excellent"
+                  ? "FormPartsthankspopthanksdesigs"
+                  : "FormPartsthankspopupTicketingview"
+              } `}
+            >
+              <div className="innerformscomentpart">
+                <div className="closecontent CloseIcons">
+                  <img
+                    src={closepopup}
+                    alt=""
+                    onClick={(e) => {
+                      {
+                        setReviewPopup(false);
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="FeedbackField">
+                  <label
+                    className="form-label"
+                    style={{ fontSize: "22px", fontWeight: "500" }}
+                  >
+                    Are you sure you want to close the ticket?
+                  </label>
+                </div>
+                <div className="feedbacksubmition" style={{ bottom: "12px" }}>
+                  <button
+                    style={{ backgroundColor: "red", marginRight: "10px" }}
+                    onClick={(e) => {
+                      setReviewPopup(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      HandleFeedbackpopup("close");
+                      HandletheComments();
+
+                      setReviewPopup(false);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {thankcontent && (
         <>
@@ -1737,6 +1800,7 @@ const TicketViews = () => {
                         {
                           settheThankpopupticketview(false);
                           setthankcontent(false);
+                          Navigate("/tickets");
                         }
                       }}
                     />

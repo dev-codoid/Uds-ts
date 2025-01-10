@@ -159,9 +159,7 @@ const LoginScreen = () => {
                   />
                 </p>
                 {error && userData.password == "" ? (
-                  <p className={styles.errorContainer}>
-                    Valid Password Required
-                  </p>
+                  <p className={styles.errorContainer}>Password Required</p>
                 ) : (
                   <p></p>
                 )}

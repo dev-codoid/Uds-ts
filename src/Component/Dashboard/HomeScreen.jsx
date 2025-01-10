@@ -6,6 +6,7 @@ import createtickets from "../../assets/Dashboard/Group 383.svg";
 import closedtickets from "../../assets/Dashboard/Group 384.svg";
 import Pendingtickets from "../../assets/Dashboard/Group 385.svg";
 import Tickets from "../../assets/Dashboard/Union.svg";
+import NoData from "../../assets/Dashboard/NodataIcon.svg";
 import personimg from "../../assets/Dashboard/Union (1).svg";
 
 import Cardimgs from "../../assets/Dashboard/Group 425.svg";
@@ -648,7 +649,7 @@ const HomeScreen = () => {
                 <div className="TicketCreateDashboards ">
                   <div className="col-5 Recentcard2">
                     <div className="card ">
-                      <h5>Your UDS Contact</h5>
+                      <h5>Your UDS Contacts</h5>
                       <div className="d-flex Recentcard2contact Recentcard2contactWithouttickets  gap-3">
                         {LevelOfuser != undefined &&
                           LevelOfuser.map((item, index) => {
@@ -1098,9 +1099,19 @@ const HomeScreen = () => {
                           ) : (
                             <p
                               className="text-center"
-                              style={{ marginTop: "20%" }}
+                              style={{
+                                marginTop: "13%",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
                             >
-                              {"No data available"}
+                              <img src={NoData} width={"300px"} />
+
+                              <span style={{ fontWeight: "500" }}>
+                                No Tickets with this Status
+                              </span>
                             </p>
                           )}
                         </>
@@ -1225,7 +1236,7 @@ const HomeScreen = () => {
 
                   <div className="col-5 Recentcard2">
                     <div className="card ">
-                      <h5>Your UDS Contact</h5>
+                      <h5>Your UDS Contacts</h5>
                       <div className="d-flex Recentcard2contact flex-column gap-3">
                         {LevelOfuser.length > 0 ? (
                           <>

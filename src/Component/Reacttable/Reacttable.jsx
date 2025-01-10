@@ -1,29 +1,23 @@
 import React from "react";
 import { useTable, useSortBy } from "react-table"; // Add useSortBy here
-import "../../Style/Pages/Table.scss"
+import "../../Style/Pages/Table.scss";
+import NoData from "../../assets/Dashboard/NodataIcon.svg";
+
 const ReactTable = ({ columns, data, MakeCreate, ViewParts }) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data }, useSortBy); // useSortBy here for sorting
 
+  const HandleView = (row) => {
+    if (MakeCreate) {
+      ViewParts(row);
+    }
+  };
+  console.log(columns, "columns");
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({ columns, data }, useSortBy); // useSortBy here for sorting
-
-
-
-
-    const HandleView = (row) => {
-
-        if (MakeCreate) {
-            ViewParts(row);
-        }
-    };
-    console.log(columns, "columns");
-
-
-    return (
-        <>
-
-            <table {...getTableProps()}>
-                {/* <thead>
+  return (
+    <>
+      <table {...getTableProps()}>
+        {/* <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
@@ -32,49 +26,52 @@ const ReactTable = ({ columns, data, MakeCreate, ViewParts }) => {
                         </tr>
                     ))}
                 </thead> */}
-                <thead>
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th
+                  {...column.getHeaderProps(
+                    // Apply sorting props only to the specified columns
+                    column.Header == "Ticket Number" ||
+                      column.Header === "Created Date" ||
+                      column.Header === "Status" ||
+                      column.Header === "Priority"
+                      ? column.getSortByToggleProps()
+                      : {}
+                  )}
+                  style={{
+                    cursor:
+                      column.Header == "Ticket Number" ||
+                      column.Header === "Created Date" ||
+                      column.Header === "Status" ||
+                      column.Header === "Priority"
+                        ? "pointer"
+                        : "default",
+                  }}
+                >
+                  {column.render("Header")}
 
-                                <th
-                                    {...column.getHeaderProps(
-                                        // Apply sorting props only to the specified columns
-                                        (column.Header == "Ticket Number" || column.Header === "Created Date" || column.Header === "Status" || column.Header === "Priority")
-                                            ? column.getSortByToggleProps()
-                                            : {}
-                                    )}
-                                    style={{
-                                        cursor: (column.Header == "Ticket Number" || column.Header === "Created Date" || column.Header === "Status" || column.Header === "Priority") ? 'pointer' : 'default'
-                                    }}
+                  {/* Always display the sorting indicator */}
+                  {(column.Header == "Ticket Number" ||
+                    column.Header === "Created Date" ||
+                    column.Header === "Status" ||
+                    column.Header === "Priority") && (
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " 🔽" // If sorted descending, show 🔽
+                          : " 🔼" // If sorted ascending, show 🔼
+                        : " 🔽"}
+                    </span>
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
 
-
-
-
-
-                                >
-
-                                    {column.render("Header")}
-
-                                    {/* Always display the sorting indicator */}
-                                    {(column.Header == "Ticket Number" || column.Header === "Created Date" || column.Header === "Status" || column.Header === "Priority") && (
-                                        <span>
-                                            {column.isSorted
-                                                ? column.isSortedDesc
-                                                    ? " 🔽" // If sorted descending, show 🔽
-                                                    : " 🔼" // If sorted ascending, show 🔼
-                                                : " 🔽"}
-
-
-                                        </span>
-                                    )}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-
-                {/* <tbody {...getTableBodyProps()} className="tbodyReact">
+        {/* <tbody {...getTableBodyProps()} className="tbodyReact">
                     {rows.map((row) => {
                         prepareRow(row);
                         return (
@@ -92,41 +89,50 @@ const ReactTable = ({ columns, data, MakeCreate, ViewParts }) => {
                         );
                     })}
                 </tbody> */}
-                {data != undefined &&
-                    data.length > 0 ? (
-                    <tbody {...getTableBodyProps()} className="tbodyReact">
-                        {rows.map((row) => {
-                            prepareRow(row);
-                            return (
-                                <tr
-                                    {...row.getRowProps()}
-                                    className={`InnerBodyTR ${MakeCreate ? "ViewListtable" : ""
-                                        }`}
-                                    onClick={(e) => HandleView(row.original)}>
-                                    {row.cells.map((cell) => {
-                                        return (
-                                            <td {...cell.getCellProps()}>
-                                                {cell.render("Cell")}
-                                            </td>
-                                        );
-                                    })}
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                ) : (
-                    <tr>
-                        <td colSpan="8" style={{ textAlign: "center" }}>
-                            <p className="Nodataavaliable">No data available</p>
-                        </td>
-                    </tr>
-                )}
+        {data != undefined && data.length > 0 ? (
+          <tbody {...getTableBodyProps()} className="tbodyReact">
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr
+                  {...row.getRowProps()}
+                  className={`InnerBodyTR ${MakeCreate ? "ViewListtable" : ""}`}
+                  onClick={(e) => HandleView(row.original)}
+                >
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        ) : (
+          <tr>
+            <td colSpan="8" style={{ textAlign: "center" }}>
+              <p
+                className="text-center"
+                style={{
+                  marginTop: "11%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img src={NoData} width={"350px"} />
 
-            </table>
-
-        </>
-
-    );
+                <span style={{ fontWeight: "500" }}>
+                  No Tickets with this Status
+                </span>
+              </p>
+            </td>
+          </tr>
+        )}
+      </table>
+    </>
+  );
 };
 
 export default ReactTable;
