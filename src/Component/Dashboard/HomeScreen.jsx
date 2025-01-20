@@ -431,7 +431,8 @@ const HomeScreen = () => {
                   <h5 className="DashboardHaders">Dashboard</h5>
                   <div className="DashboardContents">
                     {/* <img src={Notify} alt="" className='Nofiyimages' /> */}
-                    <p
+                  </div>
+                  {/* <p
                       className="InerBranchNames"
                       onClick={() => {
                         setDropdown(!dropdown);
@@ -450,7 +451,7 @@ const HomeScreen = () => {
                                                 {ownerDetails.client_id?.client_name ? truncateText(capitalizeEachWord(ownerDetails.client_id?.client_name), 35) : "-"}
                                             </span> */}
 
-                      <span
+                  {/* <span
                         data-tooltip-id="my-tooltip"
                         data-tooltip-content={
                           ownerDetails.client_id?.client_name &&
@@ -471,8 +472,15 @@ const HomeScreen = () => {
                             )
                           : "-"}
                       </span>
-                    </p>
-                  </div>
+                    </p> */}
+                  <button
+                    className="raiseBtn"
+                    onClick={() => {
+                      HandleTicketraise();
+                    }}
+                  >
+                    Raise a Ticket ?
+                  </button>
 
                   {dropdown && (
                     <div class="dropdown-menuLogout">
@@ -863,7 +871,7 @@ const HomeScreen = () => {
                 </div>
               </div>
 
-              <div className="RaisetheTickets ">
+              {/* <div className="RaisetheTickets ">
                 <div className=" requestToday">
                   <div className="card">
                     <div className="card-body">
@@ -881,10 +889,13 @@ const HomeScreen = () => {
                     Raise a Ticket ?
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               {/* Recent Ticket Statement */}
-              <div className="row RecentTicket mt-3">
+              <div
+                className="row RecentTicket mt-3"
+                style={{ marginTop: "60px" }}
+              >
                 <div className="col RecentcardTickets mb-3">
                   <div className="card ">
                     <div className="TickerSTatementHeaders">

@@ -325,7 +325,7 @@ const Ticketscreen = () => {
                   <h5 className="DashboardHaders">Tickets</h5>
                   {/* <img src={Notify} alt="" /> */}
                   <button
-                    className="btn raise-ticket-button"
+                    className="btn raiseBtn"
                     onClick={() => Navigate("/tickets/raiseticket")}
                   >
                     {" "}
