@@ -16,21 +16,20 @@ import TicketCreate from "./Component/Tickets/TicketCreate";
 import TicketViews from "./Component/Tickets/TicketViews";
 import LowWidthPopup from "./Component/Dashboard/LowithComPopup";
 import PasswordChange from "./Component/Login_screen/Passordchange";
-
+import QrCodeTicketCreate from "./Component/QrCode/QrCodeTicketCreate.jsx";
 
 function App() {
   const isTurfLogin = localStorage.getItem("isTicketsLogin");
-  const { setIsLoading, isLoading, isNewUser, ownerDetails, isLoading2 , } = useStore(
-    (state) => state
-  );
-
+  const { setIsLoading, isLoading, isNewUser, ownerDetails, isLoading2 } =
+    useStore((state) => state);
 
   const [lowWidthPopup, setLowWidthPopup] = useState(false);
 
-
   const checkScreenWidth = () => {
     if (window.innerWidth < 750) {
-      setLowWidthPopup(true); // Show the popup if width < 560px
+      {
+        isTurfLogin === "true" && setLowWidthPopup(true); // Show the popup if width < 560px
+      }
     } else {
       setLowWidthPopup(false); // Hide the popup if width >= 560px
     }
@@ -44,7 +43,6 @@ function App() {
       window.removeEventListener("resize", checkScreenWidth); // Cleanup listener on unmount
     };
   }, [window]);
-
 
   // useEffect(() => {
   //   handleChnage(); // Call handleChnage directly
@@ -63,13 +61,11 @@ function App() {
   //   document.body.style.zoom = `${Math.round(zoom)}%`;
   // }
 
-
-
   return (
     <>
       {isLoading && <Loader />}
       {isLoading2 && <Loader />}
-      {lowWidthPopup == false ?
+      {lowWidthPopup == false ? (
         <>
           {isTurfLogin === "true" ? (
             <>
@@ -77,32 +73,50 @@ function App() {
               <Routes>
                 <Route path="/" index element={<HomeScreen />} />
                 <Route path="/tickets" index element={<Ticketscreen />} />
-                <Route path="/tickets/raiseticket" index element={<TicketCreate />} />
-                <Route path="/tickets/ticketview" index element={<TicketViews />} />
-
+                <Route
+                  path="/tickets/raiseticket"
+                  index
+                  element={<TicketCreate />}
+                />
+                <Route
+                  path="/tickets/ticketview"
+                  index
+                  element={<TicketViews />}
+                />
               </Routes>
             </>
           ) : (
             <>
-
               <Routes>
                 <Route path="/" index element={<PageAuthentication />} />
                 <Route path="/login" element={<LoginScreen />} />
                 <Route path="/passwordchange" element={<PasswordChange />} />
-                <Route path="/forgotpassword" index element={<Forgotscreen />} />
-                <Route path="/forgotpassword" index element={<Forgotscreen />} />
+                <Route
+                  path="/forgotpassword"
+                  index
+                  element={<Forgotscreen />}
+                />
+                <Route
+                  path="/forgotpassword"
+                  index
+                  element={<Forgotscreen />}
+                />
                 <Route path="/otpverify" index element={<OtpVerifiy />} />
                 <Route path="/newpassword" index element={<PasswordCompo />} />
-
-
+                <Route
+                  path="/qrcode/:id"
+                  index
+                  element={<QrCodeTicketCreate />}
+                />
               </Routes>
             </>
           )}
-
         </>
-        : <LowWidthPopup />}
+      ) : (
+        <LowWidthPopup />
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

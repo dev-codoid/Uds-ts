@@ -1,0 +1,59 @@
+.QrcodeForm {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+
+  .qrCodeMAin {
+    display: flex;
+    // margin: 10px 0;
+    border-radius: 8px;
+    padding: 40px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 25px;
+    // overflow-y: scroll;
+    // height: calc(100% - 0px);
+
+    .forminputs {
+      width: 100%;
+    }
+    .Button {
+      border: none;
+      margin: 7px 0px;
+      padding: 6px 28px;
+      color: #ed4c28;
+      background-color: #fdede9;
+      font-weight: 500;
+      border-radius: 7px;
+      text-wrap: nowrap;
+    }
+  }
+  .qrForm {
+    height: auto;
+    min-height: 90vh; /* Minimum height is 50% of the viewport height */
+    max-height: 80vh; /* Maximum height is 80% of the viewport height */
+    overflow-y: auto; /* Enables scrolling if the content exceeds the max height */
+    box-sizing: border-box; /* Include padding and borders in height calculations */
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+      min-height: 60vh; /* Adjust for smaller screens */
+      max-height: 90vh;
+      box-shadow: 0 0 0px rgb(167, 170, 167);
+    }
+
+    @media (max-width: 480px) {
+      min-height: 70vh; /* Adjust for very small screens */
+      max-height: 100vh;
+    }
+    // overflow: hidden;
+    margin: 30px 0;
+    box-shadow: 0 0 10px rgb(167, 170, 167);
+    border-radius: 8px;
+  }
+  .qrForm::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+  }
+}

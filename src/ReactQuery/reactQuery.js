@@ -3,8 +3,7 @@ import {
   adminLogin,
   forgotpassword,
   OtpVerifyapi,
-  UpdatePasswordapi
-
+  UpdatePasswordapi,
 } from "../Api/Api";
 import { toast } from "react-toastify";
 export const postAdminLogin = async (data) => {
@@ -17,7 +16,6 @@ export const postAdminLogin = async (data) => {
   }
 };
 
-
 export const postforgotpassword = async (data) => {
   try {
     const response = await axios.post(forgotpassword, data);
@@ -27,7 +25,6 @@ export const postforgotpassword = async (data) => {
     toast.error(e.response.data.status.message);
   }
 };
-
 
 export const postotpverifications = async (data) => {
   try {
@@ -41,34 +38,31 @@ export const postotpverifications = async (data) => {
 
 export const putcreatepasswordDetails = async (payload) => {
   try {
-    const response = await axios.put(
-      UpdatePasswordapi,
-      payload.data,
-    
-    );
+    const response = await axios.put(UpdatePasswordapi, payload.data);
     return response.data;
   } catch (e) {
     console.log(e, "error2");
     if (e.response.data.status.code === 401) {
-
       toast.error("Error occured please login");
-
     } else {
       toast.error(e.response.data.status.message);
     }
   }
 };
 
-export const getAPICallFunction = async (payload) => {   
+export const getAPICallFunction = async (payload) => {
   try {
-    const response = await axios.get(payload.url + `${payload.id ? payload.id:""}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("TicketsToken")}`,
-      },
-      params: {
-        ...payload?.payload,
-      },
-    });
+    const response = await axios.get(
+      payload.url + `${payload.id ? payload.id : ""}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TicketsToken")}`,
+        },
+        params: {
+          ...payload?.payload,
+        },
+      }
+    );
     return response.data;
   } catch (e) {
     if (e.response.data.status.code === 401) {
@@ -77,23 +71,21 @@ export const getAPICallFunction = async (payload) => {
       window.location.href = "/";
       window.location.reload();
       toast.error("Error occured please login");
-
     } else {
       toast.error(e.response.data.status.message);
     }
   }
 };
-
-export const getexportdatas = async (payload) => {   
+export const getApiQrCodeFunction = async (payload) => {
   try {
-    const response = await axios.get(payload.url + `${payload.id ? payload.id:""}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("TicketsToken")}`,
-      },
-      params: {
-        ...payload?.payload,
-      },
-    });
+    const response = await axios.get(
+      payload.url + `${payload.id ? payload.id : ""}`,
+      {
+        params: {
+          ...payload?.payload,
+        },
+      }
+    );
     return response.data;
   } catch (e) {
     if (e.response.data.status.code === 401) {
@@ -102,13 +94,58 @@ export const getexportdatas = async (payload) => {
       window.location.href = "/";
       window.location.reload();
       toast.error("Error occured please login");
-
+    } else {
+      toast.error(e.response.data.status.message);
+    }
+  }
+};
+export const getApiQrCodeclientFunction = async (payload) => {
+  console.log(payload, "kdasjdhjklaskdjas");
+  try {
+    const response = await axios.get(
+      payload.url + `${payload.id ? payload.id : ""}`,
+      {}
+    );
+    return response.data;
+  } catch (e) {
+    if (e.response.data.status.code === 401) {
+      localStorage.removeItem("TicketsToken");
+      localStorage.removeItem("isTicketsLogin");
+      window.location.href = "/";
+      window.location.reload();
+      toast.error("Error occured please login");
     } else {
       toast.error(e.response.data.status.message);
     }
   }
 };
 
+export const getexportdatas = async (payload) => {
+  try {
+    const response = await axios.get(
+      payload.url + `${payload.id ? payload.id : ""}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TicketsToken")}`,
+        },
+        params: {
+          ...payload?.payload,
+        },
+      }
+    );
+    return response.data;
+  } catch (e) {
+    if (e.response.data.status.code === 401) {
+      localStorage.removeItem("TicketsToken");
+      localStorage.removeItem("isTicketsLogin");
+      window.location.href = "/";
+      window.location.reload();
+      toast.error("Error occured please login");
+    } else {
+      toast.error(e.response.data.status.message);
+    }
+  }
+};
 
 export const postAPICallFunction = async (payload) => {
   try {
@@ -119,44 +156,58 @@ export const postAPICallFunction = async (payload) => {
     });
     return response;
   } catch (error) {
-
     if (error.response.data.status === 401) {
-      
       localStorage.removeItem("TicketsToken");
       localStorage.removeItem("isTicketsLogin");
       window.location.href = "/";
       window.location.reload();
       toast.error("Error occured please login");
-      
     } else {
       toast.error(error.response.data.status.message);
     }
-    return error
+    return error;
+  }
+};
+export const QrcodepostAPICallFunction = async (payload) => {
+  try {
+    const response = await axios.post(payload.url, payload.data);
+    return response;
+  } catch (error) {
+    if (error.response.data.status === 401) {
+      localStorage.removeItem("TicketsToken");
+      localStorage.removeItem("isTicketsLogin");
+      window.location.href = "/";
+      window.location.reload();
+      toast.error("Error occured please login");
+    } else {
+      toast.error(error.response.data.status.message);
+    }
+    return error;
   }
 };
 
-
 export const putAPICallFunction = async (payload) => {
   try {
-    const response = await axios.put(payload.url + payload.id + "/", payload.data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("TicketsToken")}`,
-      },
-    });
+    const response = await axios.put(
+      payload.url + payload.id + "/",
+      payload.data,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TicketsToken")}`,
+        },
+      }
+    );
     return response;
   } catch (error) {
-
     if (error.response.data.status === 401) {
-      
       localStorage.removeItem("TicketsToken");
       localStorage.removeItem("isTicketsLogin");
       window.location.href = "/";
       window.location.reload();
       toast.error("Error occured please login");
-      
     } else {
       toast.error(error.response.data.status.message);
     }
-    return error
+    return error;
   }
 };
