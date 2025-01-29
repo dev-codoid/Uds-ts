@@ -17,6 +17,30 @@
 
     .forminputs {
       width: 100%;
+      input[type=number] {
+        -moz-appearance: textfield !important;
+      }
+      
+      .no-dropdown::-webkit-inner-spin-button,
+      .no-dropdown::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+    .forminputsHeadePart{
+      width: 100%;
+      display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    div{
+      width: 26%;
+    }
+      .HelpHeader{
+        width: 50%;
+        font-size: 19px;
+         font-weight: 700;
+        color: #F26639;
+      }
     }
     .Button {
       border: none;

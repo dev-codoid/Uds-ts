@@ -45,7 +45,9 @@ import backimg from "../../assets/Dashboard/Union (3).svg";
 import { useNavigate, useParams } from "react-router-dom";
 import notifyimg from "../../assets/Dashboard/Group 427320010.svg";
 import thumbsup from "../../assets/Dashboard/plastic-hand-with-thumb-up 1.svg";
-import ticketimg from "../../assets/Dashboard/Union (17).svg";
+import Udslogo from "../../assets/Dashboard/Group 132 (2).svg";
+import sidelogo from "../../assets/Dashboard/Group 427320172.svg";
+
 
 const QrCodeTicketCreate = () => {
   const { id } = useParams();
@@ -64,11 +66,14 @@ const QrCodeTicketCreate = () => {
   //---creating ticket
   const [TicketCreate, setTicketCreate] = useState(false);
   const [file, setFile] = useState(null);
+  const [ClientDetailsall, setClientDetailsall] = useState("");
+
   const normaldata = {
     documents: [],
     // sub_category_id: "",
     clientsub_category_id: "",
-    client_id: ownerDetails?.client_id?.id,
+    // client_id: ownerDetails?.client_id?.id,
+    client_id:ClientDetailsall?.data?.id,
     remarks: "",
     issue_category_id: "",
     priority: "",
@@ -114,7 +119,6 @@ const QrCodeTicketCreate = () => {
   const [PresentUrls, setPresentUrls] = useState([]);
   const [presenturlInUrl, seturlandfile] = useState([]);
   const [categorysearch, setcategorysearch] = useState("");
-  const [ClientDetailsall, setClientDetailsall] = useState("");
   const [subcategorysearch, setSubcategorysearch] = useState("");
   const [qrDetails, setQrDetails] = useState({
     username: "",
@@ -136,7 +140,7 @@ const QrCodeTicketCreate = () => {
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822"; // MIME type for email files
@@ -150,7 +154,7 @@ const QrCodeTicketCreate = () => {
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822";
@@ -255,7 +259,7 @@ const QrCodeTicketCreate = () => {
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822"; // MIME type for email files
@@ -269,7 +273,7 @@ const QrCodeTicketCreate = () => {
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822";
@@ -351,8 +355,8 @@ const QrCodeTicketCreate = () => {
         createPresntUrlMutation.mutate(
           { filepart: file, responsedatas: presentData },
           {
-            onSuccess: (response) => {},
-            onError: (error) => {},
+            onSuccess: (response) => { },
+            onError: (error) => { },
           }
         );
       });
@@ -371,6 +375,10 @@ const QrCodeTicketCreate = () => {
     setPresentUrls((prev) => prev.filter((_, i) => i !== index));
     seturlandfile((prev) => prev.filter((_, i) => i !== index));
   };
+  const preventScroll = (e) => {
+    e.preventDefault();
+};
+
 
   const createPresntUrlMutation = useMutation({
     // mutationFn: async (responsedatas) => { // Accepts data passed via mutate
@@ -516,6 +524,10 @@ const QrCodeTicketCreate = () => {
     if (Clientdetails) {
       setClientDetailsall(Clientdetails);
       const ClientDetailsallget = Clientdetails.data;
+      setticketdata({
+        ...Ticketdata,
+        client_id:ClientDetailsallget?.id
+      })
       console.log(ClientDetailsall.client_name, "sdklaslkdjksadjkasjkd");
       // const listofOptions = [];
       // Categorydetailsdatas.forEach((element) => {
@@ -615,8 +627,8 @@ const QrCodeTicketCreate = () => {
             element.Priority == 1
               ? "Medium"
               : element.Priority == 2
-              ? "High"
-              : "Low",
+                ? "High"
+                : "Low",
         });
       });
 
@@ -680,7 +692,7 @@ const QrCodeTicketCreate = () => {
     }
   };
 
-  console.log("ticketResponse", TicketCreateREsponse);
+  // console.log("ticketResponse ticketResponse", Ticketdata , ClientDetailsall?.data.id);
 
   return (
     <>
@@ -688,6 +700,14 @@ const QrCodeTicketCreate = () => {
         <div className="QrcodeForm">
           <div className="qrForm">
             <div className="qrCodeMAin">
+              <div className=" forminputsHeadePart">
+                <div>
+                  <img src={Udslogo} />
+                </div>
+                <span className="HelpHeader">How can we help?</span>
+
+              </div>
+
               <div className="forminputs">
                 <label className="form-label">Client</label>
                 <input
@@ -705,7 +725,7 @@ const QrCodeTicketCreate = () => {
                   value={ClientDetailsall?.data?.client_name}
                 />
               </div>
-              {console.log(ClientDetailsall, "dasdasasdasd")}
+              {/* {console.log(ClientDetailsall, "dasdasasdasd")} */}
               <div className="forminputs">
                 <label className="form-label">Name</label>
                 <input
@@ -714,6 +734,7 @@ const QrCodeTicketCreate = () => {
                     const inputValue = e.target.value;
 
                     setticketdata({
+                      ...Ticketdata,
                       user_name: e.target.value,
                     });
                   }}
@@ -728,6 +749,7 @@ const QrCodeTicketCreate = () => {
                     const inputValue = e.target.value;
 
                     setticketdata({
+                      ...Ticketdata,
                       email: e.target.value,
                     });
                   }}
@@ -738,13 +760,36 @@ const QrCodeTicketCreate = () => {
               <div className="forminputs">
                 <label className="form-label">Phone</label>
                 <input
-                  className="form-control"
+
+                  onKeyDown={(e) => {
+                    if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                      e.preventDefault();
+                    }
+                  }}
+                  onFocus={(e) => {
+                    e.target.addEventListener('wheel', preventScroll, {
+                      passive: false,
+                    });
+                  }}
+                  onBlur={(e) => {
+                    e.target.removeEventListener('wheel', preventScroll);
+                  }}
+
+                  type="number"
+                  className=
+                  "form-control no-dropdown"
                   onChange={(e) => {
                     const inputValue = e.target.value;
+                    const value = e.target.value;
+
+                    const phoneRegex = /^[1-9][0-9]{0,9}$/;
+                    if (value.length <= 10 && (phoneRegex.test(value) || value === '')) {
 
                     setticketdata({
+                      ...Ticketdata,
                       phone_number: e.target.value,
                     });
+                  }
                   }}
                   value={Ticketdata.phone_number}
                 />
@@ -868,7 +913,7 @@ const QrCodeTicketCreate = () => {
                     transition: "background-color 0.3s ease", // Smooth transition
                   }}
                 >
-                  <div className="d-flex flex-wrap align-items-center gap-3">
+                  <div className="d-flex flex-wrap justify-content-center align-items-center gap-3">
                     {/* {uploadedFiles.map((file, index) => (
                                                         <div key={index} style={{ position: "relative" }}>
                                                             <img
@@ -905,7 +950,7 @@ const QrCodeTicketCreate = () => {
                         } else if (
                           file.type === "application/vnd.ms-excel" ||
                           file.type ===
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         ) {
                           displayImg = Attachment; // Replace with your Excel icon variable
                         } else {
@@ -1017,12 +1062,12 @@ const QrCodeTicketCreate = () => {
                         setthankcontent(false);
                         settheThankpopup(false);
 
-                        Navigate("/tickets");
+                        // Navigate("/tickets");
                       }}
                     />
                   </div>
 
-                  <div className="ticketnumberlist">
+                  {/* <div className="ticketnumberlist">
                     <span className="InnerNUmber">
                       <img src={ticketimg} />
                       <span>
@@ -1030,8 +1075,8 @@ const QrCodeTicketCreate = () => {
                         {TicketCreateREsponse.ticket_number}
                       </span>
                     </span>
-                  </div>
-                  <h5 className="pt-4">Ticket Successfully Created!</h5>
+                  </div> */}
+                  <h5 className="pt-4" style={{ marginTop: "63px" }}>Ticket Successfully Created!</h5>
 
                   <div className="FeedbackField">
                     <label className="form-label createdLabels">
@@ -1050,7 +1095,7 @@ const QrCodeTicketCreate = () => {
                       </p>
                     </label>
                   </div>
-                  <div className="feedbacksubmition">
+                  {/* <div className="feedbacksubmition">
                     <button
                       onClick={(e) => {
                         setthankcontent(false);
@@ -1061,7 +1106,7 @@ const QrCodeTicketCreate = () => {
                     >
                       View Ticket
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
