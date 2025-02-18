@@ -69,6 +69,7 @@ const TicketViews = () => {
   const [Commentpopup, setcommetpoup] = useState(false);
   const [reviewPopup, setReviewPopup] = useState(false);
   const [filePopup, setFilePopup] = useState(false);
+  const [remarksFilePopup, setRemarksFilePopup] = useState(false);
   const [thankcontent, setthankcontent] = useState(thanksContentticketview);
   const progressWidth = "67%"; // Adjust progress dynamically
   const timelineBackground = "#e0e8f0"; // Background color
@@ -94,7 +95,7 @@ const TicketViews = () => {
   const [selectedEvent, setSelectedEvent] = useState(0);
 
   const [clientRemarks, setclientremarks] = useState([]);
-  const handleClick = (index) => {
+  const handleClick = index => {
     setSelectedEvent(index);
   };
 
@@ -136,7 +137,7 @@ const TicketViews = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleChange = (file) => {
+  const handleChange = file => {
     setFile(file);
   };
 
@@ -201,10 +202,10 @@ const TicketViews = () => {
   //       );
   //     });
   //   };
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     const files = Array.from(event.target.files);
 
-    const validFiles = files.filter((file) => {
+    const validFiles = files.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
@@ -218,7 +219,7 @@ const TicketViews = () => {
       return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
     });
 
-    const invalidFiles = files.filter((file) => {
+    const invalidFiles = files.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
@@ -260,15 +261,15 @@ const TicketViews = () => {
       return;
     }
 
-    const newFiles = validFiles.map((file) => URL.createObjectURL(file));
-    setUploadedFiles((prev) => [...prev, ...newFiles]);
+    const newFiles = validFiles.map(file => URL.createObjectURL(file));
+    setUploadedFiles(prev => [...prev, ...newFiles]);
     setdosumentuploads(true);
-    setcroppedFilestatet((prev) => [...prev, ...validFiles]);
+    setcroppedFilestatet(prev => [...prev, ...validFiles]);
 
     const generateRandomNumber = () => {
       return Math.floor(Math.random() * 100000);
     };
-    const createPresentData = (file) => {
+    const createPresentData = file => {
       const randomNumber = generateRandomNumber();
       const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
       return {
@@ -281,15 +282,15 @@ const TicketViews = () => {
       };
     };
 
-    validFiles.forEach((file) => {
+    validFiles.forEach(file => {
       const presentData = createPresentData(file);
       createPresntUrlMutation.mutate(
         { filepart: file, responsedatas: presentData },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             console.log(`Successfully uploaded: ${file.name}`, response);
           },
-          onError: (error) => {
+          onError: error => {
             console.error(`Error uploading: ${file.name}`, error);
           },
         }
@@ -303,13 +304,13 @@ const TicketViews = () => {
     }
   }, [uploadedFiles]);
 
-  const handleDrop = useCallback((event) => {
+  const handleDrop = useCallback(event => {
     event.preventDefault();
 
     const droppedFiles = Array.from(event.dataTransfer.files);
 
     // Filter files based on type and size
-    const validFiles = droppedFiles.filter((file) => {
+    const validFiles = droppedFiles.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isUnderSizeLimit = file.size <= 5 * 1024 * 1024; // 5 MB in bytes
@@ -328,12 +329,12 @@ const TicketViews = () => {
       return; // Exit if no valid files
     }
 
-    validFiles.forEach((file) => {
+    validFiles.forEach(file => {
       const reader = new FileReader();
 
       reader.onload = () => {
         const base64Url = reader.result;
-        setUploadedFiles((prevFiles) => [...prevFiles, base64Url]);
+        setUploadedFiles(prevFiles => [...prevFiles, base64Url]);
       };
 
       reader.readAsDataURL(file);
@@ -346,7 +347,7 @@ const TicketViews = () => {
         return Math.floor(Math.random() * 100000);
       };
 
-      const createPresentData = (file) => {
+      const createPresentData = file => {
         const randomNumber = generateRandomNumber();
         const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
         return {
@@ -359,13 +360,13 @@ const TicketViews = () => {
         };
       };
 
-      validFiles.forEach((file) => {
+      validFiles.forEach(file => {
         const presentData = createPresentData(file);
         createPresntUrlMutation.mutate(
           { filepart: file, responsedatas: presentData },
           {
-            onSuccess: (response) => {},
-            onError: (error) => {},
+            onSuccess: response => {},
+            onError: error => {},
           }
         );
       });
@@ -374,17 +375,17 @@ const TicketViews = () => {
 
   console.log(activeFeedback, "activeFeedback");
 
-  const handleDragOver = (event) => {
+  const handleDragOver = event => {
     event.preventDefault();
     event.stopPropagation();
   };
 
   // Remove uploaded file
-  const removeFile = (index) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
-    setcroppedFilestatet((prev) => prev.filter((_, i) => i !== index));
-    setPresentUrls((prev) => prev.filter((_, i) => i !== index));
-    seturlandfile((prev) => prev.filter((_, i) => i !== index));
+  const removeFile = index => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    setcroppedFilestatet(prev => prev.filter((_, i) => i !== index));
+    setPresentUrls(prev => prev.filter((_, i) => i !== index));
+    seturlandfile(prev => prev.filter((_, i) => i !== index));
   };
 
   const createPresntUrlMutation = useMutation({
@@ -405,35 +406,35 @@ const TicketViews = () => {
 
       return { ...response, responsedatas, filepart };
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setIsLoading(false);
 
       const responsedatas = data.responsedatas; // Extract responsedatas
       const filepart = data.filepart;
 
       const uploadedFiles = data.data.data; // Adjust based on actual response structure
-      const newUrls = uploadedFiles.map((url) => ({
+      const newUrls = uploadedFiles.map(url => ({
         url: url, // Adjust this based on the actual response
         type: responsedatas.multiple_files[0].file_type,
         putfiles: filepart,
       }));
 
-      setPresentUrls((prevUrls) => [...prevUrls, ...newUrls]);
+      setPresentUrls(prevUrls => [...prevUrls, ...newUrls]);
 
       const SendUrl = String(data.data.data).split("?")[0]; // Extract URL up to '?'
 
       if (SendUrl) {
-        seturlandfile((prevUrls) => [...prevUrls, SendUrl]); // Add the URL to the array
+        seturlandfile(prevUrls => [...prevUrls, SendUrl]); // Add the URL to the array
       }
     },
-    onError: (error) => {
+    onError: error => {
       setIsLoading(false);
       console.log(error, "error");
     },
   });
 
   const uploadFilesMutation = useMutation({
-    mutationFn: async (PresentUrls) => {
+    mutationFn: async PresentUrls => {
       return Promise.all(
         PresentUrls.map(async (item, index) => {
           const response = await fetch(item.url, {
@@ -458,16 +459,16 @@ const TicketViews = () => {
         })
       );
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       // setPresentUrls([]); // Clear the URLs on success
     },
-    onError: (error) => {
+    onError: error => {
       console.error("Error uploading files:", error);
       toast.error("Failed to upload some files. Please try again.");
     },
   });
 
-  const handleFeedbackClick = (id) => {
+  const handleFeedbackClick = id => {
     setActiveFeedback(id);
     setcommentpart({
       ...CommentPart,
@@ -509,7 +510,7 @@ const TicketViews = () => {
 
       return response;
     },
-    onSuccess: (response) => {
+    onSuccess: response => {
       toast.success(response.data.message);
       setIsLoading(false);
 
@@ -535,7 +536,7 @@ const TicketViews = () => {
         id: TicketIDS,
       });
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setIsLoading(false);
       // ticketreteievRefetchcalls()
 
@@ -563,6 +564,7 @@ const TicketViews = () => {
         url: commentapi,
         payload: remarkspayloads,
       });
+      console.log(response, "sdhgsdghjsdkjskjdjsjdhwkls");
       setIsLoading(false);
       return response;
     },
@@ -607,7 +609,7 @@ const TicketViews = () => {
       setIsLoading(false);
       return response;
     },
-    onSuccess: (response) => {
+    onSuccess: response => {
       toast.success(response.data.message);
       setIsLoading(false);
       setremarksreopendata({
@@ -634,7 +636,7 @@ const TicketViews = () => {
       remarksreopendatas.name != ""
       // && documentnotuploads == true
     ) {
-      setremarksreopendata((prevState) => ({
+      setremarksreopendata(prevState => ({
         ...prevState,
         documents: presenturlInUrl, // Assign the new documents list
       }));
@@ -760,18 +762,18 @@ const TicketViews = () => {
   //         .join(' '); // Join the words back into a string
   // };
 
-  const capitalizeEachWord = (str) => {
+  const capitalizeEachWord = str => {
     return str && typeof str === "string"
       ? str
           .split(" ") // Split the string into an array of words
           .map(
-            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
           ) // Capitalize each word
           .join(" ") // Join the words back into a string
       : ""; // Return an empty string if the input is invalid
   };
 
-  const HandleFeedbackpopup = (parm) => {
+  const HandleFeedbackpopup = parm => {
     // setcommetpoup(true);
     if (parm == "Reopen") {
       setcommentpart({
@@ -794,7 +796,7 @@ const TicketViews = () => {
       });
     }
   };
-  const formatDate = (dateString) => {
+  const formatDate = dateString => {
     const dateObject = new Date(dateString);
 
     const day = String(dateObject.getDate()).padStart(2, "0");
@@ -804,7 +806,7 @@ const TicketViews = () => {
     return `${day} / ${month} / ${year}`;
   };
 
-  const formatDatefeed = (dateString) => {
+  const formatDatefeed = dateString => {
     const dateObject = new Date(dateString);
 
     const day = String(dateObject.getDate()).padStart(2, "0");
@@ -814,7 +816,7 @@ const TicketViews = () => {
     return `${day}/${month}/${year}`;
   };
 
-  const getFileExtension = (url) => {
+  const getFileExtension = url => {
     const parts = url.split(".");
     return parts.length > 1 ? parts.pop() : ""; // Return the file extension, or an empty string if none
   };
@@ -835,7 +837,7 @@ const TicketViews = () => {
     );
   }
 
-  const downloadAll = (remarkdocuments) => {
+  const downloadAll = remarkdocuments => {
     const allLinks = remarkdocuments;
 
     if (!allLinks || allLinks.length === 0) {
@@ -926,11 +928,11 @@ const TicketViews = () => {
   //     return "";
   // }
 
-  const overdueFunctions = (ticketretrieve) => {
+  const overdueFunctions = ticketretrieve => {
     const convertToMinutes = (days, hours, minutes) =>
       days * 24 * 60 + hours * 60 + minutes;
     let differenceInMinutes;
-    const convertToTimeFormat = (totalMinutes) => {
+    const convertToTimeFormat = totalMinutes => {
       const days = Math.floor(totalMinutes / (24 * 60));
       totalMinutes -= days * (24 * 60);
       const hours = Math.floor(totalMinutes / 60);
@@ -938,7 +940,7 @@ const TicketViews = () => {
       return { days, hours, minutes };
     };
 
-    const formatTime = (ms) => {
+    const formatTime = ms => {
       const days = Math.floor(ms / (1000 * 60 * 60 * 24));
       const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
@@ -1004,6 +1006,10 @@ const TicketViews = () => {
   }
 
   console.log(thankcontent, "sdasd thankcontent", thanksContentticketview);
+  const fileNames = remarksdatastate[0]?.documents?.map(url =>
+    url.split("/").pop()
+  );
+  console.log(fileNames, "kajldsjlasdjlakskjlddmsmdl");
 
   return (
     <>
@@ -1250,7 +1256,7 @@ const TicketViews = () => {
                                           undefined &&
                                           ticketretrieve?.l1_users != null &&
                                           ticketretrieve?.l1_users?.map(
-                                            (item) => {
+                                            item => {
                                               return (
                                                 // <span className="Attachmentslist">
                                                 //     {capitalizeEachWord(ticketretrieve?.l1_users[0].first_name.toLowerCase())}
@@ -1290,7 +1296,7 @@ const TicketViews = () => {
                             <div className="card shadow-sm p-2 phonecallcard">
                               {ticketretrieve?.l1_users != undefined &&
                                 ticketretrieve?.l1_users != null &&
-                                ticketretrieve?.l1_users.map((item) => {
+                                ticketretrieve?.l1_users.map(item => {
                                   return (
                                     <div className="LeveluserCards">
                                       <div className="InnercardOflevels">
@@ -1445,10 +1451,10 @@ const TicketViews = () => {
                               Remarks{" "}
                             </span>
                           </h6>
-                          {remarksdatastate.length > 0 ? (
+                          {remarksdatastate?.length > 0 ? (
                             <>
                               <p className="Remarkspara">
-                                {remarksdatastate.map((item, index) => {
+                                {remarksdatastate?.map((item, index) => {
                                   return (
                                     <>
                                       <div
@@ -1470,12 +1476,18 @@ const TicketViews = () => {
                                         </p>
 
                                         {remarksdatastate[index]?.documents
-                                          .length > 0 ? (
+                                          ?.length > 0 ? (
                                           <p
                                             className="FileAttachments"
                                             style={{ width: "100%" }}
                                           >
-                                            <span className="Attachmentslist">
+                                            <span
+                                              className="Attachmentslist"
+                                              style={{ cursor: "pointer" }}
+                                              onClick={() => {
+                                                setRemarksFilePopup(true);
+                                              }}
+                                            >
                                               {" "}
                                               <img src={Attachment} />{" "}
                                               {
@@ -1484,6 +1496,33 @@ const TicketViews = () => {
                                               }{" "}
                                               File Attached
                                             </span>
+                                            {remarksFilePopup && (
+                                              <FileAttachementPopup
+                                                setFilePopup={
+                                                  setRemarksFilePopup
+                                                }
+                                                filePopup={remarksFilePopup}
+                                                Attchment={item?.documents}
+                                              />
+                                            )}
+
+                                            {/* {fileNames.map((img, index) => (
+                                              <div key={index}>
+                                                {console.log(
+                                                  img,
+                                                  "asjkdasdkkadkaskdkl"
+                                                )}
+                                                <img
+                                                  src={Attachment}
+                                                  width={"24px"}
+                                                />
+                                                {img}
+                                              </div>
+                                            ))} */}
+                                            {console.log(
+                                              item.documents?.[index],
+                                              "kjlassdalsjdljsad"
+                                            )}
                                             <span className="Downloadimgoptions">
                                               Download{" "}
                                               <img
@@ -1571,7 +1610,7 @@ const TicketViews = () => {
                             </p>
 
                             <div className="feedback">
-                              {feedbackOptions.map((option) => (
+                              {feedbackOptions.map(option => (
                                 <div
                                   key={option.id}
                                   className={`feedback-option ${
@@ -1608,7 +1647,7 @@ const TicketViews = () => {
                                   FeedbackDatas?.id ? "disabledthefiled" : ""
                                 }`}
                                 disabled={FeedbackDatas?.id ? true : false}
-                                onChange={(e) => {
+                                onChange={e => {
                                   const inputValue = e.target.value;
 
                                   setcommentpart({
@@ -1712,7 +1751,7 @@ const TicketViews = () => {
 
                       <textarea
                         value={remarksreopendatas.name}
-                        onChange={(e) => {
+                        onChange={e => {
                           const inputValue = e.target.value;
                           setremarksreopendata({
                             ...remarksreopendatas,
@@ -1883,7 +1922,7 @@ const TicketViews = () => {
                   <img
                     src={closepopup}
                     alt=""
-                    onClick={(e) => {
+                    onClick={e => {
                       {
                         setReviewPopup(false);
                       }
@@ -1902,14 +1941,14 @@ const TicketViews = () => {
                 <div className="feedbacksubmition" style={{ bottom: "12px" }}>
                   <button
                     style={{ backgroundColor: "red", marginRight: "10px" }}
-                    onClick={(e) => {
+                    onClick={e => {
                       setReviewPopup(false);
                     }}
                   >
                     Cancel
                   </button>
                   <button
-                    onClick={(e) => {
+                    onClick={e => {
                       HandleFeedbackpopup("close");
                       HandletheComments();
 
@@ -1944,7 +1983,7 @@ const TicketViews = () => {
                     <img
                       src={closepopup}
                       alt=""
-                      onClick={(e) => {
+                      onClick={e => {
                         {
                           settheThankpopupticketview(false);
                           setthankcontent(false);
@@ -1976,7 +2015,7 @@ const TicketViews = () => {
                   </div>
                   <div className="feedbacksubmition" style={{ bottom: "12px" }}>
                     <button
-                      onClick={(e) => {
+                      onClick={e => {
                         settheThankpopupticketview(false);
                         setthankcontent(false);
                         Navigate("/tickets");

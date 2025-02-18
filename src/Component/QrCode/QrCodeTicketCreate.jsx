@@ -48,7 +48,6 @@ import thumbsup from "../../assets/Dashboard/plastic-hand-with-thumb-up 1.svg";
 import Udslogo from "../../assets/Dashboard/Group 132 (2).svg";
 import sidelogo from "../../assets/Dashboard/Group 427320172.svg";
 
-
 const QrCodeTicketCreate = () => {
   const { id } = useParams();
   const {
@@ -73,7 +72,7 @@ const QrCodeTicketCreate = () => {
     // sub_category_id: "",
     clientsub_category_id: "",
     // client_id: ownerDetails?.client_id?.id,
-    client_id:ClientDetailsall?.data?.id,
+    client_id: ClientDetailsall?.data?.id,
     remarks: "",
     issue_category_id: "",
     priority: "",
@@ -92,7 +91,7 @@ const QrCodeTicketCreate = () => {
   const [Priorityvalues, setPriorityValues] = useState([]);
   const [Priorityclientvalues, setPriorityclientValues] = useState([]);
 
-  const handleChange = (file) => {
+  const handleChange = file => {
     setFile(file);
   };
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -132,15 +131,15 @@ const QrCodeTicketCreate = () => {
   const Navigate = useNavigate();
   const fileTypes = ["JPEG", "PNG", "GIF"];
 
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     const files = Array.from(event.target.files);
 
-    const validFiles = files.filter((file) => {
+    const validFiles = files.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822"; // MIME type for email files
@@ -149,12 +148,12 @@ const QrCodeTicketCreate = () => {
       return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
     });
 
-    const invalidFiles = files.filter((file) => {
+    const invalidFiles = files.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822";
@@ -191,15 +190,15 @@ const QrCodeTicketCreate = () => {
       return;
     }
 
-    const newFiles = validFiles.map((file) => URL.createObjectURL(file));
-    setUploadedFiles((prev) => [...prev, ...newFiles]);
+    const newFiles = validFiles.map(file => URL.createObjectURL(file));
+    setUploadedFiles(prev => [...prev, ...newFiles]);
     setdosumentuploads(true);
-    setcroppedFilestatet((prev) => [...prev, ...validFiles]);
+    setcroppedFilestatet(prev => [...prev, ...validFiles]);
 
     const generateRandomNumber = () => {
       return Math.floor(Math.random() * 100000);
     };
-    const createPresentData = (file) => {
+    const createPresentData = file => {
       const randomNumber = generateRandomNumber();
       const formattedFilename = `ticketing_system/${file.name}`; // Adjust the filename as needed
       return {
@@ -212,15 +211,15 @@ const QrCodeTicketCreate = () => {
       };
     };
 
-    validFiles.forEach((file) => {
+    validFiles.forEach(file => {
       const presentData = createPresentData(file);
       createPresntUrlMutation.mutate(
         { filepart: file, responsedatas: presentData },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             console.log(`Successfully uploaded: ${file.name}`, response);
           },
-          onError: (error) => {
+          onError: error => {
             console.error(`Error uploading: ${file.name}`, error);
           },
         }
@@ -234,7 +233,7 @@ const QrCodeTicketCreate = () => {
     }
   }, [uploadedFiles]);
 
-  const handleDrop = useCallback((event) => {
+  const handleDrop = useCallback(event => {
     event.preventDefault();
 
     const droppedFiles = Array.from(event.dataTransfer.files);
@@ -254,12 +253,12 @@ const QrCodeTicketCreate = () => {
     //     return isPhotoOrVideo && isUnderSizeLimit;
     // });
 
-    const validFiles = droppedFiles.filter((file) => {
+    const validFiles = droppedFiles.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822"; // MIME type for email files
@@ -268,12 +267,12 @@ const QrCodeTicketCreate = () => {
       return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
     });
 
-    const invalidFiles = droppedFiles.filter((file) => {
+    const invalidFiles = droppedFiles.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
         file.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
         file.type === "application/vnd.ms-excel";
       const isPdf = file.type === "application/pdf";
       const isEmail = file.type === "message/rfc822";
@@ -310,7 +309,7 @@ const QrCodeTicketCreate = () => {
       return;
     }
 
-    validFiles.forEach((file) => {
+    validFiles.forEach(file => {
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -324,7 +323,7 @@ const QrCodeTicketCreate = () => {
         //     {  base64Url },
 
         // ]);
-        setUploadedFiles((prevFiles) => [...prevFiles, base64Url]);
+        setUploadedFiles(prevFiles => [...prevFiles, base64Url]);
       };
 
       reader.readAsDataURL(file);
@@ -337,7 +336,7 @@ const QrCodeTicketCreate = () => {
         return Math.floor(Math.random() * 100000);
       };
 
-      const createPresentData = (file) => {
+      const createPresentData = file => {
         const randomNumber = generateRandomNumber();
         const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
         return {
@@ -350,35 +349,34 @@ const QrCodeTicketCreate = () => {
         };
       };
 
-      validFiles.forEach((file) => {
+      validFiles.forEach(file => {
         const presentData = createPresentData(file);
         createPresntUrlMutation.mutate(
           { filepart: file, responsedatas: presentData },
           {
-            onSuccess: (response) => { },
-            onError: (error) => { },
+            onSuccess: response => {},
+            onError: error => {},
           }
         );
       });
     }
   }, []);
 
-  const handleDragOver = (event) => {
+  const handleDragOver = event => {
     event.preventDefault();
     event.stopPropagation();
   };
 
   // Remove uploaded file
-  const removeFile = (index) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
-    setcroppedFilestatet((prev) => prev.filter((_, i) => i !== index));
-    setPresentUrls((prev) => prev.filter((_, i) => i !== index));
-    seturlandfile((prev) => prev.filter((_, i) => i !== index));
+  const removeFile = index => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    setcroppedFilestatet(prev => prev.filter((_, i) => i !== index));
+    setPresentUrls(prev => prev.filter((_, i) => i !== index));
+    seturlandfile(prev => prev.filter((_, i) => i !== index));
   };
-  const preventScroll = (e) => {
+  const preventScroll = e => {
     e.preventDefault();
-};
-
+  };
 
   const createPresntUrlMutation = useMutation({
     // mutationFn: async (responsedatas) => { // Accepts data passed via mutate
@@ -397,33 +395,33 @@ const QrCodeTicketCreate = () => {
 
       return { ...response, responsedatas, filepart };
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       const responsedatas = data.responsedatas; // Extract responsedatas
       const filepart = data.filepart;
       setIsLoadingtwo(false);
 
       const uploadedFiles = data.data.data; // Adjust based on actual response structure
-      const newUrls = uploadedFiles.map((url) => ({
+      const newUrls = uploadedFiles.map(url => ({
         url: url, // Adjust this based on the actual response
         type: responsedatas.multiple_files[0].file_type,
         putfiles: filepart,
       }));
 
-      setPresentUrls((prevUrls) => [...prevUrls, ...newUrls]);
+      setPresentUrls(prevUrls => [...prevUrls, ...newUrls]);
 
       const SendUrl = String(data.data.data).split("?")[0]; // Extract URL up to '?'
 
       if (SendUrl) {
-        seturlandfile((prevUrls) => [...prevUrls, SendUrl]); // Add the URL to the array
+        seturlandfile(prevUrls => [...prevUrls, SendUrl]); // Add the URL to the array
       }
     },
-    onError: (error) => {
+    onError: error => {
       setIsLoadingtwo(false);
     },
   });
 
   const uploadFilesMutation = useMutation({
-    mutationFn: async (PresentUrls) => {
+    mutationFn: async PresentUrls => {
       return Promise.all(
         PresentUrls.map(async (item, index) => {
           const response = await fetch(item.url, {
@@ -451,19 +449,19 @@ const QrCodeTicketCreate = () => {
         })
       );
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setPresentUrls([]); // Clear the URLs on success
     },
-    onError: (error) => {
+    onError: error => {
       console.error("Error uploading files:", error);
       toast.error("Failed to upload some files. Please try again.");
     },
   });
 
-  const capitalizeEachWord = (str) => {
+  const capitalizeEachWord = str => {
     return str
       .split(" ") // Split the string into an array of words
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
       .join(" "); // Join the words back into a string
   };
 
@@ -494,7 +492,7 @@ const QrCodeTicketCreate = () => {
       if (Categorydetails) {
         const Categorydetailsdatas = Categorydetails.data;
         const listofOptions = [];
-        Categorydetailsdatas.forEach((element) => {
+        Categorydetailsdatas.forEach(element => {
           listofOptions.push({ value: element.id, label: element.name });
         });
 
@@ -526,8 +524,8 @@ const QrCodeTicketCreate = () => {
       const ClientDetailsallget = Clientdetails.data;
       setticketdata({
         ...Ticketdata,
-        client_id:ClientDetailsallget?.id
-      })
+        client_id: ClientDetailsallget?.id,
+      });
       console.log(ClientDetailsall.client_name, "sdklaslkdjksadjkasjkd");
       // const listofOptions = [];
       // Categorydetailsdatas.forEach((element) => {
@@ -618,7 +616,7 @@ const QrCodeTicketCreate = () => {
       const SubCategorydetailsdata = SubCategorydetails.data;
       const listofsubOptions = [];
 
-      SubCategorydetailsdata.forEach((element) => {
+      SubCategorydetailsdata.forEach(element => {
         listofsubOptions.push({
           value: element.id,
           label: element.name,
@@ -627,8 +625,8 @@ const QrCodeTicketCreate = () => {
             element.Priority == 1
               ? "Medium"
               : element.Priority == 2
-                ? "High"
-                : "Low",
+              ? "High"
+              : "Low",
         });
       });
 
@@ -647,7 +645,7 @@ const QrCodeTicketCreate = () => {
 
       return response;
     },
-    onSuccess: (response) => {
+    onSuccess: response => {
       toast.success(response.data.message);
       // Navigate("/tickets")
       setTicketResponse(response.data.data);
@@ -674,12 +672,15 @@ const QrCodeTicketCreate = () => {
       Ticketdata.remarks != "" &&
       Ticketdata.issue_category_id !== "" &&
       Ticketdata.clientsub_category_id !== "" &&
+      Ticketdata.user_name !== "" &&
+      Ticketdata.phone_number !== "" &&
       Ticketdata.priority !== ""
     ) {
       delete Ticketdata.issue_category_id;
 
       if (documentnotuploads) {
-        setticketdata((prevState) => ({
+        validateEmail();
+        setticketdata(prevState => ({
           ...prevState,
           documents: presenturlInUrl, // Assign the new documents list
         }));
@@ -688,11 +689,16 @@ const QrCodeTicketCreate = () => {
         CreateTicketsmutation.mutate();
       }
     } else {
-      toast.info("Please Fill the Manditory Fields");
+      toast.info("Please Fill the Mandatory Fields");
     }
   };
+  const [emailError, setEmailError] = useState("");
 
   // console.log("ticketResponse ticketResponse", Ticketdata , ClientDetailsall?.data.id);
+  const validateEmail = email => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   return (
     <>
@@ -705,11 +711,10 @@ const QrCodeTicketCreate = () => {
                   <img src={Udslogo} />
                 </div>
                 <span className="HelpHeader">How can we help?</span>
-
               </div>
 
               <div className="forminputs">
-                <label className="form-label">Client</label>
+                <label className="form-label">Client Name</label>
                 <input
                   className="form-control"
                   // onChange={(e) => {
@@ -727,10 +732,12 @@ const QrCodeTicketCreate = () => {
               </div>
               {/* {console.log(ClientDetailsall, "dasdasasdasd")} */}
               <div className="forminputs">
-                <label className="form-label">Name</label>
+                <label className="form-label">
+                  Name<span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                   className="form-control"
-                  onChange={(e) => {
+                  onChange={e => {
                     const inputValue = e.target.value;
 
                     setticketdata({
@@ -745,62 +752,75 @@ const QrCodeTicketCreate = () => {
                 <label className="form-label">Email</label>
                 <input
                   className="form-control"
-                  onChange={(e) => {
+                  type="email"
+                  onChange={e => {
                     const inputValue = e.target.value;
 
+                    // Update state
                     setticketdata({
                       ...Ticketdata,
-                      email: e.target.value,
+                      email: inputValue,
                     });
+
+                    // Validate email
+                    if (!validateEmail(inputValue)) {
+                      setEmailError("Invalid email format");
+                    } else {
+                      setEmailError("");
+                    }
                   }}
                   value={Ticketdata.email}
+                  placeholder="Enter your email"
                 />
+                {emailError && <p style={{ color: "red" }}>{emailError}</p>}
               </div>
-              {console.log(Ticketdata, "lkadsklaskldsa")}
               <div className="forminputs">
-                <label className="form-label">Phone</label>
+                <label className="form-label">
+                  Phone Number<span style={{ color: "red" }}>*</span>
+                </label>
                 <input
-
-                  onKeyDown={(e) => {
-                    if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                  onKeyDown={e => {
+                    if (e.key === "-" || e.key === "e" || e.key === "E") {
                       e.preventDefault();
                     }
                   }}
-                  onFocus={(e) => {
-                    e.target.addEventListener('wheel', preventScroll, {
+                  onFocus={e => {
+                    e.target.addEventListener("wheel", preventScroll, {
                       passive: false,
                     });
                   }}
-                  onBlur={(e) => {
-                    e.target.removeEventListener('wheel', preventScroll);
+                  onBlur={e => {
+                    e.target.removeEventListener("wheel", preventScroll);
                   }}
-
                   type="number"
-                  className=
-                  "form-control no-dropdown"
-                  onChange={(e) => {
+                  className="form-control no-dropdown"
+                  onChange={e => {
                     const inputValue = e.target.value;
                     const value = e.target.value;
 
                     const phoneRegex = /^[1-9][0-9]{0,9}$/;
-                    if (value.length <= 10 && (phoneRegex.test(value) || value === '')) {
-
-                    setticketdata({
-                      ...Ticketdata,
-                      phone_number: e.target.value,
-                    });
-                  }
+                    if (
+                      value.length <= 10 &&
+                      (phoneRegex.test(value) || value === "")
+                    ) {
+                      setticketdata({
+                        ...Ticketdata,
+                        phone_number: e.target.value,
+                      });
+                    }
                   }}
                   value={Ticketdata.phone_number}
                 />
               </div>
               <div className="forminputs">
-                <label className="form-label">Problem Category</label>
+                <label className="form-label">
+                  Problem Category<span style={{ color: "red" }}>*</span>
+                </label>
                 <Select
                   className="Selects"
                   labelledBy="Select"
                   options={Categoryoptions}
-                  onChange={(e) => {
+                  onChange={e => {
                     setCategoryvalues(e);
                     setticketdata({
                       ...Ticketdata,
@@ -812,19 +832,21 @@ const QrCodeTicketCreate = () => {
                     setPriorityclientValues([]);
                   }}
                   value={CategoryValues}
-                  onInputChange={(e) => {
+                  onInputChange={e => {
                     setcategorysearch(e);
                   }}
                 />
               </div>
 
               <div className="forminputs">
-                <label className="form-label">Sub Category</label>
+                <label className="form-label">
+                  Sub Category <span style={{ color: "red" }}>*</span>
+                </label>
                 <Select
                   className="Selects"
                   labelledBy="Select"
                   options={Subcategoryoptions}
-                  onChange={(e) => {
+                  onChange={e => {
                     setsubcategoryvalues(e);
                     setPriorityValues({
                       value: e.value,
@@ -838,7 +860,7 @@ const QrCodeTicketCreate = () => {
                     // setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
                   }}
                   value={subcategoryvalues}
-                  onInputChange={(e) => {
+                  onInputChange={e => {
                     setSubcategorysearch(e);
                   }}
                 />
@@ -857,13 +879,15 @@ const QrCodeTicketCreate = () => {
                                         </div> */}
 
               <div className="forminputs">
-                <label className="form-label ">Priority</label>
+                <label className="form-label ">
+                  Priority <span style={{ color: "red" }}>*</span>
+                </label>
                 <Select
                   className="Selects"
                   labelledBy="Select"
                   value={Priorityclientvalues}
                   options={Priorityoptions}
-                  onChange={(e) => {
+                  onChange={e => {
                     setPriorityclientValues(e);
 
                     setticketdata({
@@ -875,11 +899,13 @@ const QrCodeTicketCreate = () => {
               </div>
 
               <div className="forminputs">
-                <label className="form-label">Description</label>
+                <label className="form-label">
+                  Description <span style={{ color: "red" }}>*</span>
+                </label>
                 <textarea
                   style={{ height: "100px" }}
                   className="form-control"
-                  onChange={(e) => {
+                  onChange={e => {
                     const inputValue = e.target.value;
 
                     setticketdata({
@@ -950,7 +976,7 @@ const QrCodeTicketCreate = () => {
                         } else if (
                           file.type === "application/vnd.ms-excel" ||
                           file.type ===
-                          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                         ) {
                           displayImg = Attachment; // Replace with your Excel icon variable
                         } else {
@@ -1014,10 +1040,13 @@ const QrCodeTicketCreate = () => {
                   </div>
 
                   <p className="mt-3 ">
-                    Drag your files here to upload or{" "}
+                    <span id="disableTextUpload">
+                      Drag your files here to upload or{" "}
+                    </span>
                     <label
                       className="Droplabel Droplabel2"
                       htmlFor="fileUploadInput"
+                      style={{ color: "blue" }}
                     >
                       Browse file
                     </label>
@@ -1035,7 +1064,10 @@ const QrCodeTicketCreate = () => {
                 </div>
               </div>
 
-              <div className="col-12 Createtickets">
+              <div
+                className="col-12 Createtickets"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
                 <button className="Button" onClick={() => CreateTicket()}>
                   Create Ticket
                 </button>
@@ -1058,7 +1090,7 @@ const QrCodeTicketCreate = () => {
                     <img
                       src={closepopup}
                       alt=""
-                      onClick={(e) => {
+                      onClick={e => {
                         setthankcontent(false);
                         settheThankpopup(false);
 
@@ -1076,7 +1108,9 @@ const QrCodeTicketCreate = () => {
                       </span>
                     </span>
                   </div> */}
-                  <h5 className="pt-4" style={{ marginTop: "63px" }}>Ticket Successfully Created!</h5>
+                  <h5 className="pt-4" style={{ marginTop: "63px" }}>
+                    Ticket Successfully Created!
+                  </h5>
 
                   <div className="FeedbackField">
                     <label className="form-label createdLabels">

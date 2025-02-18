@@ -17,29 +17,29 @@
 
     .forminputs {
       width: 100%;
-      input[type=number] {
+      input[type="number"] {
         -moz-appearance: textfield !important;
       }
-      
+
       .no-dropdown::-webkit-inner-spin-button,
       .no-dropdown::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
     }
-    .forminputsHeadePart{
+    .forminputsHeadePart {
       width: 100%;
       display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-    div{
-      width: 26%;
-    }
-      .HelpHeader{
+      align-items: center;
+      margin-bottom: 16px;
+      div {
+        width: 26%;
+      }
+      .HelpHeader {
         width: 50%;
         font-size: 19px;
-         font-weight: 700;
-        color: #F26639;
+        font-weight: 700;
+        color: #f26639;
       }
     }
     .Button {
@@ -65,6 +65,9 @@
       min-height: 60vh; /* Adjust for smaller screens */
       max-height: 90vh;
       box-shadow: 0 0 0px rgb(167, 170, 167);
+      #disableTextUpload {
+        display: none;
+      }
     }
 
     @media (max-width: 480px) {

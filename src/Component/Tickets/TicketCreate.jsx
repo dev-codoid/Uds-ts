@@ -74,7 +74,7 @@ const TicketCreate = () => {
   const [Priorityvalues, setPriorityValues] = useState([]);
   const [Priorityclientvalues, setPriorityclientValues] = useState([]);
 
-  const handleChange = (file) => {
+  const handleChange = file => {
     setFile(file);
   };
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -109,10 +109,10 @@ const TicketCreate = () => {
   const Navigate = useNavigate();
   const fileTypes = ["JPEG", "PNG", "GIF"];
 
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     const files = Array.from(event.target.files);
 
-    const validFiles = files.filter((file) => {
+    const validFiles = files.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
@@ -126,7 +126,7 @@ const TicketCreate = () => {
       return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
     });
 
-    const invalidFiles = files.filter((file) => {
+    const invalidFiles = files.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
@@ -168,15 +168,15 @@ const TicketCreate = () => {
       return;
     }
 
-    const newFiles = validFiles.map((file) => URL.createObjectURL(file));
-    setUploadedFiles((prev) => [...prev, ...newFiles]);
+    const newFiles = validFiles.map(file => URL.createObjectURL(file));
+    setUploadedFiles(prev => [...prev, ...newFiles]);
     setdosumentuploads(true);
-    setcroppedFilestatet((prev) => [...prev, ...validFiles]);
+    setcroppedFilestatet(prev => [...prev, ...validFiles]);
 
     const generateRandomNumber = () => {
       return Math.floor(Math.random() * 100000);
     };
-    const createPresentData = (file) => {
+    const createPresentData = file => {
       const randomNumber = generateRandomNumber();
       const formattedFilename = `ticketing_system/${file.name}`; // Adjust the filename as needed
       return {
@@ -189,15 +189,15 @@ const TicketCreate = () => {
       };
     };
 
-    validFiles.forEach((file) => {
+    validFiles.forEach(file => {
       const presentData = createPresentData(file);
       createPresntUrlMutation.mutate(
         { filepart: file, responsedatas: presentData },
         {
-          onSuccess: (response) => {
+          onSuccess: response => {
             console.log(`Successfully uploaded: ${file.name}`, response);
           },
-          onError: (error) => {
+          onError: error => {
             console.error(`Error uploading: ${file.name}`, error);
           },
         }
@@ -211,7 +211,7 @@ const TicketCreate = () => {
     }
   }, [uploadedFiles]);
 
-  const handleDrop = useCallback((event) => {
+  const handleDrop = useCallback(event => {
     event.preventDefault();
 
     const droppedFiles = Array.from(event.dataTransfer.files);
@@ -231,7 +231,7 @@ const TicketCreate = () => {
     //     return isPhotoOrVideo && isUnderSizeLimit;
     // });
 
-    const validFiles = droppedFiles.filter((file) => {
+    const validFiles = droppedFiles.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
@@ -245,7 +245,7 @@ const TicketCreate = () => {
       return (isPhotoOrVideo || isExcel || isPdf || isEmail) && isUnder5MB;
     });
 
-    const invalidFiles = droppedFiles.filter((file) => {
+    const invalidFiles = droppedFiles.filter(file => {
       const isPhotoOrVideo =
         file.type.startsWith("image/") || file.type.startsWith("video/");
       const isExcel =
@@ -287,7 +287,7 @@ const TicketCreate = () => {
       return;
     }
 
-    validFiles.forEach((file) => {
+    validFiles.forEach(file => {
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -301,7 +301,7 @@ const TicketCreate = () => {
         //     {  base64Url },
 
         // ]);
-        setUploadedFiles((prevFiles) => [...prevFiles, base64Url]);
+        setUploadedFiles(prevFiles => [...prevFiles, base64Url]);
       };
 
       reader.readAsDataURL(file);
@@ -314,7 +314,7 @@ const TicketCreate = () => {
         return Math.floor(Math.random() * 100000);
       };
 
-      const createPresentData = (file) => {
+      const createPresentData = file => {
         const randomNumber = generateRandomNumber();
         const formattedFilename = `ticketing_system/ticket/${file.name}`; // Adjust the filename as needed
         return {
@@ -327,30 +327,30 @@ const TicketCreate = () => {
         };
       };
 
-      validFiles.forEach((file) => {
+      validFiles.forEach(file => {
         const presentData = createPresentData(file);
         createPresntUrlMutation.mutate(
           { filepart: file, responsedatas: presentData },
           {
-            onSuccess: (response) => {},
-            onError: (error) => {},
+            onSuccess: response => {},
+            onError: error => {},
           }
         );
       });
     }
   }, []);
 
-  const handleDragOver = (event) => {
+  const handleDragOver = event => {
     event.preventDefault();
     event.stopPropagation();
   };
 
   // Remove uploaded file
-  const removeFile = (index) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
-    setcroppedFilestatet((prev) => prev.filter((_, i) => i !== index));
-    setPresentUrls((prev) => prev.filter((_, i) => i !== index));
-    seturlandfile((prev) => prev.filter((_, i) => i !== index));
+  const removeFile = index => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+    setcroppedFilestatet(prev => prev.filter((_, i) => i !== index));
+    setPresentUrls(prev => prev.filter((_, i) => i !== index));
+    seturlandfile(prev => prev.filter((_, i) => i !== index));
   };
 
   const createPresntUrlMutation = useMutation({
@@ -370,33 +370,33 @@ const TicketCreate = () => {
 
       return { ...response, responsedatas, filepart };
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       const responsedatas = data.responsedatas; // Extract responsedatas
       const filepart = data.filepart;
       setIsLoadingtwo(false);
 
       const uploadedFiles = data.data.data; // Adjust based on actual response structure
-      const newUrls = uploadedFiles.map((url) => ({
+      const newUrls = uploadedFiles.map(url => ({
         url: url, // Adjust this based on the actual response
         type: responsedatas.multiple_files[0].file_type,
         putfiles: filepart,
       }));
 
-      setPresentUrls((prevUrls) => [...prevUrls, ...newUrls]);
+      setPresentUrls(prevUrls => [...prevUrls, ...newUrls]);
 
       const SendUrl = String(data.data.data).split("?")[0]; // Extract URL up to '?'
 
       if (SendUrl) {
-        seturlandfile((prevUrls) => [...prevUrls, SendUrl]); // Add the URL to the array
+        seturlandfile(prevUrls => [...prevUrls, SendUrl]); // Add the URL to the array
       }
     },
-    onError: (error) => {
+    onError: error => {
       setIsLoadingtwo(false);
     },
   });
 
   const uploadFilesMutation = useMutation({
-    mutationFn: async (PresentUrls) => {
+    mutationFn: async PresentUrls => {
       return Promise.all(
         PresentUrls.map(async (item, index) => {
           const response = await fetch(item.url, {
@@ -424,19 +424,19 @@ const TicketCreate = () => {
         })
       );
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setPresentUrls([]); // Clear the URLs on success
     },
-    onError: (error) => {
+    onError: error => {
       console.error("Error uploading files:", error);
       toast.error("Failed to upload some files. Please try again.");
     },
   });
 
-  const capitalizeEachWord = (str) => {
+  const capitalizeEachWord = str => {
     return str
       .split(" ") // Split the string into an array of words
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
       .join(" "); // Join the words back into a string
   };
 
@@ -464,7 +464,7 @@ const TicketCreate = () => {
     if (Categorydetails) {
       const Categorydetailsdatas = Categorydetails.data;
       const listofOptions = [];
-      Categorydetailsdatas.forEach((element) => {
+      Categorydetailsdatas.forEach(element => {
         listofOptions.push({ value: element.id, label: element.name });
       });
 
@@ -551,7 +551,7 @@ const TicketCreate = () => {
       const SubCategorydetailsdata = SubCategorydetails.data;
       const listofsubOptions = [];
 
-      SubCategorydetailsdata.forEach((element) => {
+      SubCategorydetailsdata.forEach(element => {
         listofsubOptions.push({
           value: element.id,
           label: element.name,
@@ -580,7 +580,7 @@ const TicketCreate = () => {
 
       return response;
     },
-    onSuccess: (response) => {
+    onSuccess: response => {
       toast.success(response.data.message);
       // Navigate("/tickets")
       setTicketResponse(response.data.data);
@@ -612,7 +612,7 @@ const TicketCreate = () => {
       delete Ticketdata.issue_category_id;
 
       if (documentnotuploads) {
-        setticketdata((prevState) => ({
+        setticketdata(prevState => ({
           ...prevState,
           documents: presenturlInUrl, // Assign the new documents list
         }));
@@ -621,7 +621,7 @@ const TicketCreate = () => {
         CreateTicketsmutation.mutate();
       }
     } else {
-      toast.info("Please Fill the Manditory Fields");
+      toast.info("Please Fill the Mandatory Fields");
     }
   };
 
@@ -681,7 +681,7 @@ const TicketCreate = () => {
                         className="Selects"
                         labelledBy="Select"
                         options={Categoryoptions}
-                        onChange={(e) => {
+                        onChange={e => {
                           setCategoryvalues(e);
                           setticketdata({
                             ...Ticketdata,
@@ -693,7 +693,7 @@ const TicketCreate = () => {
                           setPriorityclientValues([]);
                         }}
                         value={CategoryValues}
-                        onInputChange={(e) => {
+                        onInputChange={e => {
                           setcategorysearch(e);
                         }}
                       />
@@ -705,7 +705,7 @@ const TicketCreate = () => {
                         className="Selects"
                         labelledBy="Select"
                         options={Subcategoryoptions}
-                        onChange={(e) => {
+                        onChange={e => {
                           setsubcategoryvalues(e);
                           setPriorityValues({
                             value: e.value,
@@ -719,7 +719,7 @@ const TicketCreate = () => {
                           // setPriorityclientValues({ value: e.priorityvalu, label: e.priority })
                         }}
                         value={subcategoryvalues}
-                        onInputChange={(e) => {
+                        onInputChange={e => {
                           setSubcategorysearch(e);
                         }}
                       />
@@ -744,7 +744,7 @@ const TicketCreate = () => {
                         labelledBy="Select"
                         value={Priorityclientvalues}
                         options={Priorityoptions}
-                        onChange={(e) => {
+                        onChange={e => {
                           setPriorityclientValues(e);
 
                           setticketdata({
@@ -759,7 +759,7 @@ const TicketCreate = () => {
                       <label className="form-label">Description</label>
                       <textarea
                         className="form-control"
-                        onChange={(e) => {
+                        onChange={e => {
                           const inputValue = e.target.value;
 
                           setticketdata({
@@ -943,7 +943,7 @@ const TicketCreate = () => {
                     <img
                       src={closepopup}
                       alt=""
-                      onClick={(e) => {
+                      onClick={e => {
                         setthankcontent(false);
                         settheThankpopup(false);
 
@@ -982,7 +982,7 @@ const TicketCreate = () => {
                   </div>
                   <div className="feedbacksubmition">
                     <button
-                      onClick={(e) => {
+                      onClick={e => {
                         setthankcontent(false);
                         settheThankpopup(false);
                         settheTicketIDs(TicketCreateREsponse?.id);

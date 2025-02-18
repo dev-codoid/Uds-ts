@@ -4,13 +4,13 @@ import closepopup from "../../assets/Dashboard/Group 442.svg";
 import images from "../../assets/Dashboard/Union (4).svg";
 import Attachment from "../../assets/Dashboard/attachment.svg";
 
-const FileAttachementPopup = (props) => {
+const FileAttachementPopup = props => {
   const { setFilePopup, filePopup, Attchment } = props;
   const [files, setFiles] = useState();
 
-  const fileNames = Attchment.map((url) => url.split("/").pop());
+  const fileNames = Attchment.map(url => url.split("/").pop());
   console.log(fileNames, "sdalkjklaslkdklsadkl");
-  const handleClick = (url) => {
+  const handleClick = url => {
     window.open(url, "_blank");
   };
 
@@ -23,7 +23,6 @@ const FileAttachementPopup = (props) => {
 
             <span className="TitleHeader">Attachments</span>
 
-            {/* {editData ? "Edit Role " : "Create Role"} */}
             <img
               src={closepopup}
               style={{ cursor: "pointer" }}

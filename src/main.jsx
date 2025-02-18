@@ -17,8 +17,11 @@ import { ToastContainer } from "react-toastify";
 // });
 const queryClient = new QueryClient({});
 
-if (process.env.NODE_ENV === 'production'|| process.env.NODE_ENV == "development") {
-  ['log', 'info', 'warn', 'error', 'debug'].forEach((method) => {
+if (
+  process.env.NODE_ENV === "production" ||
+  process.env.NODE_ENV == "development"
+) {
+  ["log", "info", "warn", "error", "debug"].forEach(method => {
     console[method] = () => {};
   });
 }
