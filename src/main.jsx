@@ -15,16 +15,23 @@ import { ToastContainer } from "react-toastify";
 //     },
 //   },
 // });
-const queryClient = new QueryClient({});
+// const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
-if (
-  process.env.NODE_ENV === "production" ||
-  process.env.NODE_ENV == "development"
-) {
-  ["log", "info", "warn", "error", "debug"].forEach(method => {
-    console[method] = () => {};
-  });
-}
+// if (
+//   process.env.NODE_ENV === "production" ||
+//   process.env.NODE_ENV == "development"
+// ) {
+//   ["log", "info", "warn", "error", "debug"].forEach(method => {
+//     console[method] = () => {};
+//   });
+// }
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

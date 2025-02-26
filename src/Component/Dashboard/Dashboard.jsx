@@ -7,6 +7,7 @@ import useStore from "../../Store";
 import { NavLink } from "react-router-dom";
 import Dashboardimg from "../../assets/Dashboard/Group 424 (2).svg";
 import Tciketingimg from "../../assets/Dashboard/Group 401.svg";
+import NotificationIcon from "../../assets/Dashboard/Notification.svg";
 import Profileimg from "../../assets/Dashboard/profile2.png";
 
 import personimg from "../../assets/Dashboard/Union (1).svg";
@@ -21,6 +22,7 @@ import locationimg from "../../assets/Dashboard/Union (29).svg";
 import Logoutimg from "../../assets/Dashboard/Union (23).svg";
 
 import PhoneImga from "../../assets/Dashboard/Union (30).svg";
+import { Notification } from "../Notification/Notification";
 
 const Dashboard = () => {
   const {
@@ -35,6 +37,7 @@ const Dashboard = () => {
     setToggleBars,
   } = useStore();
   const [dropdown, setDropdown] = useState(false);
+  const [notifuPopup, setNotifyPopup] = useState(false);
 
   const truncateText = (text, maxLength) => {
     if (text.length <= maxLength) {
@@ -45,10 +48,10 @@ const Dashboard = () => {
     return text.substring(0, maxLength) + "...";
   };
 
-  const capitalizeEachWord = (str) => {
+  const capitalizeEachWord = str => {
     return str
       .split(" ") // Split the string into an array of words
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
       .join(" "); // Join the words back into a string
   };
   const navList = [
@@ -65,6 +68,14 @@ const Dashboard = () => {
       path: "/tickets",
       name: "Tickets",
       backmage: Tciketingimg,
+      selecteBbackgroundImage: Tciketingwhiteimg,
+      class: "page-dash",
+    },
+    {
+      id: 3,
+      path: "/",
+      name: "Notification",
+      backmage: NotificationIcon,
       selecteBbackgroundImage: Tciketingwhiteimg,
       class: "page-dash",
     },
@@ -108,7 +119,14 @@ const Dashboard = () => {
                                 : "notactive"
                             }`}
                             to={item.path}
-                            onClick={() => setSelectedSideBarTab(item.name)}
+                            onClick={() => {
+                              if (item.name === "Notification") {
+                                setNotifyPopup(true);
+                                // setSelectedSideBarTab(item.name);s
+                              } else {
+                                setSelectedSideBarTab(item.name);
+                              }
+                            }}
                           >
                             <div className="sideNavItem">
                               {/* <img
@@ -178,7 +196,6 @@ const Dashboard = () => {
                 </span>
               </p>
             </div>
-
             {dropdown && (
               <div class="dropdown-menuLogout">
                 <div className="profile-card">
@@ -261,6 +278,9 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
+            )}
+            {notifuPopup && (
+              <Notification setIsOpen={setNotifyPopup} isOpen={notifuPopup} />
             )}
           </div>
         </div>

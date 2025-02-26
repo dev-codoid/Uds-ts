@@ -59,6 +59,7 @@ import branchimg from "../../assets/Dashboard/Union (24).svg";
 import locationimg from "../../assets/Dashboard/Union (29).svg";
 import Profileimg from "../../assets/Dashboard/profile2.png";
 import Logoutimg from "../../assets/Dashboard/Union (23).svg";
+import { Notification } from "../Notification/Notification";
 
 const HomeScreen = () => {
   const {
@@ -176,14 +177,14 @@ const HomeScreen = () => {
     }
   }, [LevelofUsers]);
 
-  const capitalizeEachWord = (str) => {
+  const capitalizeEachWord = str => {
     return str
-      .split(" ") // Split the string into an array of words
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      ?.split(" ") // Split the string into an array of words
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
       .join(" "); // Join the words back into a string
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = dateString => {
     const dateObject = new Date(dateString);
 
     const day = String(dateObject.getDate()).padStart(2, "0");
@@ -213,7 +214,7 @@ const HomeScreen = () => {
     setSelectedSideBarTab("Tickets");
   };
 
-  const handleButtonClick = (button) => {
+  const handleButtonClick = button => {
     setActiveButton(button);
     SetActiveBars(button);
   };
@@ -232,7 +233,7 @@ const HomeScreen = () => {
     }
   }, [DashRefeshing]);
 
-  const ticketOverViewFunc = (datas) => {
+  const ticketOverViewFunc = datas => {
     settheTicketIDs(datas?.id);
     setSelectedSideBarTab("Tickets");
     Navigate("/tickets/ticketview");
@@ -268,12 +269,12 @@ const HomeScreen = () => {
 
       return { ...response };
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setIsLoading(false);
       console.log(data, "aspodaposdi aospdia sd");
       window.open(data.data);
     },
-    onError: (error) => {
+    onError: error => {
       setIsLoading(false);
       console.log(error, "error");
     },
@@ -341,11 +342,11 @@ const HomeScreen = () => {
   //     return null;
   // }
 
-  const overdueFunctions = (ticketretrieve) => {
+  const overdueFunctions = ticketretrieve => {
     const convertToMinutes = (days, hours, minutes) =>
       days * 24 * 60 + hours * 60 + minutes;
     let differenceInMinutes;
-    const convertToTimeFormat = (totalMinutes) => {
+    const convertToTimeFormat = totalMinutes => {
       const days = Math.floor(totalMinutes / (24 * 60));
       totalMinutes -= days * (24 * 60);
       const hours = Math.floor(totalMinutes / 60);
@@ -353,7 +354,7 @@ const HomeScreen = () => {
       return { days, hours, minutes };
     };
 
-    const formatTime = (ms) => {
+    const formatTime = ms => {
       const days = Math.floor(ms / (1000 * 60 * 60 * 24));
       const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
@@ -423,7 +424,15 @@ const HomeScreen = () => {
   return (
     <>
       <div className={!ToggleBars ? "HomeScreen" : "MainHomeScreen"}>
-        <div className="HomeConatiners">
+        <div className="HomeConatiners" style={{ position: "relative" }}>
+          <p
+            onClick={() => {
+              setNotifyPopup(true);
+            }}
+          >
+            click
+          </p>
+
           <div className="row MainCards">
             <div className="col">
               <div className="card">
@@ -582,7 +591,7 @@ const HomeScreen = () => {
                         styles={{ position: "relative", top: "60px" }}
                         placeholder="search"
                         options={Priorityoptions}
-                        onChange={(e) => {
+                        onChange={e => {
                           setpriorityselect(e);
                           setPriorityValues(e.value);
                           setPriorityValuesstore(e);
@@ -603,7 +612,7 @@ const HomeScreen = () => {
                           outline: "none",
                         }}
                         className="DownloadBTNS"
-                        onClick={(e) => {
+                        onClick={e => {
                           HandleTheExports();
                         }}
                       >
@@ -736,7 +745,7 @@ const HomeScreen = () => {
                     styles={{ position: "relative", top: "60px" }}
                     placeholder="search"
                     options={Priorityoptions}
-                    onChange={(e) => {
+                    onChange={e => {
                       setpriorityselect(e);
                       setPriorityValues(e.value);
                       setPriorityValuesstore(e);
@@ -757,7 +766,7 @@ const HomeScreen = () => {
                       outline: "none",
                     }}
                     className="DownloadBTNS"
-                    onClick={(e) => {
+                    onClick={e => {
                       HandleTheExports();
                     }}
                   >
@@ -1149,7 +1158,7 @@ const HomeScreen = () => {
                 <div className="col-5 FirstCards">
                   <div className="col-5 Recentcard mb-3">
                     {data != undefined &&
-                      data.map((item) => {
+                      data.map(item => {
                         return (
                           <>
                             <div className="card ">
@@ -1285,7 +1294,7 @@ const HomeScreen = () => {
                                           <div>
                                             <h6>
                                               {capitalizeEachWord(
-                                                item.first_name.toLowerCase()
+                                                item?.first_name?.toLowerCase()
                                               )}
                                             </h6>
                                             <p className="text-muted mb-0">

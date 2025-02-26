@@ -1,4 +1,3 @@
-// const BaseUrl = "http://122.186.126.218:8032";
 const BaseUrl = "http://122.186.126.218:8036";
 // const BaseUrl = "https://apionboarding.uds.in";
 // export const adminLogin = BaseUrl+"/adminapp/login/"
@@ -28,5 +27,6 @@ export const qrcodeclientcategoryapi = BaseUrl + "/ticketapp/urissue/";
 export const qrclientgetapi = BaseUrl + "/ticketapp/urclient/";
 export const clientsubcategoryapi = BaseUrl + "/ticketapp/clientsubissuelist/";
 export const qrclientsubcategoryapi = BaseUrl + "/ticketapp/ursubissue/";
+export const notificationapi = BaseUrl + "/ticket/notification/";
 
 export const clientpasswordupdate = BaseUrl + "/ticketapp/clientuser/";
