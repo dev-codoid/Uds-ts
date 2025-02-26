@@ -425,14 +425,6 @@ const HomeScreen = () => {
     <>
       <div className={!ToggleBars ? "HomeScreen" : "MainHomeScreen"}>
         <div className="HomeConatiners" style={{ position: "relative" }}>
-          <p
-            onClick={() => {
-              setNotifyPopup(true);
-            }}
-          >
-            click
-          </p>
-
           <div className="row MainCards">
             <div className="col">
               <div className="card">
