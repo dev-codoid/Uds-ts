@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../Style/LoginScreen/LoginScreen.module.scss";
-import loginstyle from "../../assets/Login/Group 134.svg";
+// import loginstyle from "../../assets/Login/Group 134.svg";
+import loginstyle from "../../assets/Login/LoginMain.svg";
 import logo from "../../assets/Login/Group 131.svg";
 import Emailimg from "../../assets/Login/Vector (7).svg";
 import passwordimg from "../../assets/Login/Group 421.svg";
@@ -27,7 +28,7 @@ const LoginScreen = () => {
     setSelectedSideBarTab,
     setOwnerinnerDetails,
     setClientID_store,
-  } = useStore((state) => state);
+  } = useStore(state => state);
 
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
@@ -41,7 +42,7 @@ const LoginScreen = () => {
     setShowPassword(!showPassword);
   };
 
-  const onHandleChange = (event) => {
+  const onHandleChange = event => {
     let { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
   };
@@ -51,7 +52,7 @@ const LoginScreen = () => {
       setIsLoading(true);
       return await postAdminLogin(userData);
     },
-    onSuccess: (data) => {
+    onSuccess: data => {
       setIsLoading(false);
 
       setClientID_store(data.data?.id);
@@ -70,7 +71,7 @@ const LoginScreen = () => {
         navigate("/passwordchange");
       }
     },
-    onError: (error) => {
+    onError: error => {
       console.log(error, "fm");
       setIsLoading(false);
       let status = error.response.status;
@@ -103,14 +104,14 @@ const LoginScreen = () => {
         {/* Right Section */}
         <div className={styles.rightSection}>
           <div className={styles.innerrightsection}>
-            <section className={styles.LogoInner}>
+            {/* <section className={styles.LogoInner}>
               <img src={logo} style={{ width: "120px" }} />
-            </section>
+            </section> */}
             <section className={styles.Logoinner}>
-              <h2>Hello!</h2>
+              <h2 style={{ fontWeight: "700" }}>Hey, Hello</h2>
             </section>
             <p className={styles.para}>Enter your Login Credentials.</p>
-            <form onClick={(e) => e.preventDefault()}>
+            <form onClick={e => e.preventDefault()}>
               <div>
                 <label className={styles.labelcontent}>
                   Email{" "}
@@ -121,7 +122,7 @@ const LoginScreen = () => {
                 <input
                   type="email"
                   name="email"
-                  onChange={(e) => {
+                  onChange={e => {
                     onHandleChange(e);
                   }}
                   value={userData.email}

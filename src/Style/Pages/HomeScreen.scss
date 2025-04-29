@@ -1864,7 +1864,7 @@
 }
 
 .DashboardContents {
-  margin-left: -40px;
+  // margin-left: -40px;
   padding: 20px 10px;
   display: flex;
   gap: 14px;
@@ -1872,7 +1872,7 @@
   width: auto;
 
   .BranchNames {
-    width: 38px;
+    width: 55px;
     height: 38px;
     display: flex;
     justify-content: center;
@@ -1881,14 +1881,14 @@
     background-color: hsl(15, 88%, 59%);
     color: #ffff;
     font-size: 28px;
-    font-weight: 500;
+    font-weight: 700;
   }
 
   .branchFullName {
     width: auto;
     // width: 50%;
     font-size: 17px;
-    color: #ffffff;
+    color: #000000;
     font-weight: 500;
   }
 }

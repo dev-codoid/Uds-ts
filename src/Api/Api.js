@@ -1,5 +1,5 @@
-const BaseUrl = "http://122.186.126.218:8036";
-// const BaseUrl = "https://apionboarding.uds.in";
+// const BaseUrl = "http://122.186.126.218:8036";
+const BaseUrl = "https://apionboarding.uds.in";
 // export const adminLogin = BaseUrl+"/adminapp/login/"
 export const adminLogin = BaseUrl + "/ticketapp/clientlogin/";
 

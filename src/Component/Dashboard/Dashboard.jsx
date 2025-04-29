@@ -3,6 +3,7 @@ import "../../Style/Pages/Dashboard.scss";
 import "../../Style/Pages/HomeScreen.scss";
 
 import logo from "../../assets/Login/Group 1322.svg";
+import mainLogo from "../../assets/Dashboard/UDeskLogo.svg";
 import useStore from "../../Store";
 import { NavLink } from "react-router-dom";
 import Dashboardimg from "../../assets/Dashboard/Group 424 (2).svg";
@@ -90,7 +91,8 @@ const Dashboard = () => {
             <div>
               <div className="InnerBarLogo">
                 <img
-                  src={logo}
+                  src={mainLogo}
+                  style={{ width: "170px" }}
                   onClick={() => {
                     setToggleBars(!ToggleBars);
                   }}
@@ -177,7 +179,7 @@ const Dashboard = () => {
                   data-tooltip-id="my-tooltip"
                   data-tooltip-content={
                     ownerDetails.client_id?.client_name &&
-                    ownerDetails.client_id.client_name.length > 35
+                    ownerDetails.client_id.client_name.length > 30
                       ? capitalizeEachWord(
                           ownerDetails.client_id.client_name.toLowerCase()
                         )
@@ -190,7 +192,7 @@ const Dashboard = () => {
                         capitalizeEachWord(
                           ownerDetails.client_id.client_name.toLowerCase()
                         ),
-                        35
+                        30
                       )
                     : "-"}
                 </span>
